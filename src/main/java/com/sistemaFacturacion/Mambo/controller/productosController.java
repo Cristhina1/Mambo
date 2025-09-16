@@ -8,29 +8,29 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/admin/productos")
-public class ProductosController { // ✅ con mayúscula
+public class productosController { // ✅ con mayúscula
 
-    private final ProductoService productoService;
+    private final ProductoService ProductoService;
 
-    public ProductosController(ProductoService productoService) {
-        this.productoService = productoService;
+    public productosController(ProductoService productoService) {
+        this.ProductoService = productoService;
     }
 
     @GetMapping
     public String listarProductos(Model model) {
-        model.addAttribute("productos", productoService.listarProductos());
+        model.addAttribute("productos", ProductoService.listarProductos());
         model.addAttribute("producto", new ProductoDTO());
         return "admin/productos";
     }
 
     @PostMapping("/guardar")
     public String guardarProducto(@ModelAttribute("producto") ProductoDTO productoDTO) {
-        productoService.guardarProducto(productoDTO);
+        ProductoService.guardarProducto(productoDTO);
         return "redirect:/admin/productos";
     }
     @GetMapping("/eliminar/{id}")
     public String eliminarProducto(@PathVariable Long id) {
-    productoService.eliminarProducto(id);
+    ProductoService.eliminarProducto(id);
     return "redirect:/admin/productos";
 }
 
