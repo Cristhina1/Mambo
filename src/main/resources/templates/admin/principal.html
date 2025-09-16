@@ -64,39 +64,60 @@
             <i class="bi bi-person"></i> Iniciar Sesión
           </a>
           <!-- Modal Login -->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered p-4">
-    <div class="modal-content">
-      <div class="modal-header border-0">
-        <h5 class="modal-title fw-bold text-center" id="loginModalLabel" style="font-size: 40px;">UNETE A MAMBO</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        <form th:action="@{/login}" method="post">
-          <div class="mb-3">
-            <label for="codigo" class="form-label">Personalisa tu nombre</label>
-            <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Ingrese tu nombre" required>
+          <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content shadow-lg rounded-4 border-0">
+                
+                <!-- Header -->
+                <div class="modal-header border-0 text-center w-100 d-block">
+                  <h4 class="modal-title fw-bold text-dark" id="loginModalLabel" style="font-size: 32px;">✨ ÚNETE A MAMBO ✨</h4>
+                  <p class="text-muted" style="font-size: 14px;">Accede con tu cuenta para empezar</p>
+                </div>
+          
+                <!-- Body -->
+                <div class="modal-body p-4">
+                  <form th:action="@{/login}" method="post">
+          
+                    <!-- Usuario -->
+                    <div class="mb-3">
+                      <label for="codigo" class="form-label fw-semibold">Nombre de usuario</label>
+                      <div class="input-group">
+                        <span class="input-group-text bg-dark text-white"><i class="bi bi-person-fill"></i></span>
+                        <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Ej: juancito23" required>
+                      </div>
+                    </div>
+          
+                    <!-- Contraseña -->
+                    <div class="mb-3">
+                      <label for="password" class="form-label fw-semibold">Contraseña</label>
+                      <div class="input-group">
+                        <span class="input-group-text bg-dark text-white"><i class="bi bi-lock-fill"></i></span>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required>
+                      </div>
+                    </div>
+          
+                    <!-- Recordar -->
+                    <div class="form-check mb-3">
+                      <input type="checkbox" class="form-check-input" id="rememberMe" name="remember-me">
+                      <label class="form-check-label" for="rememberMe">Recordarme</label>
+                    </div>
+          
+                    <!-- Botón -->
+                    <div class="d-grid">
+                      <button type="submit" class="btn btn-dark btn-lg rounded-pill shadow-sm">Iniciar Sesión</button>
+                    </div>
+                  </form>
+          
+                  <!-- Extra -->
+                  <div class="text-center mt-4">
+                    <small class="d-block">¿Olvidaste tu contraseña? <a href="#" class="text-decoration-none fw-semibold">Recupérala</a></small>
+                    <small class="d-block mt-2">¿No tienes cuenta? <a th:href="@{/registro}" class="text-decoration-none fw-semibold">Regístrate</a></small>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Ingrese Contraseña</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese su contraseña" required>
-          </div>
-          <div class="d-grid mt-3">
-            <button type="submit" class="btn btn-dark text-white">Iniciar Sesión</button>
-          </div>
-        </form>
-        <div class="text-center mt-3">
-          <small>¿No tienes cuenta? <a th:href="@{/registro}">Regístrate</a></small>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-          <a href="#" class="nav-link"><i class="bi bi-cart"></i></a>
-        </div>
-      </div>
-    </nav>
+          
 
     <!-- 🔹 HERO -->
     <section class="hero text-center">EXPRESATE CON ESTILO</section>
