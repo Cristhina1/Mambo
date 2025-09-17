@@ -1,9 +1,12 @@
 package com.sistemaFacturacion.Mambo.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.time.LocalDate;
 
 @Entity
+@Data
 @Table(name = "facturas")
 public class Factura {
 
@@ -26,6 +29,7 @@ public class Factura {
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
+<<<<<<< HEAD
 
     public Factura() {
     }
@@ -81,4 +85,6 @@ public class Factura {
     public void setProducto(Producto producto) {
         this.producto = producto;
     }
+=======
+>>>>>>> Isabel
 }
