@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClienteDTO {
-    private String tipoDocumento;
+public class sesionCliente {
+    private String contra;
     private String numeroDocumento;
-    private String nombreCompleto;
-    private String email;
-    private String telefono;
 }
