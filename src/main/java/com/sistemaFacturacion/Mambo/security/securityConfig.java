@@ -31,24 +31,28 @@ public class securityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/css/**", "/js/**", "/img/**", "/admin/principal").permitAll()
-                        .requestMatchers("/admin/reporte").hasRole("ADMIN")
-                        .requestMatchers("/admin/boleta","/admin/factura","/admin/productos","/admin/clientes", "/admin/home").hasAnyRole("VENDEDOR","ADMIN")
-                        .anyRequest().authenticated()
-                )
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .successHandler(customSuccessHandler) // Puedes personalizar según el rol
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll()
-                );
-        return http.build();
-    }
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**")) // permite H2 console
+        .headers(headers -> headers.frameOptions().disable()) // permite mostrar H2 en iframe
+        .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/login", "/css/**", "/js/**", "/img/**", "/admin/principal").permitAll()
+                .requestMatchers("/h2-console/**").permitAll() // <--- aquí permites H2
+                .requestMatchers("/admin/reporte").hasRole("ADMIN")
+                .requestMatchers("/admin/boleta","/admin/factura","/admin/productos","/admin/clientes", "/admin/home").hasAnyRole("VENDEDOR","ADMIN")
+                .anyRequest().authenticated()
+        )
+        .formLogin(form -> form
+                .loginPage("/login")
+                .successHandler(customSuccessHandler)
+                .permitAll()
+        )
+        .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout")
+                .permitAll()
+        );
+
+    return http.build();
+}
 }
