@@ -22,7 +22,7 @@ public class Factura {
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
-    private cliente cliente;
+    private Cliente cliente;
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
@@ -30,7 +30,7 @@ public class Factura {
     public Factura() {
     }
 
-    public Factura(String numeroFactura, LocalDate fecha, Double total, cliente cliente, Producto producto) {
+    public Factura(String numeroFactura, LocalDate fecha, Double total, Cliente cliente, Producto producto) {
         this.numeroFactura = numeroFactura;
         this.fecha = fecha;
         this.total = total;
@@ -66,11 +66,11 @@ public class Factura {
         this.total = total;
     }
 
-    public cliente getCliente() {
+    public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(cliente cliente) {
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
