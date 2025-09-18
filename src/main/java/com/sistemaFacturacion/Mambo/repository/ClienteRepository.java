@@ -1,6 +1,6 @@
 package com.sistemaFacturacion.Mambo.repository;
 
-import com.sistemaFacturacion.Mambo.model.cliente;
+import com.sistemaFacturacion.Mambo.model.Cliente;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ClienteRepository extends JpaRepository<cliente, Long> {
+public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    List<cliente> findByNombreCompletoContainingIgnoreCaseOrNumeroDocumentoContainingIgnoreCase(String nombre, String numero);
+    List<Cliente> findByNombreCompletoContainingIgnoreCaseOrNumeroDocumentoContainingIgnoreCase(String nombre, String numero);
 
-    List<cliente> findByTipoDocumento(String tipoDocumento);
+    List<Cliente> findByTipoDocumento(String tipoDocumento);
 
-    List<cliente> findByEstado(String estado);
+    List<Cliente> findByEstado(String estado);
 }
