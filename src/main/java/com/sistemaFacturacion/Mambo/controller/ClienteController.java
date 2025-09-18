@@ -1,6 +1,6 @@
 package com.sistemaFacturacion.Mambo.controller;
 
-import com.sistemaFacturacion.Mambo.model.Cliente;
+import com.sistemaFacturacion.Mambo.model.cliente;
 import com.sistemaFacturacion.Mambo.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,20 +20,20 @@ public class ClienteController {
     @GetMapping
     public String listarClientes(Model model) {
         model.addAttribute("clientes", clienteService.listarClientes());
-        model.addAttribute("cliente", new Cliente());
+        model.addAttribute("cliente", new cliente());
         return "admin/clientes";
     }
 
     @PostMapping("/guardar")
-    public String guardarCliente(@ModelAttribute Cliente cliente) {
+    public String guardarCliente(@ModelAttribute cliente cliente) {
         clienteService.guardarCliente(cliente);
         return "redirect:/admin/clientes";
     }
 
     @GetMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<Cliente> obtenerCliente(@PathVariable Long id) {
-        Cliente cliente = clienteService.obtenerClientePorId(id);
+    public ResponseEntity<cliente> obtenerCliente(@PathVariable Long id) {
+        cliente cliente = clienteService.obtenerClientePorId(id);
         if (cliente != null) return ResponseEntity.ok(cliente);
         return ResponseEntity.notFound().build();
     }
@@ -47,7 +47,7 @@ public class ClienteController {
     // Endpoint AJAX para filtrar
     @GetMapping("/filtrar")
     @ResponseBody
-    public List<Cliente> filtrarClientes(@RequestParam(required = false) String buscar,
+    public List<cliente> filtrarClientes(@RequestParam(required = false) String buscar,
                                         @RequestParam(required = false) String tipo,
                                         @RequestParam(required = false) String estado) {
         return clienteService.filtrarClientes(buscar, tipo, estado);
