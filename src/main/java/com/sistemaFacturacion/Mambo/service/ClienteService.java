@@ -1,6 +1,6 @@
 package com.sistemaFacturacion.Mambo.service;
 
-import com.sistemaFacturacion.Mambo.model.Cliente;
+import com.sistemaFacturacion.Mambo.model.cliente;
 import com.sistemaFacturacion.Mambo.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,15 +13,15 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public List<Cliente> listarClientes() {
+    public List<cliente> listarClientes() {
         return clienteRepository.findAll();
     }
 
-    public Cliente guardarCliente(Cliente cliente) {
+    public cliente guardarCliente(cliente cliente) {
         return clienteRepository.save(cliente);
     }
 
-    public Cliente obtenerClientePorId(Long id) {
+    public cliente obtenerClientePorId(Long id) {
         return clienteRepository.findById(id).orElse(null);
     }
 
@@ -30,7 +30,7 @@ public class ClienteService {
     }
 
     // Filtrado dinámico
-    public List<Cliente> filtrarClientes(String buscar, String tipo, String estado) {
+    public List<cliente> filtrarClientes(String buscar, String tipo, String estado) {
         return clienteRepository.findAll().stream().filter(c -> {
             boolean coincide = true;
             if (buscar != null && !buscar.isEmpty()) {

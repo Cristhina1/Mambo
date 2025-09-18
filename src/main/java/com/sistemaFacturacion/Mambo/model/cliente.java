@@ -5,18 +5,17 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Cliente {
+public class cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    private String nombreCompleto;
     private String tipoDocumento;
     private String numeroDocumento;
-    private String nombreCompleto;
     private String email;
     private String telefono;
     private String contra;
-    
-    private String estado; // Ejemplo: "Activo" o "Inactivo"
 }
 
