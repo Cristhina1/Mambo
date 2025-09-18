@@ -32,3 +32,4 @@ public class cliente {
     private String contra;
     
 }
+

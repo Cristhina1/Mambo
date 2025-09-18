@@ -14,5 +14,5 @@ public class ProductoDTO {
     private Double precio;
     private Integer stock;
     private String descripcion; // ✅ agregado
-
+    private Long Id;
 }
