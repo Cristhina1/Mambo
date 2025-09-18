@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductoDTO {
-    private String nombre;
+    private String nomb;
     private String categoria;   // ✅ agregado
     private Double precio;
     private Integer stock;
