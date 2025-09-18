@@ -25,7 +25,7 @@ public class Factura {
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
-    private Cliente cliente;
+    private cliente cliente;
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;

@@ -21,7 +21,7 @@ public class carrito {
     Long id;
 
     @ManyToOne
-    private Cliente cliente;
+    private cliente cliente;
 
     @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<detalleCarrito> detalles = new ArrayList<>();
