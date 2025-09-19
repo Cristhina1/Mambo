@@ -39,10 +39,10 @@ public class Comprobante {
     private String numeroDocumento;
 
     // 🔹 Fecha de emisión
-    @Column(nullable = false)
-    private LocalDateTime fecha = LocalDateTime.now();
+    private LocalDateTime fechaCreacion = LocalDateTime.now();
+
 
     // 🔹 Total pagado
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false)
     private Double total;
 }

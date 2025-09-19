@@ -1,13 +1,16 @@
 package com.sistemaFacturacion.Mambo.model;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
+
 //autores como administradores, vendedores
 @Data
 @Entity
@@ -20,7 +23,8 @@ public class Usuario {
     @Column(nullable = false, length = 100)
     private String nombreCompleto;
 
-    @ManyToMany
+    @ManyToOne
+    @JoinColumn(name = "rol_id")
     private rol rol;
 
     @Column(unique = true, nullable = false, length = 20)

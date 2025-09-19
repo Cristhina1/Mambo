@@ -28,7 +28,7 @@ public class carrito {
     @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<detalleCarrito> detalles = new ArrayList<>();
 
-    private LocalDateTime fechaCreacion;
+    private LocalDateTime fechaCreacion = LocalDateTime.now();
 
     @OneToOne(mappedBy = "carrito")
     private Comprobante comprobante;
