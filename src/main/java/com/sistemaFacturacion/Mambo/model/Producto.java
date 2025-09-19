@@ -1,5 +1,8 @@
 package com.sistemaFacturacion.Mambo.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Data;
 @Data
@@ -14,8 +17,9 @@ public class Producto {
     @Column(nullable = false, length = 100)
     private String nombre;
 
-    @Column(length = 50, nullable = false)
-    private String categoria;   // ✅ agregado
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private categoria categoria;
 
     @Column(nullable = false, precision = 10, scale = 2)
     private Double precio;
@@ -23,7 +27,10 @@ public class Producto {
     @Column(nullable = false, precision = 10, scale = 0)
     private Integer stock;
 
-    @Column(length = 255)
+    @Column(columnDefinition = "TEXT")
     private String descripcion; // ✅ agregado
+    
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductoImagen> imagenes = new ArrayList<>();
 
 }

@@ -1,7 +1,5 @@
 package com.sistemaFacturacion.Mambo.model;
 
-import java.beans.Transient;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,28 +8,19 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
-
+//guardado de todas las imagenes de los productos
 @Entity
 @Data
-@Table(name = "detalleCarrito")
-public class detalleCarrito {
+@Table(name = "producto_imagenes")
+public class ProductoImagen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "carrito_id")
-    private carrito carrito;
-    
+    private String url;
+
     @ManyToOne
     @JoinColumn(name = "producto_id")
-    Producto producto;
-
-    @Column(nullable = false)
-    private int cantidad;
-
-    @Transient
-    public Double getSubtotal() {
-        return cantidad * producto.getPrecio();
-    }
+    private Producto producto;
 }
+
