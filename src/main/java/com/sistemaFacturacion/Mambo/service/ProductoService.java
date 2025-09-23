@@ -1,51 +1,49 @@
 package com.sistemaFacturacion.Mambo.service;
 
-import com.sistemaFacturacion.Mambo.dto.ProductoDTO;
 import com.sistemaFacturacion.Mambo.model.Producto;
 import com.sistemaFacturacion.Mambo.repository.ProductoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class ProductoService {
 
     private final ProductoRepository productoRepository;
 
+    // 🔹 Inyección por constructor (más profesional)
     public ProductoService(ProductoRepository productoRepository) {
         this.productoRepository = productoRepository;
     }
 
-    public List<ProductoDTO> listarProductos() {
-        return productoRepository.findAll()
-                .stream()
-                .map(this::convertirADTO)
-                .collect(Collectors.toList());
+    // Crear o actualizar producto
+    public Producto save(Producto producto) {
+        return productoRepository.save(producto);
     }
 
-    public void guardarProducto(ProductoDTO dto) {
-        Producto p = new Producto();
-        p.setNombre(dto.getNombre());
-        p.setCategoria(dto.getCategoria());     // ✅ agregado
-        p.setPrecio(dto.getPrecio());
-        p.setStock(dto.getStock());
-        p.setDescripcion(dto.getDescripcion()); // ✅ agregado
-        productoRepository.save(p);
+    // Listar todos
+    public List<Producto> findAll() {
+        return productoRepository.findAll();
     }
 
-    private ProductoDTO convertirADTO(Producto producto) {
-        ProductoDTO dto = new ProductoDTO();
-        dto.setId(producto.getId());
-        dto.setNombre(producto.getNombre());
-        dto.setCategoria(producto.getCategoria());     // ✅ agregado
-        dto.setPrecio(producto.getPrecio());
-        dto.setStock(producto.getStock());
-        dto.setDescripcion(producto.getDescripcion()); // ✅ agregado
-        return dto;
+    // Buscar por ID
+    public Optional<Producto> findById(Long id) {
+        return productoRepository.findById(id);
     }
-    public void eliminarProducto(Long id) {
-    productoRepository.deleteById(id);
-}
 
+    // Eliminar por ID
+    public void deleteById(Long id) {
+        productoRepository.deleteById(id);
+    }
+
+    // Buscar por nombre
+    public List<Producto> findByNombre(String nombre) {
+        return productoRepository.findByNombreContainingIgnoreCase(nombre);
+    }
+
+    // Buscar por categoría
+    public List<Producto> findByCategoria(Long categoriaId) {
+        return productoRepository.findByCategoriaId(categoriaId);
+    }
 }

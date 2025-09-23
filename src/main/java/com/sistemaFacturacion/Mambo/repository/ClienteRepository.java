@@ -4,14 +4,14 @@ import com.sistemaFacturacion.Mambo.model.cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<cliente, Long> {
 
-    List<cliente> findByNombreCompletoContainingIgnoreCaseOrNumeroDocumentoContainingIgnoreCase(String nombre, String numero);
+    // Buscar cliente por número de documento
+    Optional<cliente> findByNumeroDocumento(String numeroDocumento);
 
-    List<cliente> findByTipoDocumento(String tipoDocumento);
-
-    List<cliente> findByEstado(String estado);
+    // Buscar cliente por email
+    Optional<cliente> findByEmail(String email);
 }
