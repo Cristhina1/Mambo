@@ -36,39 +36,45 @@ public class ProductoService {
         producto.setDescripcion(productoDTO.getDescripcion());
         producto.setPrecio(productoDTO.getPrecio());
         producto.setStock(productoDTO.getStock());
+
+        // Buscar categoría
         categoria categoria = categoriaRepository.findById(productoDTO.getCategoriaID())
                 .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
         producto.setCategoria(categoria);
+
+        // Guardar imágenes
         if (productoDTO.getImagenes() != null && !productoDTO.getImagenes().isEmpty()) {
             List<ProductoImagen> imagenes = new ArrayList<>();
             for (MultipartFile file : productoDTO.getImagenes()) {
-                try {
-                    // Carpeta donde se guardarán las imágenes
-                    String uploadDir = "uploads/";
+                if (!file.isEmpty()) {
+                    try {
+                        // Carpeta dentro de static
+                        String uploadDir = new File("src/main/resources/static/img/").getAbsolutePath();
+                        File directorio = new File(uploadDir);
+                        if (!directorio.exists()) {
+                            directorio.mkdirs();
+                        }
 
-                    // Si la carpeta no existe, crearla
-                    File directorio = new File(uploadDir);
-                    if (!directorio.exists()) {
-                        directorio.mkdirs();
+                        // Nombre del archivo único
+                        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+                        File destino = new File(directorio, fileName);
+
+                        // Guardar archivo físico
+                        file.transferTo(destino);
+
+                        // Crear entidad ProductoImagen
+                        ProductoImagen img = new ProductoImagen();
+                        img.setUrl("/img/" + fileName); // URL relativa para Thymeleaf
+                        img.setProducto(producto);
+                        imagenes.add(img);
+                    } catch (IOException e) {
+                        throw new RuntimeException("Error al guardar la imagen: " + e.getMessage());
                     }
-                    // Guardar archivo en la carpeta
-                    String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-                    File destino = new File(uploadDir + fileName);
-                    file.transferTo(destino);
-
-                    // Crear entidad Imagen
-                    ProductoImagen img = new ProductoImagen();
-                    img.setUrl(uploadDir + fileName); // guardar solo la ruta relativa
-                    img.setProducto(producto);
-                    imagenes.add(img);
-
-                    // Aquí puedes guardar en carpeta y solo persistir la URL
-                } catch (IOException e) {
-                    throw new RuntimeException("Error al guardar la imagen: " + e.getMessage());
                 }
             }
             producto.setImagenes(imagenes);
         }
+
         return productoRepository.save(producto);
     }
 
@@ -95,7 +101,7 @@ public class ProductoService {
             List<ProductoImagen> imagenes = new ArrayList<>();
             for (MultipartFile file : productoDTO.getImagenes()) {
                 try {
-                    String uploadDir = "uploads/";
+                    String uploadDir = new File("src/main/resources/static/img/").getAbsolutePath();
                     File directorio = new File(uploadDir);
                     if (!directorio.exists()) {
                         directorio.mkdirs();
@@ -146,7 +152,7 @@ public class ProductoService {
                     .toList();
             dto.setImagenesUrls(urls);
         }
-
+        dto.calcularEstadoStock();
         return dto;
     }
 

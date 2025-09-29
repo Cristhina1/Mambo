@@ -14,10 +14,21 @@ import lombok.NoArgsConstructor;
 public class ProductoDTO {
     private Long id;
     private String nombre;
-    private Long categoriaID;   // ✅ agregado
+    private Long categoriaID;   
     private Double precio;
     private Integer stock;
-    private String descripcion; // ✅ agregado
+    private String descripcion; 
     private List<MultipartFile> imagenes;
     private List<String> imagenesUrls;    // Para mostrar al consultar
+     private String estadoStock;
+
+    public void calcularEstadoStock() {
+        if (stock == null || stock == 0) {
+            estadoStock = "Sin stock";
+        } else if (stock <= 5) {
+            estadoStock = "Stock bajo";
+        } else {
+            estadoStock = "En stock";
+        }
+    }
 }
