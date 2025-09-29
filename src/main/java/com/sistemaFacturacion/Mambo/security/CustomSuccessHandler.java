@@ -12,20 +12,35 @@ import java.io.IOException;
 
 @Component
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
-    
+
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+    public void onAuthenticationSuccess(HttpServletRequest request,
+                                        HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-            for(GrantedAuthority auth : authentication.getAuthorities()) {
-                if("ROLE_ADMIN".equals(auth.getAuthority())) {
+
+        for (GrantedAuthority auth : authentication.getAuthorities()) {
+            String role = auth.getAuthority();
+            System.out.println("Authority: " + role); // para depuración
+
+            switch (role) {
+                case "ROLE_ADMIN":
                     response.sendRedirect("/admin/home");
                     return;
-                } else if ("ROLE_VENDEDOR".equals(auth.getAuthority())) {
+
+                case "ROLE_VENDEDOR":
                     response.sendRedirect("/admin/boleta");
                     return;
-                }
+
+                case "ROLE_CLIENTE":
+                    response.sendRedirect("/cliente/home");
+                    return;
+
+                default:
+                    break;
             }
-            response.sendRedirect("/login?error");
-        // Lógica personalizada después del inicio de sesión exitoso
+        }
+
+        // Si no coincide ningún rol
+        response.sendRedirect("/login?error");
     }
 }

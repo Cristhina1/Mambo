@@ -3,56 +3,62 @@ package com.sistemaFacturacion.Mambo.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableWebSecurity
 public class securityConfig {
+
     @Autowired
     private CustomSuccessHandler customSuccessHandler;
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails admin = User.withDefaultPasswordEncoder()
-                .username("admin")
-                .password("mambo123")
-                .roles("ADMIN")
-                .build();
 
-        UserDetails vendedor = User.withDefaultPasswordEncoder()
-                .username("vendedor")
-                .password("vendedor123")
-                .roles("VENDEDOR")
-                .build();
-        return new InMemoryUserDetailsManager(admin,vendedor);
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/login", "/css/**", "/js/**", "/img/**", "/admin/principal").permitAll()
+                        .requestMatchers("/admin/reporte").hasRole("ADMIN")
+                        .requestMatchers("/admin/boleta", "/admin/factura", "/admin/productos", "/admin/clientes",
+                                "/admin/home")
+                        .hasAnyRole("VENDEDOR", "ADMIN")
+                        .requestMatchers("/cliente/**", "/carrito/**", "/productos/**").hasRole("CLIENTE")
+                        .anyRequest().authenticated())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .usernameParameter("username") // aquí se envía DNI
+                        .passwordParameter("password")
+                        .successHandler(customSuccessHandler)
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll());
+
+        return http.build();
     }
 
     @Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http
-        .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**")) // permite H2 console
-        .headers(headers -> headers.frameOptions().disable()) // permite mostrar H2 en iframe
-        .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/css/**", "/js/**", "/img/**", "/admin/principal").permitAll()
-                .requestMatchers("/h2-console/**").permitAll() // <--- aquí permites H2
-                .requestMatchers("/admin/reporte").hasRole("ADMIN")
-                .requestMatchers("/admin/boleta","/admin/factura","/admin/productos","/admin/clientes", "/admin/home").hasAnyRole("VENDEDOR","ADMIN")
-                .anyRequest().authenticated()
-        )
-        .formLogin(form -> form
-                .loginPage("/login")
-                .successHandler(customSuccessHandler)
-                .permitAll()
-        )
-        .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login?logout")
-                .permitAll()
-        );
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder())
+                .and()
+                .build();
+    }
 
-    return http.build();
-}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 }

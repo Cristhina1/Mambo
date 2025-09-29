@@ -39,4 +39,7 @@ public class Usuario {
 
     @Column(nullable = false, length = 100)
     private String contra;
+
+    // Constructor personalizado SOLO con nombre
+    
 }

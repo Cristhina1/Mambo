@@ -39,4 +39,8 @@ public class cliente {
     @OneToMany(mappedBy = "cliente")
     private List<Comprobante> comprobantes = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "rol_id")
+    private rol rol;
+
 }
