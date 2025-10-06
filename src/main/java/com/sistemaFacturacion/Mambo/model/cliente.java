@@ -5,11 +5,15 @@ import java.util.List;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 //usuarios que visitan la tienda
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class cliente {
 
     @Id
@@ -18,7 +22,7 @@ public class cliente {
 
     private String nombreCompleto;
     @ManyToOne
-    @JoinColumn(name = "tipo_documento_id", nullable = false)
+    @JoinColumn(name = "tipo_documento_id")
     private tipoDocumento tipoDocumento;
 
     @Column(unique = true, nullable = false, length = 20)
@@ -42,5 +46,6 @@ public class cliente {
     @ManyToOne
     @JoinColumn(name = "rol_id")
     private rol rol;
+     private boolean activo = true;
 
 }

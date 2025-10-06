@@ -31,10 +31,15 @@
             <h1 class="mb-2"><i class="bi bi-people text-primary"></i> Gestión de Clientes</h1>
             <p class="text-muted">Administra y gestiona la información de tus clientes</p>
           </div>
-          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCliente" th:onclick="'limpiarFormulario()'">
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCliente"
+            onclick="limpiarFormulario()">
             <i class="bi bi-plus-circle me-2"></i>Nuevo Cliente
           </button>
         </div>
+        <h5>Lista de tipos de documento</h5>
+        <ul>
+          <li th:each="td : ${tiposDocumento}" th:text="${td.id + ' - ' + td.nombre}"></li>
+        </ul>
 
         <!-- Filtros -->
         <div class="card mb-4">
@@ -43,19 +48,22 @@
               <div class="col-md-4">
                 <div class="input-group">
                   <span class="input-group-text"><i class="bi bi-search"></i></span>
-                  <input type="text" id="buscarCliente" class="form-control" placeholder="Buscar por nombre o documento" onkeyup="filtrarClientes()">
+                  <input type="text" id="buscarCliente" class="form-control" placeholder="Buscar por nombre o documento"
+                    onkeyup="filtrarClientes()">
                 </div>
               </div>
               <div class="col-md-3">
-                <select id="filtroTipo" class="form-select" onchange="filtrarClientes()" title="Filtrar clientes por tipo">
-                  <option value="">Todos los tipos</option>
-                  <option value="DNI">Persona Natural</option>
-                  <option value="RUC">Empresa</option>
-                  <option value="Carnet de Extranjería">Carnet de Extranjería</option>
+
+                <select name="tipoDocumento" th:field="*{tipoDocumento}" onchange="filtrarClientes()">
+                  <option value="" disabled selected>Selecciona un tipo de documento</option>
+                  <th:block th:each="td : ${tiposDocumento}">
+                    <option th:value="${td.id}" th:text="${td.nombre}"></option>
+                  </th:block>
                 </select>
               </div>
               <div class="col-md-3">
-                <select id="filtroEstado" class="form-select" onchange="filtrarClientes()" title="Filtrar clientes por estado">
+                <select id="filtroEstado" class="form-select" onchange="filtrarClientes()"
+                  title="Filtrar clientes por estado">
                   <option value="">Todos los estados</option>
                   <option value="Activo">Activo</option>
                   <option value="Inactivo">Inactivo</option>
@@ -80,7 +88,7 @@
                   <th>Número Documento</th>
                   <th>Email</th>
                   <th>Teléfono</th>
-                  <th>Estado</th>
+
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -88,16 +96,21 @@
                 <tr th:each="cliente : ${clientes}" th:data-id="${cliente.id}">
                   <td th:text="${cliente.id}"></td>
                   <td th:text="${cliente.nombreCompleto}"></td>
-                  <td th:text="${cliente.tipoDocumento}"></td>
+                  <td th:text="${cliente.tipoDocumento != null ? cliente.tipoDocumento.nombre : 'Sin documento'}"></td>
+
+
                   <td th:text="${cliente.numeroDocumento}"></td>
                   <td th:text="${cliente.email}"></td>
                   <td th:text="${cliente.telefono}"></td>
                   <td>
-                    <span th:classappend="${cliente.estado == 'Activo'} ? 'badge bg-success' : 'badge bg-warning'" th:text="${cliente.estado}"></span>
-                  </td>
-                  <td>
-                    <button class="btn btn-sm btn-outline-primary me-1" title="Editar" th:onclick="'editarCliente(' + ${cliente.id} + ')'"><i class="bi bi-pencil"></i></button>
-                    <a th:href="@{'/admin/clientes/eliminar/' + ${cliente.id}}" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></a>
+                    <button class="btn btn-sm btn-outline-primary me-1" title="Editar"
+                      th:onclick="'editarCliente(' + ${cliente.id} + ')'"><i class="bi bi-pencil"></i></button>
+                    <form th:action="@{'/lista/clientes/eliminar/' + ${cliente.id}}" method="post"
+                      style="display:inline;">
+                      <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </form>
                   </td>
                 </tr>
               </tbody>
@@ -115,18 +128,21 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" title="cerrar"></button>
             </div>
             <div class="modal-body">
-              <form th:action="@{/admin/clientes/guardar}" th:object="${cliente}" method="post" id="formCliente">
+              <form th:action="@{/lista/clientes/guardar}" th:object="${cliente}" method="post" id="formCliente">
                 <input type="hidden" th:field="*{id}" id="clienteId" />
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label for="tipoDocumento" class="form-label">Tipo de Documento *</label>
-                    <select class="form-select" th:field="*{tipoDocumento}" id="tipoDocumento" required>
-                      <option value="">Seleccionar...</option>
-                      <option value="DNI">DNI</option>
-                      <option value="RUC">RUC</option>
-                      <option value="Carnet de Extranjería">Carnet de Extranjería</option>
+                    <select name="tipoDocumento" th:field="*{tipoDocumento}">
+                      <option value="" disabled selected>Selecciona un tipo de documento</option>
+                      <th:block th:each="td : ${tiposDocumento}">
+                        <option th:value="${td.id}" th:text="${td.nombre}"></option>
+                      </th:block>
                     </select>
+
+
                   </div>
+
                   <div class="col-md-6 mb-3">
                     <label for="numeroDocumento" class="form-label">Número de Documento *</label>
                     <input type="text" class="form-control" th:field="*{numeroDocumento}" id="numeroDocumento" required>
@@ -145,17 +161,7 @@
                     <label for="telefono" class="form-label">Teléfono</label>
                     <input type="text" class="form-control" th:field="*{telefono}" id="telefono">
                   </div>
-                </div>
-                <div class="mb-3">
-                  <label for="direccion" class="form-label">Dirección</label>
-                  <textarea class="form-control" th:field="*{direccion}" id="direccion" rows="3"></textarea>
-                </div>
-                <div class="mb-3">
-                  <label for="estado" class="form-label">Estado</label>
-                  <select class="form-select" th:field="*{estado}" id="estado">
-                    <option value="Activo">Activo</option>
-                    <option value="Inactivo">Inactivo</option>
-                  </select>
+
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -195,10 +201,9 @@
           <td>${c.numeroDocumento}</td>
           <td>${c.email}</td>
           <td>${c.telefono}</td>
-          <td><span class="badge ${c.estado === 'Activo' ? 'bg-success' : 'bg-warning'}">${c.estado}</span></td>
           <td>
             <button class="btn btn-sm btn-outline-primary me-1" onclick="editarCliente(${c.id})"><i class="bi bi-pencil"></i></button>
-            <a href="/admin/clientes/eliminar/${c.id}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+            <a href="/lista/clientes/eliminar/${c.id}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
           </td>
         `;
         tbody.appendChild(tr);
@@ -216,8 +221,7 @@
           document.getElementById('nombreCompleto').value = data.nombreCompleto;
           document.getElementById('email').value = data.email;
           document.getElementById('telefono').value = data.telefono;
-          document.getElementById('direccion').value = data.direccion;
-          document.getElementById('estado').value = data.estado;
+          document.getElementById('contra').value = data.contra;
 
           const modal = new bootstrap.Modal(document.getElementById('modalCliente'));
           modal.show();
@@ -225,10 +229,14 @@
     }
 
     // Limpiar formulario
-    function limpiarFormulario() {
-      document.getElementById('formCliente').reset();
-      document.getElementById('clienteId').value = '';
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+      window.limpiarFormulario = function () {
+        const form = document.getElementById('formCliente');
+        form.reset();
+        const idInput = document.getElementById('clienteId');
+        if (idInput) idInput.value = '';
+      }
+    });
   </script>
 </body>
 

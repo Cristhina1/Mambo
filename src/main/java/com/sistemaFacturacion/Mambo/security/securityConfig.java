@@ -28,8 +28,8 @@ public class securityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/css/**", "/js/**", "/img/**", "/admin/principal").permitAll()
                         .requestMatchers("/admin/reporte").hasRole("ADMIN")
-                        .requestMatchers("/admin/boleta", "/admin/factura", "/admin/productos", "/admin/clientes",
-                                "/admin/home")
+                        .requestMatchers("/admin/boleta", "/admin/factura", "/admin/productos/**", "/lista/clientes/**",
+                                "/admin/home", "lista/vendedores/**")
                         .hasAnyRole("VENDEDOR", "ADMIN")
                         .requestMatchers("/cliente/**", "/carrito/**", "/productos/**").hasRole("CLIENTE")
                         .anyRequest().authenticated())

@@ -53,7 +53,7 @@ public class ProductoController {
     }
 
     // Actualizar producto
-    @GetMapping("/editar/{id}")
+    @PostMapping("/editar/{id}")
     public String editar(@PathVariable Long id, Model model) {
         ProductoDTO productoDTO = productoService.findDtoById(id);
         model.addAttribute("productoDTO", productoDTO);
@@ -68,7 +68,7 @@ public class ProductoController {
     }
 
     // ✅ Eliminar producto
-    @GetMapping("/eliminar/{id}")
+    @PostMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Long id) {
         productoService.deleteById(id);
         return "redirect:/admin/productos";

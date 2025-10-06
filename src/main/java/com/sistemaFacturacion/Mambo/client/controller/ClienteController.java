@@ -1,63 +1,62 @@
 package com.sistemaFacturacion.Mambo.client.controller;
+import org.springframework.stereotype.Controller;
+import org.springframework.data.repository.query.Param;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sistemaFacturacion.Mambo.client.service.ClienteService;
-import com.sistemaFacturacion.Mambo.model.cliente;
+import com.sistemaFacturacion.Mambo.client.service.TipoDocumentoService;
+import com.sistemaFacturacion.Mambo.dto.ClienteDTO;
 
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-@RestController
-@RequestMapping("/api/clientes")
+
+
+
+
+@Controller
+@RequestMapping("/lista/clientes")
 public class ClienteController {
-
     private final ClienteService clienteService;
-
-    public ClienteController(ClienteService clienteService) {
+    private final TipoDocumentoService tDocumentoService;
+    // Inyección por constructor
+    public ClienteController(ClienteService clienteService, TipoDocumentoService tDocumentoService) {
         this.clienteService = clienteService;
+        this.tDocumentoService = tDocumentoService;
     }
 
-    // Crear cliente
-    @PostMapping
-    public cliente crear(@RequestBody cliente c) {
-        return clienteService.crearCliente(c);
-    }
-
-    // Listar todos los clientes
     @GetMapping
-    public List<cliente> listar() {
-        return clienteService.listarClientes();
+    public String listaVendedores(Model model) {
+        var cliente = clienteService.listarClientes();
+
+        //cantidad de clientes
+        int cantClientes = cliente.size();
+
+        model.addAttribute("clientes", clienteService.listarClientes());
+        model.addAttribute("cantClientes", cantClientes);
+        model.addAttribute("cliente", new ClienteDTO());
+        model.addAttribute("tiposDocumento", tDocumentoService.listarTodos());
+        System.out.println("Tipos de Documento: " + tDocumentoService.listarTodos());
+ 
+        return "admin/clientes";
     }
 
-    // Obtener cliente por ID
-    @GetMapping("/{id}")
-    public Optional<cliente> obtener(@PathVariable Long id) {
-        return clienteService.obtenerPorId(id);
+    @PostMapping("guardar")
+    public String guardarCliente(@ModelAttribute ClienteDTO clienteDTO) {
+        clienteService.crearCliente(clienteDTO);
+        return "redirect:/lista/clientes";
     }
 
-    // Buscar cliente por email
-    @GetMapping("/buscar/email/{email}")
-    public Optional<cliente> buscarPorEmail(@PathVariable String email) {
-        return clienteService.buscarPorEmail(email);
-    }
-
-    // Buscar cliente por número de documento
-    @GetMapping("/buscar/documento/{numero}")
-    public Optional<cliente> buscarPorDocumento(@PathVariable String numero) {
-        return clienteService.buscarPorNumeroDocumento(numero);
-    }
-
-    // Actualizar cliente
-    @PutMapping("/{id}")
-    public cliente actualizar(@PathVariable Long id, @RequestBody cliente c) {
-        return clienteService.actualizarCliente(id, c);
-    }
-
-    // Eliminar cliente
-    @DeleteMapping("/{id}")
-    public String eliminar(@PathVariable Long id) {
+    @PostMapping("eliminar/{id}")
+    public String postMethodName(@PathVariable Long id) {
         clienteService.eliminarCliente(id);
-        return "Cliente eliminado con ID: " + id;
+        return "redirect:/lista/clientes";
     }
+    
+    
 }
