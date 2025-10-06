@@ -48,6 +48,7 @@ public class ClienteService {
         dto.setNumeroDocumento(c.getNumeroDocumento());
         dto.setEmail(c.getEmail());
         dto.setTelefono(c.getTelefono());
+        dto.setTipoDocumentoNombre(c.getTipoDocumento().getNombre());
         if (c.getTipoDocumento() != null) {
         // Guardamos tanto el id como el nombre
         dto.setTipoDocumento(c.getTipoDocumento().getId());
