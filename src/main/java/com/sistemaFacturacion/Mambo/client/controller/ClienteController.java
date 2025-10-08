@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ClienteController {
 
-    // ✅ Muestra la lista de productos del cliente
+    // Muestra la lista de productos del cliente
     @GetMapping("/cliente/productos")
     public String verListaProductos() {
         // Este método retorna el nombre del archivo HTML de productos del cliente
