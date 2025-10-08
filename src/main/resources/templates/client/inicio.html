@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>MAMBO — Tu Estilo Urbano</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Amiko:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /*
+        ========================================
+        VARIABLES Y ESTILOS GLOBALES
+        ========================================
+        */
+        :root {
+            --bg: #000000;
+            --panel: #000000;
+            --muted: #9aa0a6;
+            --accent: #f5c518; /* Dorado/Amarillo */
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.03);
+            --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+            --dark-card: rgba(245, 197, 24, 0.04); /* Fondo sutil para M/V */
+        }
+
+        html,
+        body {
+            height: 100%;
+            scroll-behavior: smooth; /* Para un scroll suave entre secciones */
+        }
+
+        body {
+            margin: 0;
+            background: linear-gradient(180deg, #050506 0%, #0b0b0d 100%);
+            color: var(--white);
+            font-family: 'Alexandria', sans-serif; /* Puedes usar Poppins si prefieres */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden; /* Evita desbordamiento horizontal */
+        }
+
+        .site-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem; /* Ajuste para los lados */
+        }
+
+        /*
+        ========================================
+        NAVBAR
+        ========================================
+        */
+        .navbar {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.02));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 1rem 0; /* Ajusta el padding del navbar */
+            position: sticky;
+            top: 0;
+            z-index: 1020;
+        }
+
+        .navbar-brand {
+            color: var(--accent);
+            font-weight: 900;
+            letter-spacing: 1px;
+            font-size: 1.5rem; /* Hago el logo un poco más grande */
+            transition: color .2s ease-in-out;
+        }
+        .navbar-brand:hover {
+            color: var(--white);
+        }
+
+        .nav-link {
+            color: var(--muted) !important;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: .9rem;
+            margin: 0 0.8rem; /* Espaciado entre links */
+            transition: color .2s ease-in-out;
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: all .2s ease-in-out;
+            transform: translateX(-50%);
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--white) !important; /* El activo/hover es blanco para la navegación principal */
+        }
+        .nav-link.accent-link:hover, .nav-link.accent-link.active {
+             color: var(--accent) !important; /* Si quieres un link activo en accent */
+        }
+
+
+        .btn-outline-accent {
+            color: var(--accent);
+            border-color: rgba(245, 197, 24, 0.22);
+            background: transparent;
+            font-weight: 700;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            transition: all .2s ease-in-out;
+        }
+
+        .btn-outline-accent:hover {
+            background: var(--accent);
+            color: #050506;
+            border-color: var(--accent);
+        }
+
+        .badge-accent {
+            background: var(--accent);
+            color: #050506;
+            font-weight: 900;
+            border-radius: 999px;
+            padding: .25rem .55rem;
+            font-size: 0.75rem;
+        }
+
+        /*
+        ========================================
+        HERO SECTION (COMO LA IMAGEN ORIGINAL)
+        ========================================
+        */
+        .hero-section {
+            position: relative;
+            display: flex;
+            align-items: center;
+            min-height: 90vh; /* Ocupa casi toda la pantalla */
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+            overflow: hidden; /* Para que la imagen del fondo no se desborde */
+        }
+
+        .hero-background-model {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60%; /* Ajusta el ancho según la imagen original */
+            height: 100%;
+            background-image: url('https://i.imgur.com/TuwRz3R.jpg'); /* URL de la imagen del modelo con fondo abstracto */
+            background-size: cover;
+            background-position: center right;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, #050506 40%, rgba(5, 5, 6, 0.8) 60%, rgba(5, 5, 6, 0.2) 80%, transparent 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 500px; /* Limita el ancho del texto */
+            padding-left: 1rem;
+        }
+
+        .hero-title {
+            font-family: 'Poppins', sans-serif; /* Fuente más gruesa para "MAMBO" */
+            font-size: 6rem; /* Ajusta el tamaño de la fuente */
+            font-weight: 900;
+            line-height: 0.9;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hero-subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem;
+            font-weight: 400;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            max-width: 450px;
+        }
+
+        .hero-cta-button {
+            background-color: transparent;
+            color: var(--white);
+            border: 3px solid var(--white);
+            border-radius: 5px; /* Ligeramente redondeado */
+            padding: 1.2rem 3rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all .2s ease-in-out;
+            text-transform: uppercase;
+            text-decoration: none; /* Asegura que no tenga subrayado */
+        }
+
+        .hero-cta-button:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background-color: rgba(245, 197, 24, 0.05); /* Un ligero hover */
+        }
+
+        /* Media queries para responsividad del Hero */
+        @media (max-width: 992px) {
+            .hero-background-model {
+                width: 100%;
+                background-position: center bottom; /* Ajusta la imagen para pantallas más pequeñas */
+                opacity: 0.4; /* Menos prominente en móvil */
+            }
+            .hero-overlay {
+                background: linear-gradient(to top, #050506 30%, rgba(5, 5, 6, 0.7) 60%, rgba(5, 5, 6, 0.4) 80%, transparent 100%);
+            }
+            .hero-content {
+                text-align: center;
+                max-width: 100%;
+                padding: 0 1rem;
+            }
+            .hero-title {
+                font-size: 4rem;
+                margin-top: 2rem;
+            }
+            .hero-subtitle {
+                font-size: 2rem;
+            }
+            .hero-section {
+                min-height: 80vh;
+                justify-content: center; /* Centra el contenido en vertical */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            .hero-subtitle {
+                font-size: 1.5rem;
+            }
+            .hero-cta-button {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+            .nav-link {
+                font-size: .8rem;
+                margin: 0 0.4rem;
+            }
+             .navbar-brand {
+                font-size: 1.2rem;
+             }
+        }
+
+        /*
+        ========================================
+        SECCIÓN NOSOTROS (MISIÓN, VISIÓN, VALORES)
+        ========================================
+        */
+        .about-section {
+            padding: 5rem 0; /* Más padding para separar secciones */
+            background: linear-gradient(180deg, #0b0b0d 0%, #151518 100%); /* Fondo ligeramente diferente */
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .heading {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+        }
+
+        .mv-card {
+            background-color: var(--dark-card);
+            border: 1px solid rgba(245, 197, 24, 0.1);
+            border-radius: 14px;
+            padding: 2.5rem;
+            transition: all .2s ease-in-out;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .mv-card:hover {
+            background-color: rgba(245, 197, 24, 0.08);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .mv-card i {
+            color: var(--accent);
+            font-size: 3rem; /* Iconos más grandes */
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .mv-card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 900;
+            color: var(--white);
+            font-size: 2rem; /* Títulos de M/V más grandes */
+            margin-bottom: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mv-card p {
+            font-size: 1rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .values-grid {
+            margin-top: 5rem; /* Más espacio sobre los valores */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .value-item {
+            background: var(--glass);
+            padding: 1.8rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent); /* Borde más pronunciado */
+            transition: transform .2s ease-in-out, box-shadow .2s ease-in-out;
+        }
+
+        .value-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .value-item h6 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--accent);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .value-item p {
+            font-size: 0.95rem;
+            color: var(--muted);
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .heading {
+                font-size: 2.5rem;
+            }
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+            .mv-card h3 {
+                font-size: 1.5rem;
+            }
+            .mv-card i {
+                font-size: 2.2rem;
+            }
+            .about-section {
+                padding: 3rem 0;
+            }
+        }
+
+        /*
+        ========================================
+        FOOTER
+        ========================================
+        */
+        footer {
+            margin-top: 2.25rem;
+            padding: 3rem 0; /* Más padding */
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            color: var(--muted);
+            background: #050506;
+        }
+
+        footer h6 {
+            color: var(--white); /* Títulos de footer en blanco */
+            font-weight: 900;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        footer p {
+            font-size: 0.95rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        footer a {
+            color: var(--muted);
+            text-decoration: none;
+            transition: color .2s;
+        }
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        /* small niceties */
+        .muted {
+            color: var(--muted);
+            font-size: .9rem;
+        }
+
+        /*
+        ========================================
+        MODAL Y OFFCANVAS (Estilos para que luzcan bien)
+        ========================================
+        */
+        .offcanvas {
+            background: linear-gradient(180deg, #0a0a0b, #1a1a1c); /* Un gradiente oscuro para el offcanvas */
+            color: var(--white);
+            border-left: 2px solid rgba(245, 197, 24, 0.25); /* Borde acentuado */
+        }
+        .offcanvas .offcanvas-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .modal-content {
+            background: linear-gradient(180deg, #0a0a0b, #1a1a1c);
+            color: var(--white);
+            border: 1px solid rgba(245, 197, 24, 0.1);
+        }
+        .modal-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .modal-title {
+            color: var(--accent);
+        }
+        .form-control {
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        .form-control:focus {
+            border-color: var(--accent) !important;
+            box-shadow: 0 0 0 0.25rem rgba(245, 197, 24, 0.2) !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container site-container">
+            <a class="navbar-brand" href="#">MAMBO</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-controls="navMain" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navMain">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about-section">Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Vestidor IA</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contáctanos</a></li>
+                    <li class="nav-item"><a class="nav-link accent-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-person"></i> Iniciar</a></li>
+                    <li class="nav-item ms-lg-2">
+                        <button class="btn btn-dark position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartCanvas" aria-controls="cartCanvas">
+                            <i class="bi bi-cart3 fs-5"></i>
+                            <span id="cartBadge" class="badge-accent position-absolute top-0 start-100 translate-middle">0</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <div class="hero-background-model"></div>
+        <div class="hero-overlay"></div>
+        <div class="container site-container hero-content">
+            <h1 class="hero-title">MAMBO</h1>
+            <h2 class="hero-subtitle">CLOTHING</h2>
+            <p class="hero-description">
+                Tu estilo no se copia, se crea, comienza eligiendo a<br>
+                <strong style="color:var(--accent);">MAMBO</strong>
+            </p>
+            <a href="#" class="hero-cta-button">COMIENZA A ELEGIR</a>
+        </div>
+    </header>
+
+    <section id="about-section" class="about-section">
+        <div class="container site-container">
+            <div class="section-header">
+                <p class="subtitle">MAMBO CLOTHING</p>
+                <h2 class="heading">Nuestra Esencia Urbana</h2>
+            </div>
+
+            <div class="row g-4 mt-4">
+                <div class="col-md-6">
+                    <div class="mv-card">
+                        <div>
+                            <i class="bi bi-rocket-takeoff"></i>
+                            <h3>Misión</h3>
+                        </div>
+                        <p>Ser el catalizador de la **expresión individual** en la moda urbana. Ofrecemos prendas de alta calidad que fusionan el diseño de vanguardia con la comodidad callejera, permitiendo a nuestros clientes definir y proyectar su propia historia sin restricciones.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mv-card">
+                        <div>
+                            <i class="bi bi-eye"></i>
+                            <h3>Visión</h3>
+                        </div>
+                        <p>Convertirnos en la marca **líder global** de *streetwear* de lujo asequible, siendo reconocidos no solo por nuestras colecciones disruptivas, sino también por impulsar una comunidad que valora la **creatividad, la inclusión** y el futuro de la moda sostenible.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="values-grid">
+                <div class="value-item">
+                    <h6>Innovación Continua</h6>
+                    <p>Siempre a la vanguardia, creando tendencias y desafiando lo convencional.</p>
+                </div>
+                <div class="value-item">
+                    <h6>Calidad Intransigente</h6>
+                    <p>Cada prenda es un testimonio de nuestra dedicación a la durabilidad y el confort.</p>
+                </div>
+                <div class="value-item">
+                    <h6>Autenticidad</h6>
+                    <p>Celebramos y empoderamos la voz y el estilo único de cada individuo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container site-container">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <h6>Ubicación</h6>
+                    <p>Multicentro - Santa Clara - Ate<br>Tiendas N°05-393</p>
+                    <a href="https://www.google.com/maps?q=Multicentro+Santa+Clara+Ate" target="_blank" rel="noopener">Ver en Google Maps →</a>
+                </div>
+                <div class="col-md-6">
+                    <h6>Contacto</h6>
+                    <p><i class="bi bi-telephone"></i> +51 923123890<br><i class="bi bi-envelope"></i> MamboClothing@gmail.com</p>
+                    <div style="margin-top:.5rem;">
+                        <a class="me-3" href="#"><i class="bi bi-facebook fs-4"></i></a>
+                        <a class="me-3" href="#"><i class="bi bi-instagram fs-4"></i></a>
+                        <a class="" href="#"><i class="bi bi-tiktok fs-4"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartCanvas" aria-labelledby="cartLabel">
+        <div class="offcanvas-header">
+            <h5 id="cartLabel" class="offcanvas-title" style="color:var(--accent);">Tu Carrito</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="cartItemsArea">
+                <p class="muted">No hay productos en el carrito.</p>
+            </div>
+
+            <div class="mt-3 text-end">
+                <div class="muted">Total</div>
+                <div id="cartTotal" style="font-weight:900; font-size:1.15rem; margin-top:.25rem;">S/ 0.00</div>
+                <button id="checkoutBtn" class="add-btn w-100 mt-3">Finalizar compra</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" role="dialog" aria-modal="true">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="color:var(--accent);">Iniciar sesión</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label class="muted">Correo</label>
+                            <input required type="email" class="form-control bg-transparent border-1 text-white" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="muted">Contraseña</label>
+                            <input required type="password" class="form-control bg-transparent border-1 text-white" />
+                        </div>
+                        <button class="add-btn w-100" type="submit">Entrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Mantiene la funcionalidad básica del carrito para el badge si se usa
+        let cart = JSON.parse(localStorage.getItem('mambo_cart_v1') || '[]');
+        const cartBadge = document.getElementById('cartBadge');
+        function getCartCount() { return cart.reduce((s, i) => s + i.qty, 0); }
+        function updateCartUI() {
+            cartBadge.textContent = getCartCount();
+            // Lógica para renderizar items en offcanvas si lo deseas
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartUI();
+            // Lógica simple de demo para el login (sin el catálogo, no hay "add to cart" por ahora)
+            document.getElementById('loginForm')?.addEventListener('submit', e => {
+                e.preventDefault();
+                const bs = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                bs.hide();
+                alert('Sesión iniciada (demo)');
+            });
+        });
+    </script>
+</body>
+
+</html>
