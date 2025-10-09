@@ -11,10 +11,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.sistemaFacturacion.Mambo.client.repository.ClienteRepository;
+import com.sistemaFacturacion.Mambo.Repository.ClienteRepository;
+import com.sistemaFacturacion.Mambo.Repository.UsuarioRepository;
 import com.sistemaFacturacion.Mambo.model.Usuario;
 import com.sistemaFacturacion.Mambo.model.cliente;
-import com.sistemaFacturacion.Mambo.usuarios.repository.UsuarioRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

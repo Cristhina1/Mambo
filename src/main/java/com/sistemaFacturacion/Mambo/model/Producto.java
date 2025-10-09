@@ -30,7 +30,6 @@ public class Producto {
     @Column(columnDefinition = "TEXT")
     private String descripcion; // ✅ agregado
     
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductoImagen> imagenes = new ArrayList<>();
+    private String imagenUrl; // ✅ Una sola imagen
 
 }

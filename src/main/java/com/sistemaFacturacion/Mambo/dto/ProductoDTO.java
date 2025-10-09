@@ -18,9 +18,11 @@ public class ProductoDTO {
     private Double precio;
     private Integer stock;
     private String descripcion; 
-    private List<MultipartFile> imagenes;
-    private List<String> imagenesUrls;    // Para mostrar al consultar
-     private String estadoStock;
+
+    private MultipartFile imagen;   // ✅ Solo una imagen
+    private String imagenUrl;       // ✅ Ruta de la imagen actual (para mostrarla)
+
+    private String estadoStock;
 
     public void calcularEstadoStock() {
         if (stock == null || stock == 0) {
@@ -32,3 +34,4 @@ public class ProductoDTO {
         }
     }
 }
+

@@ -59,3 +59,16 @@ button.btn-primary:hover {
     background-color: #080819 !important;
     border-color: #080819 !important;
 }
+#buscador {
+  min-width: 250px;
+}
+
+#filtroStock {
+  border-color: #198754;
+  color: #198754;
+  font-weight: 500;
+}
+
+#filtroStock:focus {
+  box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+}

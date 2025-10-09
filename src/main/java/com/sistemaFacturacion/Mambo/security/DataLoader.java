@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 
 import com.sistemaFacturacion.Mambo.model.Usuario;
 import com.sistemaFacturacion.Mambo.model.rol;
-import com.sistemaFacturacion.Mambo.usuarios.repository.RolRepository;
-import com.sistemaFacturacion.Mambo.usuarios.repository.UsuarioRepository;
+import com.sistemaFacturacion.Mambo.Repository.RolRepository;
+import com.sistemaFacturacion.Mambo.Repository.UsuarioRepository;
 
 @Component
 public class DataLoader implements CommandLineRunner {
