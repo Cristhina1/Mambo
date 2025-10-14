@@ -17,7 +17,7 @@ import com.sistemaFacturacion.Mambo.model.tipoDocumento;
 
 
 @RestController // 📌 Este controller devuelve JSON (API REST)
-@RequestMapping("/tipo-documentos") // 📌 Ruta base
+@RequestMapping("/api/tipo-documentos") // 📌 Ruta base
 public class TipoDocRestController {
         private final TipoDocumentoService tipoDocumentoService;
 

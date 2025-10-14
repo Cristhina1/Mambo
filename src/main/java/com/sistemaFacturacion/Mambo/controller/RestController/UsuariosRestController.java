@@ -16,7 +16,7 @@ import com.sistemaFacturacion.Mambo.Service.UsuarioService;
 import com.sistemaFacturacion.Mambo.model.Usuario;
 
 @RestController // 📌 Este controller responde con JSON
-@RequestMapping("/usuarios") // 📌 Ruta base
+@RequestMapping("/api/usuarios") // 📌 Ruta base
 public class UsuariosRestController {
        private final UsuarioService usuarioService;
 
