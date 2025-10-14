@@ -19,7 +19,6 @@ public class PagoServiceImpl implements PagoService {
     @Override
     public PagoResponseDTO procesarPago(PagoRequestDTO request) {
         pago pago = new pago();
-        pago.setId(request.getId());
         pago.setPrecio(request.getPrecio());
         pago.setMetodo(request.getMetodo());
         pago.setFechaPago(LocalDateTime.now());

@@ -26,25 +26,37 @@ public class DataLoader implements CommandLineRunner {
 
         // Crear roles si no existen
         if (rolRepository.count() == 0) {
-            rolRepository.save(new rol("ADMIN"));
-            rolRepository.save(new rol("VENDEDOR"));
-            rolRepository.save(new rol("CLIENTE"));
+            rol rolAdmin = new rol();
+            rolAdmin.setNombre("ROLE_ADMIN");
+            rolRepository.save(rolAdmin);
+
+            rol rolVendedor = new rol();
+            rolVendedor.setNombre("ROLE_VENDEDOR");
+            rolRepository.save(rolVendedor);
+
+            rol rolCliente = new rol();
+            rolCliente.setNombre("ROLE_CLIENTE");
+            rolRepository.save(rolCliente);
+
+            System.out.println("Roles creados correctamente");
         }
 
         // Crear usuario ADMIN por defecto si no existe
         if (usuarioRepository.count() == 0) {
-            rol adminRol = rolRepository.findByNombre("ADMIN").get();
+            rol adminRol = rolRepository.findByNombre("ROLE_ADMIN")
+                    .orElseThrow(() -> new RuntimeException("Rol ADMIN no encontrado"));
 
             Usuario admin = new Usuario();
             admin.setNombreCompleto("Administrador General");
             admin.setRol(adminRol);
-            admin.setNumeroDocumento("99999999");  // DNI por defecto
+            admin.setNumeroDocumento("99999999"); // DNI por defecto
             admin.setEmail("admin@mambo.com");
             admin.setTelefono("987654321");
             admin.setContra(passwordEncoder.encode("admin123")); // contraseña encriptada
+            admin.setEnabled(true);
             usuarioRepository.save(admin);
 
-            System.out.println("Usuario ADMIN por defecto creado: DNI=99999999, contraseña=admin123");
+            System.out.println("✅ Usuario ADMIN por defecto creado: DNI=99999999, contraseña=admin123");
         }
     }
 }

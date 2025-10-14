@@ -17,7 +17,7 @@ import com.sistemaFacturacion.Mambo.Service.CategoriaService;
 import com.sistemaFacturacion.Mambo.model.categoria;
 
 @RestController
-@RequestMapping("/categorias")
+@RequestMapping("/api/categorias")
 public class CategoriaRestController {
      private final CategoriaService categoriaService;
 
