@@ -20,6 +20,6 @@ public class HistorialCompraController {
     public String mostrarHistorial(Model model) {
         Long clienteId = 1L; // temporal, luego se obtendrá del usuario logueado
         model.addAttribute("compras", historialCompraService.obtenerPorCliente(clienteId));
-        return "client/fragments/historial-compras";
+        return "client/historial-compras";
     }
 }

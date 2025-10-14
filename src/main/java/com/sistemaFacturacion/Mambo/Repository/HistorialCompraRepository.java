@@ -1,4 +1,4 @@
-package com.sistemaFacturacion.Mambo.repository;
+package com.sistemaFacturacion.Mambo.Repository;
 
 import com.sistemaFacturacion.Mambo.model.HistorialCompra;
 import org.springframework.data.jpa.repository.JpaRepository;
