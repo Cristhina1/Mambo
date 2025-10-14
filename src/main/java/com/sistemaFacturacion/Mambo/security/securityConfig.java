@@ -24,29 +24,66 @@ public class securityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                // 🔒 Deshabilitamos CSRF para desarrollo (puedes habilitarlo después si usas formularios seguros)
                 .csrf(csrf -> csrf.disable())
+                // 🔑 Configuramos permisos para las rutas
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/css/**", "/js/**", "/img/**", "/admin/principal").permitAll()
+                        // ✅ Rutas públicas (no necesitan login)
+                        .requestMatchers(
+                                "/login",
+                                "/css/**",
+                                "/js/**",
+                                "/img/**",
+                                "/admin/principal",
+                                "/cliente/historial",
+                                "/client/fragments/historial-compras"
+                        ).permitAll()
+
+                        // 👑 Solo el ADMIN puede ver reportes
                         .requestMatchers("/admin/reporte").hasRole("ADMIN")
-                        .requestMatchers("/admin/boleta", "/admin/factura", "/admin/productos/**", "/lista/clientes/**",
-                                "/admin/home", "lista/vendedores/**", "/cliente/productos")
-                        .hasAnyRole("VENDEDOR", "ADMIN")
-                        .requestMatchers("/cliente/**", "/carrito/**", "/productos/**").hasRole("CLIENTE")
-                        .anyRequest().authenticated())
+
+                        // 👥 ADMIN o VENDEDOR pueden acceder a estas rutas
+                        .requestMatchers(
+                                "/admin/boleta",
+                                "/admin/factura",
+                                "/admin/productos/**",
+                                "/lista/clientes/**",
+                                "/admin/home",
+                                "/lista/vendedores/**",
+                                "/cliente/productos"
+                        ).hasAnyRole("ADMIN", "VENDEDOR")
+
+                        // 🧍 CLIENTE logueado puede acceder a sus secciones privadas
+                        .requestMatchers(
+                                "/cliente/**",
+                                "/carrito/**",
+                                "/productos/**"
+                        ).hasRole("CLIENTE")
+
+                        // 🚫 Todo lo demás requiere autenticación
+                        .anyRequest().authenticated()
+                )
+
+                // 🔐 Configuración del formulario de login
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .usernameParameter("username") // aquí se envía DNI
-                        .passwordParameter("password")
-                        .successHandler(customSuccessHandler)
-                        .permitAll())
+                        .loginPage("/login")  // Ruta del login
+                        .usernameParameter("username") // DNI o usuario
+                        .passwordParameter("password") // Contraseña
+                        .successHandler(customSuccessHandler) // Redirección según rol
+                        .permitAll()
+                )
+
+                // 🚪 Configuración del logout
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
-                        .permitAll());
+                        .permitAll()
+                );
 
         return http.build();
     }
 
+    // 🔧 Configuración del AuthenticationManager
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
@@ -56,9 +93,9 @@ public class securityConfig {
                 .build();
     }
 
+    // 🔐 Encriptador de contraseñas con BCrypt
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }
