@@ -1,246 +1,366 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión de Clientes</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gestión de Clientes</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}" />
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+  </head>
 
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet" />
-  <link rel="stylesheet" th:href="@{/css/sidebar.css}" />
-  <link rel="stylesheet" th:href="@{/css/navbar.css}" />
-  <link rel="stylesheet" th:href="@{/css/styles.css}" />
-  <link rel="stylesheet" th:href="@{/css/home.css}" />
-</head>
+  <body>
+    <th:block th:replace="fragments/sidebar :: sidebar"></th:block>
 
-<body>
-  <!-- Sidebar -->
-  <th:block th:replace="fragments/sidebar :: sidebar"></th:block>
+    <div class="main-content">
+      <th:block th:replace="fragments/navbar :: navbar"></th:block>
 
-  <div class="main-content">
-    <!-- Navbar -->
-    <th:block th:replace="fragments/navbar :: navbar"></th:block>
-
-    <main>
-      <div class="container-fluid mt-4">
-        <!-- Título y botón nuevo -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <div>
-            <h1 class="mb-2"><i class="bi bi-people text-primary"></i> Gestión de Clientes</h1>
-            <p class="text-muted">Administra y gestiona la información de tus clientes</p>
+      <main>
+        <div class="container-fluid mt-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h1 class="mb-2">
+                <i class="bi bi-people text-primary"></i> Gestión de Clientes
+              </h1>
+              <p class="text-muted">
+                Administra y gestiona la información de tus clientes
+              </p>
+            </div>
+            <button
+              class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#modalCliente"
+              onclick="limpiarFormulario()"
+            >
+              <i class="bi bi-plus-circle me-2"></i>Nuevo Cliente
+            </button>
           </div>
-          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCliente"
-            onclick="limpiarFormulario()">
-            <i class="bi bi-plus-circle me-2"></i>Nuevo Cliente
-          </button>
-        </div>
 
-        <!-- Filtros -->
-        <div class="card mb-4">
-          <div class="card-body">
-            <div class="row g-2">
-              <div class="col-md-4">
-                <div class="input-group">
-                  <span class="input-group-text"><i class="bi bi-search"></i></span>
-                  <input type="text" id="buscarCliente" class="form-control" placeholder="Buscar por nombre o documento"
-                    onkeyup="filtrarClientes()">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row g-2">
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <span class="input-group-text"
+                      ><i class="bi bi-search"></i
+                    ></span>
+                    <input
+                      type="text"
+                      id="buscarCliente"
+                      class="form-control"
+                      placeholder="Buscar por nombre o documento"
+                      onkeyup="filtrarClientes()"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div class="col-md-3">
-
-                <select name="tipoDocumento" class="form-select">
-    <option value="" disabled selected>Selecciona un tipo de documento</option>
-    <th:block th:each="td : ${tiposDocumento}">
-        <option th:value="${td.id}" th:text="${td.nombre}"
-            th:selected="${cliente.tipoDocumento != null} ? ${td.id == cliente.tipoDocumento} : false">
-        </option>
-    </th:block>
-</select>
-
-              </div>
-              <div class="col-md-3">
-                <select id="filtroEstado" class="form-select" onchange="filtrarClientes()"
-                  title="Filtrar clientes por estado">
-                  <option value="">Todos los estados</option>
-                  <option value="Activo">Activo</option>
-                  <option value="Inactivo">Inactivo</option>
-                </select>
+                <div class="col-md-3">
+                  <select
+                    id="filtroTipo"
+                    name="tipoDocumento"
+                    class="form-select"
+                    onchange="filtrarClientes()"
+                  >
+                    <option value="" disabled selected>
+                      Selecciona un tipo de documento
+                    </option>
+                    <th:block th:each="td : ${tiposDocumento}">
+                      <option
+                        th:value="${td.id}"
+                        th:text="${td.nombre}"
+                      ></option>
+                    </th:block>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <select
+                    id="filtroEstado"
+                    class="form-select"
+                    onchange="filtrarClientes()"
+                    title="Filtrar clientes por estado"
+                  >
+                    <option value="">Todos los estados</option>
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Tabla de Clientes -->
-        <div class="card">
-          <div class="card-header">
-            <h5 class="mb-0"><i class="bi bi-table me-2"></i>Lista de Clientes</h5>
-          </div>
-          <div class="card-body table-responsive">
-            <table class="table table-hover" id="tablaClientes">
-              <thead class="table-dark">
-                <tr>
-                  <th>ID</th>
-                  <th>Nombre/Razón Social</th>
-                  <th>Tipo Documento</th>
-                  <th>Número Documento</th>
-                  <th>Email</th>
-                  <th>Teléfono</th>
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0">
+                <i class="bi bi-table me-2"></i>Lista de Clientes
+              </h5>
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table table-hover" id="tablaClientes">
+                <thead class="table-dark">
+                  <tr>
+                    <th>ID</th>
+                    <th>Nombre/Razón Social</th>
+                    <th>Tipo Documento</th>
+                    <th>Número Documento</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
 
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr th:each="cliente : ${clientes}" th:data-id="${cliente.id}">
-                  <td th:text="${cliente.id}"></td>
-                  <td th:text="${cliente.nombreCompleto}"></td>
-                  <td th:text="${cliente.tipoDocumentoNombre != null ? cliente.tipoDocumentoNombre : 'Sin documento'}"></td>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    th:each="cliente : ${clientes}"
+                    th:data-id="${cliente.id}"
+                  >
+                    <td th:text="${cliente.id}"></td>
+                    <td th:text="${cliente.nombreCompleto}"></td>
+                    <td
+                      th:text="${cliente.tipoDocumentoNombre != null ? cliente.tipoDocumentoNombre : 'Sin documento'}"
+                    ></td>
 
-
-                  <td th:text="${cliente.numeroDocumento}"></td>
-                  <td th:text="${cliente.email}"></td>
-                  <td th:text="${cliente.telefono}"></td>
-                  <td>
-                    <button class="btn btn-sm btn-outline-primary me-1" title="Editar"
-                      th:onclick="'editarCliente(' + ${cliente.id} + ')'"><i class="bi bi-pencil"></i></button>
-                    <form th:action="@{'/lista/clientes/eliminar/' + ${cliente.id}}" method="post"
-                      style="display:inline;">
-                      <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar">
-                        <i class="bi bi-trash"></i>
+                    <td th:text="${cliente.numeroDocumento}"></td>
+                    <td th:text="${cliente.email}"></td>
+                    <td th:text="${cliente.telefono}"></td>
+                    <td>
+                      <button
+                        class="btn btn-sm btn-outline-primary me-1"
+                        title="Editar"
+                        th:onclick="'editarCliente(' + ${cliente.id} + ')'"
+                      >
+                        <i class="bi bi-pencil"></i>
                       </button>
-                    </form>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                      <form
+                        th:action="@{'/lista/clientes/eliminar/' + ${cliente.id}}"
+                        method="post"
+                        style="display: inline"
+                      >
+                        <button
+                          type="submit"
+                          class="btn btn-sm btn-outline-danger"
+                          title="Eliminar"
+                          onclick="return confirm('¿Está seguro de eliminar este cliente?');"
+                        >
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Modal Crear/Editar Cliente -->
-      <div class="modal fade" id="modalCliente" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title"><i class="bi bi-person-plus me-2"></i>Cliente</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" title="cerrar"></button>
+        <div class="modal fade" id="modalCliente" tabindex="-1">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">
+                  <i class="bi bi-person-plus me-2"></i>Cliente
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  title="cerrar"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form
+                  th:action="@{/lista/clientes/guardar}"
+                  th:object="${cliente}"
+                  method="post"
+                  id="formCliente"
+                >
+                  <input type="hidden" th:field="*{id}" id="clienteId" />
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="selectTipoDocumento" class="form-label"
+                        >Tipo de Documento *</label
+                      >
+                      <select
+                        th:field="*{tipoDocumento}"
+                        class="form-select"
+                        id="selectTipoDocumento"
+                        required
+                      >
+                        <option value="" disabled selected>
+                          Selecciona un tipo de documento
+                        </option>
+                        <th:block th:each="td : ${tiposDocumento}">
+                          <option
+                            th:value="${td.id}"
+                            th:text="${td.nombre}"
+                          ></option>
+                        </th:block>
+                      </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                      <label for="numeroDocumento" class="form-label"
+                        >Número de Documento *</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        th:field="*{numeroDocumento}"
+                        id="numeroDocumento"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="nombreCompleto" class="form-label"
+                      >Nombre Completo/Razón Social *</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      th:field="*{nombreCompleto}"
+                      id="nombreCompleto"
+                      required
+                    />
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="email" class="form-label">Email</label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        th:field="*{email}"
+                        id="email"
+                      />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="telefono" class="form-label">Teléfono</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        th:field="*{telefono}"
+                        id="telefono"
+                      />
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                      Guardar Cliente
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
-            <div class="modal-body">
-              <form th:action="@{/lista/clientes/guardar}" th:object="${cliente}" method="post" id="formCliente">
-                <input type="hidden" th:field="*{id}" id="clienteId" />
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <label for="tipoDocumento" class="form-label">Tipo de Documento *</label>
-                
-    <select name="tipoDocumento" class="form-select">
-    <option value="" disabled selected>Selecciona un tipo de documento</option>
-    <th:block th:each="td : ${tiposDocumento}">
-        <option th:value="${td.id}" th:text="${td.nombre}"
-            th:selected="${cliente.tipoDocumento != null} ? ${td.id == cliente.tipoDocumento} : false">
-        </option>
-    </th:block>
-</select>
+          </div>
+        </div>
+      </main>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script>
+      async function filtrarClientes() {
+        const buscar = document.getElementById("buscarCliente").value;
+        const tipo = document.getElementById("filtroTipo").value;
+        const estado = document.getElementById("filtroEstado").value;
 
-                  </div>
+        const res = await fetch(
+          `/lista/clientes/filtrar?buscar=${buscar}&tipo=${tipo}&estado=${estado}`
+        );
 
-                  <div class="col-md-6 mb-3">
-                    <label for="numeroDocumento" class="form-label">Número de Documento *</label>
-                    <input type="text" class="form-control" th:field="*{numeroDocumento}" id="numeroDocumento" required>
-                  </div>
-                </div>
-                <div class="mb-3">
-                  <label for="nombreCompleto" class="form-label">Nombre Completo/Razón Social *</label>
-                  <input type="text" class="form-control" th:field="*{nombreCompleto}" id="nombreCompleto" required>
-                </div>
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" th:field="*{email}" id="email">
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="telefono" class="form-label">Teléfono</label>
-                    <input type="text" class="form-control" th:field="*{telefono}" id="telefono">
-                  </div>
+        if (!res.ok) {
+          console.error("Error al filtrar clientes:", res.statusText);
+          return;
+        }
 
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="submit" class="btn btn-primary">Guardar Cliente</button>
-                </div>
+        const clientes = await res.json();
+
+        const tbody = document
+          .getElementById("tablaClientes")
+          .getElementsByTagName("tbody")[0];
+        tbody.innerHTML = "";
+
+        clientes.forEach((c) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+              <td>${c.id}</td>
+              <td>${c.nombreCompleto}</td>
+              <td>${c.tipoDocumentoNombre || "Sin documento"}</td> 
+              <td>${c.numeroDocumento}</td>
+              <td>${c.email}</td>
+              <td>${c.telefono}</td>
+              <td>
+              <button class="btn btn-sm btn-outline-primary me-1" onclick="editarCliente(${
+                c.id
+              })"><i class="bi bi-pencil"></i></button>
+              <form action="/lista/clientes/eliminar/${
+                c.id
+              }" method="post" style="display:inline;">
+              <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Está seguro de eliminar este cliente?');"><i class="bi bi-trash"></i></button>
               </form>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </main>
-  </div>
-
-  <!-- JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
-  <script>
-    // Filtrado dinámico vía AJAX
-    async function filtrarClientes() {
-      const buscar = document.getElementById('buscarCliente').value;
-      const tipo = document.getElementById('filtroTipo').value;
-      const estado = document.getElementById('filtroEstado').value;
-
-      const res = await fetch(`/admin/clientes/filtrar?buscar=${buscar}&tipo=${tipo}&estado=${estado}`);
-      const clientes = await res.json();
-
-      const tbody = document.getElementById('tablaClientes').getElementsByTagName('tbody')[0];
-      tbody.innerHTML = '';
-
-      clientes.forEach(c => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${c.id}</td>
-          <td>${c.nombreCompleto}</td>
-          <td>${c.tipoDocumento}</td>
-          <td>${c.numeroDocumento}</td>
-          <td>${c.email}</td>
-          <td>${c.telefono}</td>
-          <td>
-            <button class="btn btn-sm btn-outline-primary me-1" onclick="editarCliente(${c.id})"><i class="bi bi-pencil"></i></button>
-            <a href="/lista/clientes/eliminar/${c.id}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    // Editar cliente
-    function editarCliente(id) {
-      fetch('/admin/clientes/' + id)
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById('clienteId').value = data.id;
-          document.getElementById('tipoDocumento').value = data.tipoDocumento;
-          document.getElementById('numeroDocumento').value = data.numeroDocumento;
-          document.getElementById('nombreCompleto').value = data.nombreCompleto;
-          document.getElementById('email').value = data.email;
-          document.getElementById('telefono').value = data.telefono;
-          document.getElementById('contra').value = data.contra;
-
-          const modal = new bootstrap.Modal(document.getElementById('modalCliente'));
-          modal.show();
+              </td>
+            `;
+          tbody.appendChild(tr);
         });
-    }
-
-    // Limpiar formulario
-    document.addEventListener('DOMContentLoaded', () => {
-      window.limpiarFormulario = function () {
-        const form = document.getElementById('formCliente');
-        form.reset();
-        const idInput = document.getElementById('clienteId');
-        if (idInput) idInput.value = '';
       }
-    });
-  </script>
-</body>
 
+      async function editarCliente(id) {
+        const form = document.getElementById("formCliente");
+
+        try {
+          const res = await fetch(`/lista/clientes/obtener/${id}`);
+
+          if (!res.ok) {
+            alert(
+              "Error al cargar cliente. Asegúrese de que el ID exista y el servidor esté corriendo."
+            );
+            return;
+          }
+          const data = await res.json();
+          document.getElementById("clienteId").value = data.id;
+          document.getElementById("selectTipoDocumento").value =
+            data.tipoDocumento;
+          document.getElementById("numeroDocumento").value =
+            data.numeroDocumento;
+          document.getElementById("nombreCompleto").value = data.nombreCompleto;
+          document.getElementById("email").value = data.email;
+          document.getElementById("telefono").value = data.telefono;
+
+          form.action = `/lista/clientes/actualizar/${id}`;
+
+          const modal = new bootstrap.Modal(
+            document.getElementById("modalCliente")
+          );
+          modal.show();
+        } catch (error) {
+          console.error("Error al obtener datos del cliente:", error);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        window.limpiarFormulario = function () {
+          const form = document.getElementById("formCliente");
+          form.reset();
+          const idInput = document.getElementById("clienteId");
+          if (idInput) idInput.value = "";
+          form.action = "/lista/clientes/guardar";
+        };
+      });
+    </script>
+  </body>
 </html>
