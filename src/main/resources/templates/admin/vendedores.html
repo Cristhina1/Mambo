@@ -139,8 +139,7 @@
     function limpiarFormulario() {
       const form = document.getElementById('formVendedor');
       form.reset();
-      const idInput = document.querySelector('input[name="id"]');
-      if (idInput) idInput.value = '';
+      document.querySelector('input[name="id"]').value = ''; // ✅ así no hay confusión
     }
 
     // Cargar datos en modal para edición
@@ -148,6 +147,7 @@
       fetch('/admin/vendedores/' + id)
         .then(res => res.json())
         .then(data => {
+          document.querySelector('input[name="id"]').value = data.id;
           document.getElementById('nombreCompleto').value = data.nombreCompleto;
           document.getElementById('numeroDocumento').value = data.numeroDocumento;
           document.getElementById('email').value = data.email;

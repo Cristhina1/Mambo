@@ -6,6 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.sistemaFacturacion.Mambo.Service.VendedorService;
 import com.sistemaFacturacion.Mambo.dto.VendedorDTO;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 @RequestMapping("/admin/vendedores")
@@ -46,7 +49,11 @@ public class VendedorController {
         }
         return vendedor;
     }
-
+    @GetMapping("path")
+    public String getMethodName(@RequestParam String param) {
+        return new String();
+    }
+    
     @GetMapping("/filtrar")
     @ResponseBody
     public List<VendedorDTO> filtrarVendedores(@RequestParam String buscar) {
