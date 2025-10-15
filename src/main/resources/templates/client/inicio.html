@@ -92,6 +92,26 @@
       background: var(--accent);
       color: #050506;
     }
+    .btn-dark {
+  border: 1px solid rgba(245, 197, 24, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-dark:hover {
+  background-color: rgba(245, 197, 24, 0.1);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.badge-accent {
+  background-color: var(--accent);
+  color: #000;
+  font-weight: bold;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.4rem;
+}
+
 
         /*
         ========================================
@@ -457,6 +477,11 @@
               <i class="bi bi-cart3 fs-5"></i>
               <span id="cartBadge" class="badge-accent position-absolute top-0 start-100 translate-middle">0</span>
             </button>
+            <li class="nav-item ms-2">
+  <a th:href="@{/client/historialcompra}" class="btn btn-dark" title="Historial de compras">
+    <i class="bi bi-clock-history fs-5"></i>
+  </a>
+</li>
           </li>
         </ul>
       </div>
@@ -557,7 +582,10 @@
             <div class="mt-3 text-end">
                 <div class="muted">Total</div>
                 <div id="cartTotal" style="font-weight:900; font-size:1.15rem; margin-top:.25rem;">S/ 0.00</div>
-                <button id="checkoutBtn" class="add-btn w-100 mt-3">Finalizar compra</button>
+               <form th:action="@{/client/finalizarcompra}" method="post">
+  <button type="submit" class="add-btn w-100 mt-3">Finalizar compra</button>
+</form>
+
             </div>
         </div>
     </div>
