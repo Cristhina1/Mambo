@@ -1,4 +1,4 @@
-package com.sistemaFacturacion.Mambo.controller.Client;
+package com.sistemaFacturacion.Mambo.controller.RestController;
 
 import com.sistemaFacturacion.Mambo.Service.DetalleCarritoService;
 import com.sistemaFacturacion.Mambo.model.detalleCarrito;
@@ -10,11 +10,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/detalles-carrito")
-public class DetalleCarritoController {
+public class DetalleCarritoRestController {
 
     private final DetalleCarritoService detalleCarritoService;
 
-    public DetalleCarritoController(DetalleCarritoService detalleCarritoService) {
+    public DetalleCarritoRestController(DetalleCarritoService detalleCarritoService) {
         this.detalleCarritoService = detalleCarritoService;
     }
 

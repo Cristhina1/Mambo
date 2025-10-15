@@ -2,14 +2,16 @@ package com.sistemaFacturacion.Mambo.controller.Client;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/client")
 public class vistaProductoController {
     // Muestra la lista de productos del cliente
-    @GetMapping("/cliente/productos")
+    @GetMapping("/listadeproductos")
     public String verListaProductos() {
         // Este método retorna el nombre del archivo HTML de productos del cliente
-        return "cliente/listaProductos"; 
+        return "client/listadeproductos"; 
         // --> ubica tu archivo en: src/main/resources/templates/cliente/listaProductos.html
     }
 

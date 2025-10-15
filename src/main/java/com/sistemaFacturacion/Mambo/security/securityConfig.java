@@ -31,11 +31,11 @@ private AuthenticationProvider authenticationProvider;
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/css/**", "/js/**", "/img/**", "/admin/principal", "/api/auth/**").permitAll()
+                        .requestMatchers("/login", "/css/**", "/js/**", "/img/**", "/admin/principal", "/api/auth/**", "/", "/cliente/**").permitAll()
                         .requestMatchers("/admin/reporte").hasRole("ADMIN")
                         .requestMatchers("/admin/boleta", "/admin/factura", "/admin/productos/**", "/lista/clientes/**",
                                 "/admin/home", "lista/vendedores/**").hasAnyRole("VENDEDOR", "ADMIN")
-                        .requestMatchers("/cliente/**", "/carrito/**", "/productos/**").hasRole("CLIENTE")
+                        .requestMatchers("/carrito/**", "/productos/**").hasRole("CLIENTE")
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll())
                 .sessionManagement(session -> session

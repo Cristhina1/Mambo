@@ -56,82 +56,42 @@
         NAVBAR
         ========================================
         */
-        .navbar {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.02));
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            padding: 1rem 0; /* Ajusta el padding del navbar */
-            position: sticky;
-            top: 0;
-            z-index: 1020;
-        }
+       /* ---------- NAVBAR ---------- */
+    .navbar {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.02));
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      padding-bottom: .3rem;
+    }
 
-        .navbar-brand {
-            color: var(--accent);
-            font-weight: 900;
-            letter-spacing: 1px;
-            font-size: 1.5rem; /* Hago el logo un poco más grande */
-            transition: color .2s ease-in-out;
-        }
-        .navbar-brand:hover {
-            color: var(--white);
-        }
+    .navbar-brand {
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 1px;
+      font-size: 1.25rem;
+    }
 
-        .nav-link {
-            color: var(--muted) !important;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: .9rem;
-            margin: 0 0.8rem; /* Espaciado entre links */
-            transition: color .2s ease-in-out;
-            position: relative;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            bottom: -5px;
-            width: 0;
-            height: 2px;
-            background-color: var(--accent);
-            transition: all .2s ease-in-out;
-            transform: translateX(-50%);
-        }
-        .nav-link:hover::after, .nav-link.active::after {
-            width: 100%;
-        }
+    .nav-link {
+      color: var(--muted) !important;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: .85rem;
+    }
 
-        .nav-link:hover, .nav-link.active {
-            color: var(--white) !important; /* El activo/hover es blanco para la navegación principal */
-        }
-        .nav-link.accent-link:hover, .nav-link.accent-link.active {
-             color: var(--accent) !important; /* Si quieres un link activo en accent */
-        }
+    .nav-link:hover {
+      color: var(--accent) !important;
+    }
 
+    .btn-outline-accent {
+      color: var(--accent);
+      border-color: rgba(245, 197, 24, 0.22);
+      background: transparent;
+      font-weight: 700;
+    }
 
-        .btn-outline-accent {
-            color: var(--accent);
-            border-color: rgba(245, 197, 24, 0.22);
-            background: transparent;
-            font-weight: 700;
-            padding: 0.6rem 1.5rem;
-            border-radius: 8px;
-            transition: all .2s ease-in-out;
-        }
-
-        .btn-outline-accent:hover {
-            background: var(--accent);
-            color: #050506;
-            border-color: var(--accent);
-        }
-
-        .badge-accent {
-            background: var(--accent);
-            color: #050506;
-            font-weight: 900;
-            border-radius: 999px;
-            padding: .25rem .55rem;
-            font-size: 0.75rem;
-        }
+    .btn-outline-accent:hover {
+      background: var(--accent);
+      color: #050506;
+    }
 
         /*
         ========================================
@@ -154,7 +114,7 @@
             right: 0;
             width: 60%; /* Ajusta el ancho según la imagen original */
             height: 100%;
-            background-image: url('https://i.imgur.com/TuwRz3R.jpg'); /* URL de la imagen del modelo con fondo abstracto */
+            background-image: url('img/fondoInicio.jpg'); /* URL de la imagen del modelo con fondo abstracto */
             background-size: cover;
             background-position: center right;
             z-index: 1;
@@ -476,31 +436,32 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-lg">
-        <div class="container site-container">
-            <a class="navbar-brand" href="#">MAMBO</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-controls="navMain" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container site-container">
+      <a class="navbar-brand text-white" href="#">MAMBO</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-            <div class="collapse navbar-collapse justify-content-end" id="navMain">
-                <ul class="navbar-nav align-items-center">
-                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about-section">Nosotros</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Productos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Vestidor IA</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contáctanos</a></li>
-                    <li class="nav-item"><a class="nav-link accent-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-person"></i> Iniciar</a></li>
-                    <li class="nav-item ms-lg-2">
-                        <button class="btn btn-dark position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartCanvas" aria-controls="cartCanvas">
-                            <i class="bi bi-cart3 fs-5"></i>
-                            <span id="cartBadge" class="badge-accent position-absolute top-0 start-100 translate-middle">0</span>
-                        </button>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+      <div class="collapse navbar-collapse justify-content-end" id="navMain">
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item"><a class="nav-link" th:href=@{/}>Home</a></li>
+          <li class="nav-item"><a class="nav-link" th:href=@{/client/listadeproductos}>Productos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Contáctanos</a></li>
+          <li class="nav-item"><a class="nav-link" th:href=@{/login}><i
+                class="bi bi-person"></i> Iniciar</a></li>
+          <li class="nav-item ms-2">
+            <button class="btn btn-dark position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartCanvas"
+              aria-controls="cartCanvas">
+              <i class="bi bi-cart3 fs-5"></i>
+              <span id="cartBadge" class="badge-accent position-absolute top-0 start-100 translate-middle">0</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
     <header class="hero-section">
         <div class="hero-background-model"></div>
@@ -512,7 +473,7 @@
                 Tu estilo no se copia, se crea, comienza eligiendo a<br>
                 <strong style="color:var(--accent);">MAMBO</strong>
             </p>
-            <a href="#" class="hero-cta-button">COMIENZA A ELEGIR</a>
+            <a th:href=@{/client/listadeproductos} class="hero-cta-button">COMIENZA A ELEGIR</a>
         </div>
     </header>
 
