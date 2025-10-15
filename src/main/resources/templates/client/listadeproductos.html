@@ -586,25 +586,43 @@
         </div>
 
         <!-- PRODUCT GRID -->
-        <div id="productsGrid" class="products-grid" aria-live="polite">
-          <article class="card-product">
-            <div class="media"><img src="image" alt="image"></div>
+        <div id="productsGrid" class="products-grid">
+          <div th:each="producto : ${productos}" class="card-product">
+            <div class="media">
+              <img th:src="${producto.imagenUrl}" th:alt="${producto.nombre}" />
+            </div>
             <div class="body">
               <div>
-                <div class="product-title">Overside</div>
-                <div class="product-sub muted">Categoria: Polo</div>
-                <div class="product-sub muted">Stock: 10</div>
+                <div class="product-title" th:text="${producto.nombre}"></div>
+                <div class="product-sub muted">
+                  Categoría: <span th:text="${producto.categoria.nombre}"></span>
+                </div>
+                <div class="product-sub muted">
+                  Stock: <span th:text="${producto.stock}"></span>
+                </div>
               </div>
               <div class="price-row">
-                <div class="price">S/ 1000.00</div>
-                <button class="add-btn" data-id="${p.id}">Agregar</button>
+                <div class="price">S/ <span th:text="${producto.precio}"></span></div>
+                <button class="add-btn"
+                        th:attr="data-id=${producto.id},
+                                 data-nombre=${producto.nombre},
+                                 data-precio=${producto.precio},
+                                 data-img=${producto.imagenUrl}">
+                  Agregar
+                </button>
               </div>
             </div>
-          </article>
+          </div>
+        </div>
+        
+        
+          <!-- Aquí se insertarán los productos dinámicamente con JS -->
+        
+        
 
           <!-- Cards se insertan por JS -->
            <!--Lo demas esta en carrito-->
-        </div>
+        
         <hr class="mx-2 mt-5">
         <h4>CATEGORIAS A ELEGIR</h4>
         <!-- categories chips debajo -->
@@ -693,16 +711,9 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     /********* Data de ejemplo de productos *********/
-    const PRODUCTS = [
-      { id: 'p1', name: 'Gorra Street', price: 100, img: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab', category: 'Accesorios' },
-      { id: 'p2', name: 'Polera Oversize', price: 120, img: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f', category: 'Poleras' },
-      { id: 'p3', name: 'Chaqueta Retro', price: 240, img: 'https://images.unsplash.com/photo-1602810318383-e7f6e7c2c479', category: 'Chaquetas' },
-      { id: 'p4', name: 'Joggers Urban', price: 150, img: 'https://images.unsplash.com/photo-1520962922320-2038eebab146', category: 'Pantalones' },
-      { id: 'p5', name: 'Sudadera Essentials', price: 180, img: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246', category: 'Chaquetas' },
-      { id: 'p6', name: 'Shorts Street', price: 85, img: 'https://images.unsplash.com/photo-1541099649105-5b0a6f7b6f0b', category: 'Shorts' },
-      { id: 'p7', name: 'Accesorio Classic', price: 45, img: 'https://images.unsplash.com/photo-1548365328-1c2f6f2f3c6a', category: 'Accesorios' },
-      { id: 'p8', name: 'Pantalón Denim', price: 210, img: 'https://images.unsplash.com/photo-1540574163026-643ea20ade25', category: 'Pantalones' }
-    ];
+    
+
+    
 
     /********* Estado del carrito (persistido) *********/
     let cart = JSON.parse(localStorage.getItem('mambo_cart_v1') || '[]');
@@ -712,38 +723,33 @@
     const cartItemsArea = document.getElementById('cartItemsArea');
     const cartTotalEl = document.getElementById('cartTotal');
     const cartBadge = document.getElementById('cartBadge');
-
+    
     /********* Render de productos *********/
-    function renderProducts(list = PRODUCTS) {
-      
-      list.forEach(p => {
-        const card = document.createElement('article');
+    /********* Render de productos *********/
 
-        card.className = 'card-product';
-        card.innerHTML = `
-          <div class="media"><img src="${p.img}" alt="${p.name}"></div>
-          <div class="body">
-            <div>
-              <div class="product-title">${p.name}</div>
-              <div class="product-sub muted">Categoria: ${p.category}</div>
-              <div class="product-sub muted">Stock: 10</div>
-            </div>
-            <div class="price-row">
-              <div class="price">S/ ${p.price.toFixed(2)}</div>
-              <button class="add-btn" data-id="${p.id}">Agregar</button>
-            </div>
-          </div>
-        `;
-        productsGrid.appendChild(card);
-      });
+
+
+
       // añadir listeners botones agregar
-      document.querySelectorAll('.add-btn').forEach(btn => btn.addEventListener('click', () => {
-        const id = btn.dataset.id;
-        const product = PRODUCTS.find(x => x.id === id);
-        if (product) addToCart(product);
-      }));
-    }
+      document.addEventListener('DOMContentLoaded', () => {
+  // cuando la página se carga, añade los listeners a los botones generados por Thymeleaf
+  document.querySelectorAll('.add-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      const nombre = btn.dataset.nombre;
+      const precio = parseFloat(btn.dataset.precio);
+      const img = btn.dataset.img;
 
+      const product = { id, name: nombre, price: precio, img };
+      addToCart(product);
+    });
+  });
+
+  updateCartUI(); // 
+});
+
+
+  
     /********* Funciones carrito *********/
     function saveCart() { localStorage.setItem('mambo_cart_v1', JSON.stringify(cart)); }
     function getCartCount() { return cart.reduce((s, i) => s + i.qty, 0); }
@@ -833,13 +839,7 @@
       const activeCatBtn = [...document.querySelectorAll('.category-btn')].find(b => b.classList.contains('active'));
       const cat = activeCatBtn ? activeCatBtn.dataset.cat : null;
 
-      let list = PRODUCTS.filter(p => {
-        const matchQ = !q || p.name.toLowerCase().includes(q);
-        const matchP = (p.price >= minP && p.price <= maxP);
-        const matchC = !cat || p.category === cat;
-        return matchQ && matchP && matchC;
-      });
-      renderProducts(list);
+     
     }
 
     function clearFilters() {
@@ -847,12 +847,12 @@
       document.getElementById('minPrice').value = '';
       document.getElementById('maxPrice').value = '';
       document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-      renderProducts(PRODUCTS);
+      
     }
 
     /********* INIT *********/
     document.addEventListener('DOMContentLoaded', () => {
-      renderProducts(PRODUCTS);
+      
       updateCartUI();
 
       // sidebar category buttons (toggle active)
@@ -902,6 +902,9 @@
         alert('Sesión iniciada (demo)');
       });
     });
+    
+
+
 
   </script>
 </body>
