@@ -485,11 +485,10 @@
 
       <div class="collapse navbar-collapse justify-content-end" id="navMain">
         <ul class="navbar-nav align-items-center">
-          <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Productos</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Vestidor IA</a></li>
+          <li class="nav-item"><a class="nav-link" th:href=@{/}>Home</a></li>
+          <li class="nav-item"><a class="nav-link" th:href=@{/client/listadeproductos}>Productos</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Contáctanos</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><i
+          <li class="nav-item"><a class="nav-link" th:href=@{/login}><i
                 class="bi bi-person"></i> Iniciar</a></li>
           <li class="nav-item ms-2">
             <button class="btn btn-dark position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartCanvas"
