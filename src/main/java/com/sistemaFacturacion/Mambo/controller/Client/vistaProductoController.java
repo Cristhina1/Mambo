@@ -1,23 +1,30 @@
 package com.sistemaFacturacion.Mambo.controller.Client;
 
+import com.sistemaFacturacion.Mambo.Service.ProductoService;
+import com.sistemaFacturacion.Mambo.Service.CategoriaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class vistaProductoController {
-    // Muestra la lista de productos del cliente
-    @GetMapping("/cliente/productos")
-    public String verListaProductos() {
-        // Este método retorna el nombre del archivo HTML de productos del cliente
-        return "cliente/listaProductos"; 
-        // --> ubica tu archivo en: src/main/resources/templates/cliente/listaProductos.html
-    }
 
-    // ✅ Muestra la vista del carrito del cliente
-    @GetMapping("/cliente/carrito")
-    public String verCarritoCliente() {
-        // Este método retorna el nombre del archivo HTML del carrito del cliente
-        return "cliente/carrito";
-        // --> ubica tu archivo en: src/main/resources/templates/cliente/carrito.html
+    @Autowired
+    private ProductoService productoService;
+
+    @Autowired
+    private CategoriaService categoriaService;
+
+    // ✅ Muestra la lista de productos para el cliente
+    @GetMapping("/cliente/productos")
+    public String listarProductosCliente(Model model) {
+        var productos = productoService.findAll(); // obtiene todos los productos
+        var categorias = categoriaService.listarCategorias(); // obtiene categorías
+
+        model.addAttribute("productos", productos);
+        model.addAttribute("categorias", categorias);
+
+        return "client/listadeproductos"; // archivo HTML en templates/client/
     }
 }

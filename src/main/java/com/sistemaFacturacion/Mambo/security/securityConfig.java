@@ -29,7 +29,7 @@ public class securityConfig {
                         .requestMatchers("/login", "/css/**", "/js/**", "/img/**", "/admin/principal").permitAll()
                         .requestMatchers("/admin/reporte").hasRole("ADMIN")
                         .requestMatchers("/admin/boleta", "/admin/factura", "/admin/productos/**", "/lista/clientes/**",
-                                "/admin/home", "lista/vendedores/**")
+                                "/admin/home", "lista/vendedores/**", "/cliente/productos")
                         .hasAnyRole("VENDEDOR", "ADMIN")
                         .requestMatchers("/cliente/**", "/carrito/**", "/productos/**").hasRole("CLIENTE")
                         .anyRequest().authenticated())
