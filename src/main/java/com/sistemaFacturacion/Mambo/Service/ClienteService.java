@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.sistemaFacturacion.Mambo.Repository.ClienteRepository;
 import com.sistemaFacturacion.Mambo.Repository.TipoDocumentoRepository;
@@ -50,9 +51,9 @@ public class ClienteService {
         dto.setTelefono(c.getTelefono());
         dto.setTipoDocumentoNombre(c.getTipoDocumento().getNombre());
         if (c.getTipoDocumento() != null) {
-        // Guardamos tanto el id como el nombre
-        dto.setTipoDocumento(c.getTipoDocumento().getId());
-    }
+            // Guardamos tanto el id como el nombre
+            dto.setTipoDocumento(c.getTipoDocumento().getId());
+        }
         return dto;
     }
 
@@ -65,7 +66,7 @@ public class ClienteService {
 
     public Optional<ClienteDTO> buscarPorEmail(String email) {
         return clienteRepository.findByEmail(email)
-                .map(this:: convertirADTO);
+                .map(this::convertirADTO);
     }
 
     public Optional<ClienteDTO> buscarPorNumeroDocumento(String numeroDocumento) {
@@ -112,6 +113,44 @@ public class ClienteService {
 
     public void eliminarCliente(long id) {
         clienteRepository.deleteById(id);
+    }
+
+    // Método de Filtrado (Nuevo)
+    public List<ClienteDTO> filtrarClientes(String buscar, Long tipoDocumentoId, String estado) {
+
+        // Obtener todos los clientes para filtrar en memoria (simple para empezar)
+        List<cliente> todosLosClientes = clienteRepository.findAll();
+
+        return todosLosClientes.stream()
+                // Filtro por Texto de Búsqueda (nombreCompleto o numeroDocumento)
+                .filter(c -> {
+                    // Si el campo 'buscar' está vacío, pasa el filtro
+                    if (!StringUtils.hasText(buscar)) {
+                        return true;
+                    }
+                    String busquedaLower = buscar.toLowerCase();
+
+                    // Buscar en Nombre Completo o Número de Documento
+                    boolean coincideNombre = c.getNombreCompleto() != null
+                            && c.getNombreCompleto().toLowerCase().contains(busquedaLower);
+                    boolean coincideDocumento = c.getNumeroDocumento() != null
+                            && c.getNumeroDocumento().toLowerCase().contains(busquedaLower);
+
+                    return coincideNombre || coincideDocumento;
+                })
+                // Filtro por Tipo de Documento
+                .filter(c -> {
+                    // Si tipoDocumentoId es nulo o cero, pasa el filtro
+                    if (tipoDocumentoId == null || tipoDocumentoId == 0) {
+                        return true;
+                    }
+                    // Si el cliente tiene un tipo de documento y coincide con el ID.
+                    return c.getTipoDocumento() != null && c.getTipoDocumento().getId() == tipoDocumentoId;
+                })
+                // Nota: El filtro por 'estado' se omite ya que el modelo 'cliente' no tiene
+                // este campo.
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
     }
 
 }
