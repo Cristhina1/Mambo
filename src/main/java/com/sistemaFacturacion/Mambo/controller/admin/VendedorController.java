@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.sistemaFacturacion.Mambo.Service.VendedorService;
 import com.sistemaFacturacion.Mambo.dto.VendedorDTO;
+import com.sistemaFacturacion.Mambo.model.Usuario;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,7 +24,7 @@ public class VendedorController {
 
     @GetMapping
     public String listaVendedores(Model model) {
-        List<VendedorDTO> vendedores = vendedorService.listar();
+        List<Usuario> vendedores = vendedorService.obtenerVendedores();
         model.addAttribute("vendedores", vendedores);
         model.addAttribute("vendedor", new VendedorDTO());
         return "admin/vendedores";

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sistemaFacturacion.Mambo.Service.UsuarioService;
 import com.sistemaFacturacion.Mambo.model.Usuario;
 
-@RestController // 📌 Este controller responde con JSON
-@RequestMapping("/api/usuarios") // 📌 Ruta base
+@RestController
+@RequestMapping("/api/usuarios") 
 public class UsuariosRestController {
        private final UsuarioService usuarioService;
 

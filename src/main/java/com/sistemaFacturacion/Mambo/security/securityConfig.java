@@ -29,7 +29,9 @@ private AuthenticationProvider authenticationProvider;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                // 🔒 Deshabilitamos CSRF para desarrollo (puedes habilitarlo después si usas formularios seguros)
                 .csrf(csrf -> csrf.disable())
+                // 🔑 Configuramos permisos para las rutas
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/css/**", "/js/**", "/img/**", "/admin/principal", "/api/auth/**", "/", "/cliente/**").permitAll()
                         .requestMatchers("/admin/reporte").hasRole("ADMIN")
@@ -44,15 +46,19 @@ private AuthenticationProvider authenticationProvider;
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
               
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .usernameParameter("username") // aquí se envía DNI
-                        .passwordParameter("password")
-                        .successHandler(customSuccessHandler)
-                        .permitAll())
+                        .loginPage("/login")  // Ruta del login
+                        .usernameParameter("username") // DNI o usuario
+                        .passwordParameter("password") // Contraseña
+                        .successHandler(customSuccessHandler) // Redirección según rol
+                        .permitAll()
+                )
+
+                // 🚪 Configuración del logout
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
-                        .permitAll());
+                        .permitAll()
+                );
 
         return http.build();
     }

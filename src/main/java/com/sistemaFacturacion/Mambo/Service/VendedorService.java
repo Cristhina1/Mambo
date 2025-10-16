@@ -27,6 +27,10 @@ public class VendedorService {
         this.passwordEncoder = passwordEncoder;
         this.tipoDocumentoRepository = tipoDocumentoRepository;
     }
+    
+    public List<Usuario> obtenerVendedores() {
+        return usuarioRepository.listarVendedores();
+    }
 
     public List<VendedorDTO> listar() {
         return usuarioRepository.findByRolNombre("VENDEDOR").stream()

@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.sistemaFacturacion.Mambo.Repository.ClienteRepository;
+import com.sistemaFacturacion.Mambo.Repository.RolRepository;
 import com.sistemaFacturacion.Mambo.Repository.TipoDocumentoRepository;
 import com.sistemaFacturacion.Mambo.dto.ClienteDTO;
 import com.sistemaFacturacion.Mambo.model.cliente;
+import com.sistemaFacturacion.Mambo.model.rol;
 import com.sistemaFacturacion.Mambo.model.tipoDocumento;
 
 @Service
@@ -20,10 +22,13 @@ public class ClienteService {
     private final ClienteRepository clienteRepository;
     @Autowired
     private final TipoDocumentoRepository tDocumentoRepository;
+    @Autowired
+    private final RolRepository rolRepository;
 
     // Inyección de dependencias por constructor
-    public ClienteService(ClienteRepository clienteRepository, TipoDocumentoRepository tDocumentoRepository) {
+    public ClienteService(ClienteRepository clienteRepository, TipoDocumentoRepository tDocumentoRepository, RolRepository rolRepository) {
         this.clienteRepository = clienteRepository;
+        this.rolRepository = rolRepository;
         this.tDocumentoRepository = tDocumentoRepository;
     }
 
@@ -80,23 +85,30 @@ public class ClienteService {
     }
 
     public ClienteDTO crearCliente(ClienteDTO clienteDTO) {
-        cliente c = new cliente();
-        c.setNombreCompleto(clienteDTO.getNombreCompleto());
-        c.setNumeroDocumento(clienteDTO.getNumeroDocumento());
-        c.setEmail(clienteDTO.getEmail());
-        c.setTelefono(clienteDTO.getTelefono());
-        c.setContra(clienteDTO.getNumeroDocumento());
+    cliente c = new cliente();
+    c.setNombreCompleto(clienteDTO.getNombreCompleto());
+    c.setNumeroDocumento(clienteDTO.getNumeroDocumento());
+    c.setEmail(clienteDTO.getEmail());
+    c.setTelefono(clienteDTO.getTelefono());
+    c.setContra(clienteDTO.getNumeroDocumento());
 
-        // Buscar tipoDocumento por id
-        if (clienteDTO.getTipoDocumento() != null) {
-            tipoDocumento tDocumento = tDocumentoRepository.findById(clienteDTO.getTipoDocumento())
-                    .orElseThrow(() -> new RuntimeException("Tipo de documento no encontrado"));
-            c.setTipoDocumento(tDocumento);
-        }
-
-        cliente guardar = clienteRepository.save(c);
-        return convertirADTO(guardar);
+    // Tipo de documento
+    if (clienteDTO.getTipoDocumento() != null) {
+        tipoDocumento tDocumento = tDocumentoRepository.findById(clienteDTO.getTipoDocumento())
+                .orElseThrow(() -> new RuntimeException("Tipo de documento no encontrado"));
+        c.setTipoDocumento(tDocumento);
     }
+
+    // 🔹 Asignar rol automáticamente (cliente)
+    rol rolCliente = rolRepository.findByNombre("CLIENTE")
+            .orElseThrow(() -> new RuntimeException("Rol CLIENTE no encontrado"));
+    c.setRol(rolCliente);
+
+    // Guardar
+    cliente guardar = clienteRepository.save(c);
+    return convertirADTO(guardar);
+}
+
 
     public ClienteDTO actualizarCliente(Long id, ClienteDTO clienteDTO) {
         cliente c = clienteRepository.findById(id).orElse(null);

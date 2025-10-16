@@ -2,6 +2,7 @@ package com.sistemaFacturacion.Mambo.Repository;
 
 import com.sistemaFacturacion.Mambo.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,5 +19,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     //Para listar con la base de datos
     List<Usuario> findByRolNombre(String nombreRol);
+
+    @Query("SELECT u FROM Usuario u WHERE u.rol.nombre = 'VENDEDOR'")
+    List<Usuario> listarVendedores();
 
 }

@@ -28,11 +28,11 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
                     return;
 
                 case "ROLE_VENDEDOR":
-                    response.sendRedirect("/admin/boleta");
+                    response.sendRedirect("/admin/productos");
                     return;
 
                 case "ROLE_CLIENTE":
-                    response.sendRedirect("/cliente/home");
+                    response.sendRedirect("/client/listadeproductos");
                     return;
 
                 default:
