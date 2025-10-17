@@ -3,6 +3,8 @@ package com.sistemaFacturacion.Mambo.Service;
 import com.sistemaFacturacion.Mambo.Repository.UsuarioRepository;
 import com.sistemaFacturacion.Mambo.model.Usuario;
 
+import org.springframework.security.access.method.P;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,10 +14,12 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // 📌 Inyección de dependencias por constructor
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // 📌 Listar todos los usuarios
@@ -30,6 +34,10 @@ public class UsuarioService {
 
     // 📌 Guardar o actualizar usuario
     public Usuario guardar(Usuario usuario) {
+        // Encriptar solo si es nueva o si la contraseña cambió
+        if (usuario.getContra() != null) {
+            usuario.setContra(passwordEncoder.encode(usuario.getContra()));
+        }
         return usuarioRepository.save(usuario);
     }
 

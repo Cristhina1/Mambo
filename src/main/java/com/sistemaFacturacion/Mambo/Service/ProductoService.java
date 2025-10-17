@@ -110,4 +110,39 @@ public class ProductoService {
     public List<Producto> findByCategoria(Long categoriaId) {
         return productoRepository.findByCategoriaId(categoriaId);
     }
+
+    public Producto saveDesdeJson(ProductoDTO dto) {
+    Producto producto = new Producto();
+    producto.setNombre(dto.getNombre());
+    producto.setDescripcion(dto.getDescripcion());
+    producto.setPrecio(dto.getPrecio());
+    producto.setStock(dto.getStock());
+
+    categoria categoria = categoriaRepository.findById(dto.getCategoriaID())
+        .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+    producto.setCategoria(categoria);
+
+    producto.setImagenUrl(dto.getImagenUrl()); // Directamente desde JSON
+
+    return productoRepository.save(producto);
+}
+
+public Producto actualizarDesdeJson(Long id, ProductoDTO dto) {
+    Producto producto = productoRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+    
+    producto.setNombre(dto.getNombre());
+    producto.setDescripcion(dto.getDescripcion());
+    producto.setPrecio(dto.getPrecio());
+    producto.setStock(dto.getStock());
+
+    categoria categoria = categoriaRepository.findById(dto.getCategoriaID())
+        .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+    producto.setCategoria(categoria);
+
+    producto.setImagenUrl(dto.getImagenUrl());
+
+    return productoRepository.save(producto);
+}
+
 }

@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface CategoriaRepository extends JpaRepository<categoria, Long> {
     // 🔎 Buscar categoría por nombre
     Optional<categoria> findByNombre(String nombre);
+    Optional<categoria> findById(Long id);
 }

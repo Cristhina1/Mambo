@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -48,18 +49,17 @@ public class ProductoRestController {
 
     // ✅ Crear nuevo producto desde API
     @PostMapping
-    public ResponseEntity<Producto> create(@ModelAttribute ProductoDTO productoDTO) {
-        Producto producto = productoService.save(productoDTO);
-        return ResponseEntity.ok(producto);
-    }
+public ResponseEntity<Producto> create(@RequestBody ProductoDTO productoDTO) {
+    Producto producto = productoService.saveDesdeJson(productoDTO);
+    return ResponseEntity.ok(producto);
+}
 
     // ✅ Actualizar producto
     @PutMapping("/{id}")
-    public ResponseEntity<Producto> update(@PathVariable Long id, @ModelAttribute ProductoDTO productoDTO) {
-        // Aquí puedes hacer que ProductoService tenga un método update
-        Producto productoActualizado = productoService.actualizar(id, productoDTO);
-        return ResponseEntity.ok(productoActualizado);
-    }
+public ResponseEntity<Producto> update(@PathVariable Long id, @RequestBody ProductoDTO productoDTO) {
+    Producto productoActualizado = productoService.actualizarDesdeJson(id, productoDTO);
+    return ResponseEntity.ok(productoActualizado);
+}
 
     // ✅ Eliminar producto
     @DeleteMapping("/{id}")
