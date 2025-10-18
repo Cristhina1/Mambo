@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductoService {
@@ -87,6 +88,7 @@ public class ProductoService {
         return productoRepository.findAll();
     }
 
+
     public ProductoDTO findDtoById(Long id) {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
@@ -145,4 +147,7 @@ public Producto actualizarDesdeJson(Long id, ProductoDTO dto) {
     return productoRepository.save(producto);
 }
 
+public Optional<Producto> findById(Long id) {
+    return productoRepository.findById(id);
+}
 }

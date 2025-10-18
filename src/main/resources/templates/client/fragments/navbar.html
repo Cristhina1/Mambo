@@ -1,39 +1,73 @@
-<nav class="navbar navbar-expand-lg">
-  <div class="container site-container">
-    <a class="navbar-brand text-white" href="#">MAMBO</a>
+<!-- templates/client/navbar.html -->
+<div th:fragment="navbarFragment">
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container site-container">
+      <a class="navbar-brand text-white" href="#">MAMBO</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <div class="collapse navbar-collapse justify-content-end" id="navMain">
-      <ul class="navbar-nav align-items-center">
-        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Productos</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Vestidor IA</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Contáctanos</a></li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
-            <i class="bi bi-person"></i> Iniciar
-          </a>
-        </li>
+      <div class="collapse navbar-collapse justify-content-end" id="navMain">
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item"><a class="nav-link" th:href=@{/}>Home</a></li>
+          <li class="nav-item"><a class="nav-link" th:href=@{/client/listadeproductos}>Productos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Contáctanos</a></li>
 
-        <!-- 🛒 Botón del carrito -->
-        <li class="nav-item ms-2">
-          <button class="btn btn-dark position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartCanvas"
-            aria-controls="cartCanvas">
-            <i class="bi bi-cart3 fs-5"></i>
-            <span id="cartBadge" class="badge-accent position-absolute top-0 start-100 translate-middle">0</span>
-          </button>
-        </li>
+          <!-- Usuario no autenticado -->
+          <!-- Usuario no autenticado -->
+          <li class="nav-item" sec:authorize="isAnonymous()">
+            <a class="nav-link" th:href="@{/login}">
+              <i class="bi bi-person"></i> Iniciar
+            </a>
+          </li>
 
-        <!-- 🕒 Nuevo icono de historial de compras -->
-        <li class="nav-item ms-2">
-          <a href="/client/historialcompra" class="btn btn-dark" title="Historial de Compras">
-            <i class="bi bi-clock-history fs-5"></i>
-          </a>
-        </li>
-      </ul>
+          <!-- Usuario autenticado -->
+          <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+            <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-circle"></i>
+              <!-- Aquí mostramos el nombre real -->
+              <span th:text="${#authentication.principal.nombreCompleto}">Usuario</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item" th:href="@{/client/historialcompra}">Historial</a></li>
+              <li><a class="dropdown-item" th:href="@{/logout}">Cerrar sesión</a></li>
+            </ul>
+          </li>
+
+
+          <!-- Botón carrito -->
+          <li class="nav-item ms-2">
+            <button class="btn btn-dark position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartCanvas"
+              aria-controls="cartCanvas">
+              <i class="bi bi-cart3 fs-5"></i>
+              <span id="cartBadge" class="badge-accent position-absolute top-0 start-100 translate-middle">0</span>
+            </button>
+          </li>
+
+          <!-- Historial botón extra -->
+          <li class="nav-item ms-2">
+            <a th:href="@{/client/historialcompra}" class="btn btn-dark" title="Historial de compras">
+              <i class="bi bi-clock-history fs-5"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MODAL / OFFCANVAS DEL CARRITO -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="cartCanvas" aria-labelledby="cartCanvasLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="cartCanvasLabel">Carrito</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <p>Tu carrito está vacío</p>
+      <!-- Aquí puedes renderizar dinámicamente los productos del carrito -->
     </div>
   </div>
-</nav>
+
+</div>

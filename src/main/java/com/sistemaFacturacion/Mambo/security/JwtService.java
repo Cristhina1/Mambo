@@ -9,6 +9,7 @@ import javax.crypto.SecretKey;
 import org.springframework.stereotype.Service;
 
 import com.sistemaFacturacion.Mambo.model.Usuario;
+import com.sistemaFacturacion.Mambo.model.cliente;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -80,4 +81,20 @@ public class JwtService {
     private Date getExpiration(String token) {
         return getClaim(token, io.jsonwebtoken.Claims::getExpiration);
     }
+
+    public String getTokenCliente(cliente cliente) {
+    UserDetails userDetails = buildClienteUserDetails(cliente);
+    return generateToken(new HashMap<>(), userDetails);
+}
+
+private UserDetails buildClienteUserDetails(cliente cliente) {
+    return new User(
+        cliente.getNumeroDocumento(),  // username
+        cliente.getContra(),            // password
+        cliente.isEnabled(),            // enabled
+        true, true, true,               // account flags
+        java.util.List.of(new SimpleGrantedAuthority(cliente.getRol().getNombre())) // rol
+    );
+}
+
 }
