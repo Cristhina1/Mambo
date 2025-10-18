@@ -2,15 +2,20 @@ package com.sistemaFacturacion.Mambo.Service;
 
 import com.sistemaFacturacion.Mambo.Repository.CarritoRepository;
 import com.sistemaFacturacion.Mambo.Repository.DetalleCarritoRepository;
+import com.sistemaFacturacion.Mambo.dto.DetalleCarritoDto;
 import com.sistemaFacturacion.Mambo.model.carrito;
 import com.sistemaFacturacion.Mambo.model.detalleCarrito;
+import com.sistemaFacturacion.Mambo.model.Producto;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class DetalleCarritoService {
 
     private final DetalleCarritoRepository detalleCarritoRepository;
@@ -22,35 +27,59 @@ public class DetalleCarritoService {
         this.carritoRepository = carritoRepository;
     }
 
+    // 🔁 Conversión entidad -> DTO
+    private DetalleCarritoDto convertirADTO(detalleCarrito entidad) {
+        DetalleCarritoDto dto = new DetalleCarritoDto();
+        dto.setId(entidad.getId());
+        dto.setProductoId(entidad.getProducto().getId());
+        dto.setNombreProducto(entidad.getProducto().getNombre());
+        dto.setPrecioUnitario(entidad.getProducto().getPrecio());
+        dto.setCantidad(entidad.getCantidad());
+        dto.setSubtotal(entidad.getSubtotal());
+        return dto;
+    }
+
+    // 🔁 Conversión DTO -> entidad (requiere carrito y producto cargados)
+    private detalleCarrito convertirAEntidad(DetalleCarritoDto dto, carrito carrito, Producto producto) {
+        detalleCarrito entidad = new detalleCarrito();
+        entidad.setCarrito(carrito);
+        entidad.setProducto(producto);
+        entidad.setCantidad(dto.getCantidad());
+        return entidad;
+    }
+
     // ✅ Recalcular total del carrito
     private void actualizarTotalCarrito(carrito carrito) {
         double total = carrito.getDetalles().stream()
                 .mapToDouble(detalleCarrito::getSubtotal)
                 .sum();
-        // Guardamos el carrito actualizado
         carritoRepository.save(carrito);
     }
 
-    // Crear detalle
-    public detalleCarrito crearDetalle(detalleCarrito detalle) {
+    // ➕ Crear detalle
+    public DetalleCarritoDto crearDetalle(detalleCarrito detalle) {
         detalleCarrito nuevo = detalleCarritoRepository.save(detalle);
         actualizarTotalCarrito(nuevo.getCarrito());
-        return nuevo;
+        return convertirADTO(nuevo);
     }
 
-    // Actualizar detalle
-    public detalleCarrito actualizarDetalle(Long id, detalleCarrito detalle) {
-        return detalleCarritoRepository.findById(id).map(existing -> {
-            existing.setProducto(detalle.getProducto());
-            existing.setCantidad(detalle.getCantidad());
-            existing.setCarrito(detalle.getCarrito());
-            detalleCarrito actualizado = detalleCarritoRepository.save(existing);
-            actualizarTotalCarrito(actualizado.getCarrito());
-            return actualizado;
-        }).orElseThrow(() -> new RuntimeException("Detalle de carrito no encontrado con ID: " + id));
+    // ✏️ Actualizar detalle
+    public DetalleCarritoDto actualizarDetalle(Long id, detalleCarrito detalle) {
+        detalleCarrito actualizado = detalleCarritoRepository.findById(id)
+                .map(existing -> {
+                    existing.setProducto(detalle.getProducto());
+                    existing.setCantidad(detalle.getCantidad());
+                    existing.setCarrito(detalle.getCarrito());
+                    detalleCarrito guardado = detalleCarritoRepository.save(existing);
+                    actualizarTotalCarrito(guardado.getCarrito());
+                    return guardado;
+                })
+                .orElseThrow(() -> new RuntimeException("Detalle de carrito no encontrado con ID: " + id));
+
+        return convertirADTO(actualizado);
     }
 
-    // Eliminar detalle
+    // ❌ Eliminar detalle
     public void eliminarDetalle(Long id) {
         detalleCarritoRepository.findById(id).ifPresent(detalle -> {
             carrito carrito = detalle.getCarrito();
@@ -59,23 +88,30 @@ public class DetalleCarritoService {
         });
     }
 
-    // Buscar por ID
-    public Optional<detalleCarrito> obtenerPorId(Long id) {
-        return detalleCarritoRepository.findById(id);
+    // 🔍 Buscar por ID
+    public Optional<DetalleCarritoDto> obtenerPorId(Long id) {
+        return detalleCarritoRepository.findById(id)
+                .map(this::convertirADTO);
     }
 
-    // Listar todos
-    public List<detalleCarrito> listarDetalles() {
-        return detalleCarritoRepository.findAll();
+    // 📋 Listar todos
+    public List<DetalleCarritoDto> listarDetalles() {
+        return detalleCarritoRepository.findAll().stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
     }
 
-    // Listar por carrito
-    public List<detalleCarrito> listarPorCarrito(Long carritoId) {
-        return detalleCarritoRepository.findByCarritoId(carritoId);
+    // 📋 Listar por carrito
+    public List<DetalleCarritoDto> listarPorCarrito(Long carritoId) {
+        return detalleCarritoRepository.findByCarritoId(carritoId).stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
     }
 
-    // Listar por producto
-    public List<detalleCarrito> listarPorProducto(Long productoId) {
-        return detalleCarritoRepository.findByProductoId(productoId);
+    // 📋 Listar por producto
+    public List<DetalleCarritoDto> listarPorProducto(Long productoId) {
+        return detalleCarritoRepository.findByProductoId(productoId).stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
     }
 }

@@ -15,4 +15,5 @@ public class ClienteDTO {
     private String nombreCompleto;
     private String email;
     private String telefono;
+    private String contra;
 }

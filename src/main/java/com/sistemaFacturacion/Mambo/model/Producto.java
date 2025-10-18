@@ -1,8 +1,5 @@
 package com.sistemaFacturacion.Mambo.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.*;
 import lombok.Data;
 @Data

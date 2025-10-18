@@ -466,22 +466,42 @@
 
       <div class="collapse navbar-collapse justify-content-end" id="navMain">
         <ul class="navbar-nav align-items-center">
-          <li class="nav-item"><a class="nav-link" th:href=@{/}>Home</a></li>
-          <li class="nav-item"><a class="nav-link" th:href=@{/client/listadeproductos}>Productos</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/client/listadeproductos}">Productos</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Contáctanos</a></li>
-          <li class="nav-item"><a class="nav-link" th:href=@{/login}><i
-                class="bi bi-person"></i> Iniciar</a></li>
+
+          <!-- 🔹 Usuario no autenticado -->
+          <li class="nav-item" id="loginLink">
+            <a class="nav-link" th:href="@{/login}">
+              <i class="bi bi-person"></i> Iniciar
+            </a>
+          </li>
+
+          <!-- 🔹 Usuario autenticado -->
+          <li class="nav-item dropdown" id="userMenu" style="display: none;">
+            <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-circle"></i>
+              <span id="userName">Usuario</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item" th:href="@{/client/historialcompra}">Historial</a></li>
+              <li><a class="dropdown-item" href="#" id="logoutBtn">Cerrar sesión</a></li>
+            </ul>
+          </li>
+
           <li class="nav-item ms-2">
             <button class="btn btn-dark position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartCanvas"
               aria-controls="cartCanvas">
               <i class="bi bi-cart3 fs-5"></i>
               <span id="cartBadge" class="badge-accent position-absolute top-0 start-100 translate-middle">0</span>
             </button>
-            <li class="nav-item ms-2">
-  <a th:href="@{/client/historialcompra}" class="btn btn-dark" title="Historial de compras">
-    <i class="bi bi-clock-history fs-5"></i>
-  </a>
-</li>
+          </li>
+
+          <li class="nav-item ms-2">
+            <a th:href="@{/client/historialcompra}" class="btn btn-dark" title="Historial de compras">
+              <i class="bi bi-clock-history fs-5"></i>
+            </a>
           </li>
         </ul>
       </div>
@@ -634,6 +654,37 @@
                 alert('Sesión iniciada (demo)');
             });
         });
+
+         // 🔹 Mostrar usuario autenticado desde localStorage
+    document.addEventListener("DOMContentLoaded", () => {
+      const userData = localStorage.getItem("usuario");
+      const token = localStorage.getItem("token");
+      const userMenu = document.getElementById("userMenu");
+      const loginLink = document.getElementById("loginLink");
+
+      if (token && userData) {
+        const usuario = JSON.parse(userData);
+        document.getElementById("userName").textContent = usuario.nombre + " " + usuario.apellido;
+        userMenu.style.display = "block";
+        loginLink.style.display = "none";
+      } else {
+        userMenu.style.display = "none";
+        loginLink.style.display = "block";
+      }
+
+      // 🔹 Logout
+      document.getElementById("logoutBtn")?.addEventListener("click", () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("usuario");
+        location.reload();
+      });
+
+      // 🔹 Carrito
+      let cart = JSON.parse(localStorage.getItem('mambo_cart_v1') || '[]');
+      const cartBadge = document.getElementById('cartBadge');
+      const getCartCount = () => cart.reduce((s, i) => s + i.qty, 0);
+      cartBadge.textContent = getCartCount();
+    });
     </script>
 </body>
 

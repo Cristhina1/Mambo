@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//usuarios que visitan la tienda
 @Entity
 @Data
 @AllArgsConstructor
@@ -21,12 +20,14 @@ public class cliente {
     private Long id;
 
     private String nombreCompleto;
+
     @ManyToOne
     @JoinColumn(name = "tipo_documento_id")
     private tipoDocumento tipoDocumento;
 
     @Column(unique = true, nullable = false, length = 20)
     private String numeroDocumento;
+
     @Email
     @Column(unique = true, nullable = false, length = 100)
     private String email;
@@ -37,7 +38,8 @@ public class cliente {
     @Column(nullable = false, length = 100)
     private String contra;
 
-    @OneToMany(mappedBy = "cliente")
+    // ✅ Relación correcta con carrito
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<carrito> carritos = new ArrayList<>();
 
     @OneToMany(mappedBy = "cliente")
@@ -46,6 +48,8 @@ public class cliente {
     @ManyToOne
     @JoinColumn(name = "rol_id")
     private rol rol;
-     private boolean activo = true;
+
+    @Column(nullable = false)
+    private boolean enabled;
 
 }

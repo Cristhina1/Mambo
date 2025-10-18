@@ -3,15 +3,13 @@ package com.sistemaFacturacion.Mambo.controller.admin;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
 import org.springframework.http.ResponseEntity;
+import org.springframework.dao.DataIntegrityViolationException;
+
 import com.sistemaFacturacion.Mambo.Service.ClienteService;
 import com.sistemaFacturacion.Mambo.Service.TipoDocumentoService;
 import com.sistemaFacturacion.Mambo.dto.ClienteDTO;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/lista/clientes")
@@ -25,59 +23,67 @@ public class ListaClientesController {
         this.tDocumentoService = tDocumentoService;
     }
 
+    // ✅ Listar clientes
     @GetMapping
-    public String listaVendedores(Model model) {
-        var clientes = clienteService.listarClientes(); // Llamar solo una vez
+    public String listaClientes(Model model) {
+        var clientes = clienteService.listarClientes();
 
         model.addAttribute("clientes", clientes);
         model.addAttribute("cantClientes", clientes.size());
-        model.addAttribute("cliente", new ClienteDTO()); // Objeto vacío para el formulario de creación
+        // el template usa th:object="${cliente}" -> usar el mismo nombre
+        model.addAttribute("cliente", new ClienteDTO());
         model.addAttribute("tiposDocumento", tDocumentoService.listarTodos());
 
         return "admin/clientes";
     }
 
+    // ✅ Obtener cliente por ID (para editar)
     @GetMapping("/obtener/{id}")
-    @ResponseBody // Le dice a Spring que devuelva directamente el objeto como JSON
+    @ResponseBody
     public ResponseEntity<ClienteDTO> obtenerClientePorId(@PathVariable Long id) {
-        // Usa el método del service para buscar el cliente
         return clienteService.obtenerPorId(id)
-                .map(ResponseEntity::ok) // Si lo encuentra, devuelve 200 OK con el cliente en JSON
-                .orElse(ResponseEntity.notFound().build()); // Si no lo encuentra, devuelve 404 Not Found
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("guardar")
-    public String guardarCliente(@ModelAttribute ClienteDTO clienteDTO) {
-        clienteService.crearCliente(clienteDTO);
-        return "redirect:/lista/clientes";
+    // ✅ Guardar cliente
+    @PostMapping("/guardar")
+    public String guardarCliente(@ModelAttribute("cliente") ClienteDTO clienteDTO) {
+        try {
+            clienteService.crearCliente(clienteDTO);
+            return "redirect:/lista/clientes?success";
+        } catch (DataIntegrityViolationException dive) {
+            // probable unique constraint (email o documento)
+            return "redirect:/lista/clientes?error=dup";
+        } catch (Exception e) {
+            return "redirect:/lista/clientes?error";
+        }
     }
 
+    // ✅ Actualizar cliente
     @PostMapping("/actualizar/{id}")
-    public String actualizarCliente(@PathVariable Long id, @ModelAttribute ClienteDTO clienteDTO) {
-        // Establecer el ID en el DTO para asegurar que el servicio sepa a quién
-        // actualizar
+    public String actualizarCliente(@PathVariable Long id, @ModelAttribute("cliente") ClienteDTO clienteDTO) {
         clienteDTO.setId(id);
         clienteService.actualizarCliente(id, clienteDTO);
-        return "redirect:/lista/clientes";
+        return "redirect:/lista/clientes?updated";
     }
 
-    @PostMapping("eliminar/{id}")
+    // ✅ Eliminar cliente
+    @PostMapping("/eliminar/{id}")
     public String eliminarCliente(@PathVariable Long id) {
         clienteService.eliminarCliente(id);
-        return "redirect:/lista/clientes";
+        return "redirect:/lista/clientes?deleted";
     }
 
+    // ✅ Filtrar clientes (AJAX)
     @GetMapping("/filtrar")
-    @ResponseBody // Indica que la respuesta debe ser el cuerpo de datos (JSON)
+    @ResponseBody
     public ResponseEntity<List<ClienteDTO>> filtrarClientes(
             @RequestParam(required = false) String buscar,
-            // El JS envía el ID del tipo de documento como 'tipo'
             @RequestParam(required = false, name = "tipo") Long tipoDocumentoId,
             @RequestParam(required = false) String estado) {
-        // Llama al método de filtrado que acabas de implementar en ClienteService
-        List<ClienteDTO> clientesFiltrados = clienteService.filtrarClientes(buscar, tipoDocumentoId, estado);
 
-        // Devuelve la lista en formato JSON al JavaScript
+        List<ClienteDTO> clientesFiltrados = clienteService.filtrarClientes(buscar, tipoDocumentoId, estado);
         return ResponseEntity.ok(clientesFiltrados);
     }
 }

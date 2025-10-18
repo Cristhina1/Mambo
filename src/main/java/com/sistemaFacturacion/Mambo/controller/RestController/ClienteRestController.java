@@ -19,10 +19,7 @@ public class ClienteRestController {
     }
 
     // Crear cliente
-    @PostMapping
-    public ClienteDTO crear(@RequestBody ClienteDTO c) {
-        return clienteService.crearCliente(c);
-    }
+
 
     // Listar todos los clientes
     @GetMapping

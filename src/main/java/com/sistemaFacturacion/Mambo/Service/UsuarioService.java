@@ -2,8 +2,6 @@ package com.sistemaFacturacion.Mambo.Service;
 
 import com.sistemaFacturacion.Mambo.Repository.UsuarioRepository;
 import com.sistemaFacturacion.Mambo.model.Usuario;
-
-import org.springframework.security.access.method.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

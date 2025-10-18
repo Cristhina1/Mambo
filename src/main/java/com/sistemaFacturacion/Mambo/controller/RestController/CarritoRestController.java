@@ -1,51 +1,56 @@
 package com.sistemaFacturacion.Mambo.controller.RestController;
 
+
 import com.sistemaFacturacion.Mambo.Service.CarritoService;
+import com.sistemaFacturacion.Mambo.dto.CarritoDTO;
+import com.sistemaFacturacion.Mambo.dto.DetalleCarritoDto;
 import com.sistemaFacturacion.Mambo.model.carrito;
 import com.sistemaFacturacion.Mambo.model.detalleCarrito;
+import com.sistemaFacturacion.Mambo.model.pago;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/carritos")
+@RequestMapping("/api/carritos")
+@CrossOrigin(origins = "*")
 public class CarritoRestController {
 
-    private final CarritoService carritoService;
+    @Autowired
+    private CarritoService carritoService;
 
-    public CarritoRestController(CarritoService carritoService) {
-        this.carritoService = carritoService;
-    }
-
-    // ➕ Crear carrito
+    // ➕ Crear carrito nuevo
     @PostMapping
-    public carrito crearCarrito(@RequestBody carrito carrito) {
-        return carritoService.crearCarrito(carrito);
+    public ResponseEntity<CarritoDTO> crearCarrito(@RequestBody carrito carrito) {
+        CarritoDTO nuevoCarrito = carritoService.crearCarrito(carrito);
+        return ResponseEntity.ok(nuevoCarrito);
     }
 
-    // ✏️ Actualizar carrito
+    // ✏️ Actualizar carrito existente
     @PutMapping("/{id}")
-    public carrito actualizarCarrito(@PathVariable Long id, @RequestBody carrito carrito) {
-        return carritoService.actualizarCarrito(id, carrito);
+    public ResponseEntity<CarritoDTO> actualizarCarrito(@PathVariable Long id, @RequestBody carrito carritoActualizado) {
+        CarritoDTO carritoDTO = carritoService.actualizarCarrito(id, carritoActualizado);
+        return ResponseEntity.ok(carritoDTO);
     }
 
-    // 🔎 Obtener carrito por id
+    // 🔎 Obtener carrito por ID
     @GetMapping("/{id}")
-    public ResponseEntity<carrito> obtenerCarrito(@PathVariable Long id) {
-        return carritoService.obtenerCarritoPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<CarritoDTO> obtenerCarrito(@PathVariable Long id) {
+        Optional<CarritoDTO> carrito = carritoService.obtenerCarritoPorId(id);
+        return carrito.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     // 📋 Listar todos los carritos
     @GetMapping
-    public List<carrito> listarCarritos() {
-        return carritoService.listarCarritos();
+    public ResponseEntity<List<CarritoDTO>> listarCarritos() {
+        return ResponseEntity.ok(carritoService.listarCarritos());
     }
 
-    // ❌ Eliminar carrito
+    // ❌ Eliminar carrito por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarCarrito(@PathVariable Long id) {
         carritoService.eliminarCarrito(id);
@@ -54,19 +59,42 @@ public class CarritoRestController {
 
     // 🔎 Buscar carritos por cliente
     @GetMapping("/cliente/{clienteId}")
-    public List<carrito> buscarPorCliente(@PathVariable Long clienteId) {
-        return carritoService.buscarPorCliente(clienteId);
+    public ResponseEntity<List<CarritoDTO>> buscarPorCliente(@PathVariable Long clienteId) {
+        return ResponseEntity.ok(carritoService.buscarPorCliente(clienteId));
     }
 
     // 🔎 Buscar carrito por comprobante
     @GetMapping("/comprobante/{comprobanteId}")
-    public carrito buscarPorComprobante(@PathVariable Long comprobanteId) {
-        return carritoService.buscarPorComprobante(comprobanteId);
+    public ResponseEntity<CarritoDTO> buscarPorComprobante(@PathVariable Long comprobanteId) {
+        CarritoDTO carrito = carritoService.buscarPorComprobante(comprobanteId);
+        return carrito != null ? ResponseEntity.ok(carrito) : ResponseEntity.notFound().build();
     }
 
-    // ➕ Agregar detalle a un carrito
+    // ➕ Agregar detalle al carrito
     @PostMapping("/{carritoId}/detalles")
-    public carrito agregarDetalle(@PathVariable Long carritoId, @RequestBody detalleCarrito detalle) {
-        return carritoService.agregarDetalle(carritoId, detalle);
+    public ResponseEntity<CarritoDTO> agregarDetalle(@PathVariable Long carritoId, @RequestBody detalleCarrito detalle) {
+        CarritoDTO carritoActualizado = carritoService.agregarDetalle(carritoId, detalle);
+        return ResponseEntity.ok(carritoActualizado);
+    }
+
+    // 💳 Registrar un pago para un carrito (crear un nuevo pago asociado)
+    @PostMapping("/{carritoId}/pago")
+    public ResponseEntity<pago> registrarPago(@PathVariable Long carritoId, @RequestParam String metodoPago) {
+        pago nuevoPago = carritoService.registrarPago(carritoId, metodoPago);
+        return ResponseEntity.ok(nuevoPago);
+    }
+
+    // 🔄 Actualizar el estado del pago (por ejemplo, Pendiente -> Completado)
+    @PutMapping("/pago/{pagoId}")
+    public ResponseEntity<pago> actualizarEstadoPago(@PathVariable Long pagoId, @RequestParam String estado) {
+        pago pagoActualizado = carritoService.actualizarEstadoPago(pagoId, estado);
+        return ResponseEntity.ok(pagoActualizado);
+    }
+
+    // 🔎 Obtener el pago asociado a un carrito
+    @GetMapping("/{carritoId}/pago")
+    public ResponseEntity<pago> obtenerPagoPorCarrito(@PathVariable Long carritoId) {
+        pago pago = carritoService.obtenerPagoPorCarrito(carritoId);
+        return ResponseEntity.ok(pago);
     }
 }
