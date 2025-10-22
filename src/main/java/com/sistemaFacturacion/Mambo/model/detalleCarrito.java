@@ -30,8 +30,6 @@ public class detalleCarrito {
     @Column(nullable = false)
     private int cantidad;
 
-    @Transient
-    public Double getSubtotal() {
-        return cantidad * producto.getPrecio();
-    }
+    public Double subTotal;
+
 }

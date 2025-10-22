@@ -2,8 +2,11 @@ package com.sistemaFacturacion.Mambo.Service;
 
 import com.sistemaFacturacion.Mambo.Repository.CarritoRepository;
 import com.sistemaFacturacion.Mambo.Repository.DetalleCarritoRepository;
+import com.sistemaFacturacion.Mambo.Repository.ProductoRepository;
+import com.sistemaFacturacion.Mambo.dto.CarritoDTO;
 import com.sistemaFacturacion.Mambo.dto.DetalleCarritoDto;
 import com.sistemaFacturacion.Mambo.model.carrito;
+import com.sistemaFacturacion.Mambo.model.cliente;
 import com.sistemaFacturacion.Mambo.model.detalleCarrito;
 import com.sistemaFacturacion.Mambo.model.Producto;
 
@@ -20,11 +23,13 @@ public class DetalleCarritoService {
 
     private final DetalleCarritoRepository detalleCarritoRepository;
     private final CarritoRepository carritoRepository;
+    private final ProductoRepository productoRepository;
 
     public DetalleCarritoService(DetalleCarritoRepository detalleCarritoRepository,
-                                 CarritoRepository carritoRepository) {
+                                 CarritoRepository carritoRepository, ProductoRepository productoRepository) {
         this.detalleCarritoRepository = detalleCarritoRepository;
         this.carritoRepository = carritoRepository;
+        this.productoRepository = productoRepository;
     }
 
     // 🔁 Conversión entidad -> DTO
@@ -35,23 +40,35 @@ public class DetalleCarritoService {
         dto.setNombreProducto(entidad.getProducto().getNombre());
         dto.setPrecioUnitario(entidad.getProducto().getPrecio());
         dto.setCantidad(entidad.getCantidad());
-        dto.setSubtotal(entidad.getSubtotal());
+        dto.setSubtotal(entidad.getSubTotal());
         return dto;
     }
 
     // 🔁 Conversión DTO -> entidad (requiere carrito y producto cargados)
-    private detalleCarrito convertirAEntidad(DetalleCarritoDto dto, carrito carrito, Producto producto) {
-        detalleCarrito entidad = new detalleCarrito();
-        entidad.setCarrito(carrito);
-        entidad.setProducto(producto);
-        entidad.setCantidad(dto.getCantidad());
-        return entidad;
-    }
+    private carrito convertirAEntidad(CarritoDTO dto, cliente cliente) {
+    carrito entidad = new carrito();
+    entidad.setCliente(cliente);
+
+    List<detalleCarrito> detalles = dto.getDetalles().stream().map(d -> {
+        detalleCarrito det = new detalleCarrito();
+        Producto producto = productoRepository.findById(d.getProductoId())
+        .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + d.getProductoId()));
+
+    det.setProducto(producto); // o buscar en BD
+        det.setCantidad(d.getCantidad());
+        det.setCarrito(entidad);
+        return det;
+    }).collect(Collectors.toList());
+
+    entidad.setDetalles(detalles);
+    return entidad;
+}
+
 
     // ✅ Recalcular total del carrito
     private void actualizarTotalCarrito(carrito carrito) {
         double total = carrito.getDetalles().stream()
-                .mapToDouble(detalleCarrito::getSubtotal)
+                .mapToDouble(detalleCarrito::getSubTotal)
                 .sum();
         carritoRepository.save(carrito);
     }

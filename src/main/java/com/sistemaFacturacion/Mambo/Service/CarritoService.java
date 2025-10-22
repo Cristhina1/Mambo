@@ -46,7 +46,7 @@ public class CarritoService {
             d.setNombreProducto(detalle.getProducto().getNombre());
             d.setPrecioUnitario(detalle.getProducto().getPrecio());
             d.setCantidad(detalle.getCantidad());
-            d.setSubtotal(detalle.getSubtotal());
+            d.setSubtotal(detalle.getSubTotal());
             return d;
         }).collect(Collectors.toList());
 
@@ -66,10 +66,9 @@ public class CarritoService {
     }
 
     // 🧩 Convertir DTO -> entidad
-    private carrito convertirAEntidad(CarritoDTO dto, cliente cliente, List<detalleCarrito> detalles) {
+    private carrito convertirAEntidad(CarritoDTO dto, cliente cliente) {
         carrito entidad = new carrito();
         entidad.setCliente(cliente);
-        entidad.setDetalles(detalles);
         return entidad;
     }
 
@@ -143,7 +142,7 @@ public class CarritoService {
         }
 
         double total = carrito.getDetalles().stream()
-                .mapToDouble(detalleCarrito::getSubtotal)
+                .mapToDouble(detalleCarrito::getSubTotal)
                 .sum();
 
         pago nuevoPago = new pago();
