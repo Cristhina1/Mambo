@@ -39,4 +39,6 @@ public class carrito {
     @OneToOne(mappedBy = "carrito")
     private Comprobante comprobante;
 
+    private Double total;
+
 }

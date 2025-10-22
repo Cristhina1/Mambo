@@ -1,6 +1,5 @@
 package com.sistemaFacturacion.Mambo.model;
 
-import java.beans.Transient;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,8 +29,6 @@ public class detalleCarrito {
     @Column(nullable = false)
     private int cantidad;
 
-    @Transient
-    public Double getSubtotal() {
-        return cantidad * producto.getPrecio();
-    }
+    public Double subTotal;
+
 }

@@ -85,9 +85,9 @@ public class ClienteService {
     }
 
     // ✅ Buscar por número de documento
-    public Optional<ClienteDTO> buscarPorNumeroDocumento(String numeroDocumento) {
+    public cliente buscarPorNumeroDocumento(String numeroDocumento) {
         return clienteRepository.findByNumeroDocumento(numeroDocumento)
-                .map(this::convertirADTO);
+                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado con email: " + numeroDocumento));
     }
 
     // ✅ Buscar por ID
@@ -191,4 +191,12 @@ public class ClienteService {
                 .map(this::convertirADTO)
                 .collect(Collectors.toList());
     }
+
+    // Devuelve la entidad directamente
+public cliente obtenerEntidadPorId(Long id) {
+    return clienteRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Cliente no encontrado con id " + id));
 }
+
+}
+
