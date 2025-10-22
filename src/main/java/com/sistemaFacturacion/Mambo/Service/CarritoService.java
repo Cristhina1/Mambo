@@ -2,8 +2,10 @@ package com.sistemaFacturacion.Mambo.Service;
 
 import com.sistemaFacturacion.Mambo.Repository.CarritoRepository;
 import com.sistemaFacturacion.Mambo.Repository.PagoRepository;
+import com.sistemaFacturacion.Mambo.Repository.ProductoRepository;
 import com.sistemaFacturacion.Mambo.dto.CarritoDTO;
 import com.sistemaFacturacion.Mambo.dto.DetalleCarritoDto;
+import com.sistemaFacturacion.Mambo.model.Producto;
 import com.sistemaFacturacion.Mambo.model.carrito;
 import com.sistemaFacturacion.Mambo.model.detalleCarrito;
 import com.sistemaFacturacion.Mambo.model.cliente;
@@ -23,10 +25,12 @@ public class CarritoService {
 
     private final CarritoRepository carritoRepository;
     private final PagoRepository pagoRepository;
+    private final ProductoRepository productoRepository;
 
-    public CarritoService(CarritoRepository carritoRepository, PagoRepository pagoRepository) {
+    public CarritoService(CarritoRepository carritoRepository, PagoRepository pagoRepository, ProductoRepository productoRepository) {
         this.carritoRepository = carritoRepository;
         this.pagoRepository = pagoRepository;
+        this.productoRepository = productoRepository;
     }
 
     // 🧩 Convertir entidad -> DTO
@@ -66,11 +70,64 @@ public class CarritoService {
     }
 
     // 🧩 Convertir DTO -> entidad
-    private carrito convertirAEntidad(CarritoDTO dto, cliente cliente) {
-        carrito entidad = new carrito();
-        entidad.setCliente(cliente);
-        return entidad;
-    }
+    @Transactional
+public carrito convertirAEntidad(CarritoDTO dto, cliente cliente) {
+    carrito entidad = new carrito();
+    entidad.setCliente(cliente);
+
+    List<detalleCarrito> detalles = dto.getDetalles().stream().map(d -> {
+        detalleCarrito det = new detalleCarrito();
+
+        // Buscar producto en BD
+        Producto producto = productoRepository.findById(d.getProductoId())
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + d.getProductoId()));
+
+        det.setProducto(producto);
+        det.setCantidad(d.getCantidad());
+        det.setCarrito(entidad);
+
+        // Calcular subtotal
+        det.setSubTotal(producto.getPrecio() * d.getCantidad());
+
+        return det;
+    }).collect(Collectors.toList());
+
+    entidad.setDetalles(detalles);
+    return entidad;
+}
+
+@Transactional
+public CarritoDTO guardarCarrito(CarritoDTO carritoDTO, cliente cliente) {
+    // Convertir DTO a entidad
+    carrito entidad = convertirAEntidad(carritoDTO, cliente);
+
+    // Guardar en BD (gracias al cascade se guardan detalles)
+    carrito guardado = carritoRepository.save(entidad);
+
+    // Convertir de nuevo a DTO para devolver
+    CarritoDTO resultado = new CarritoDTO();
+    resultado.setId(guardado.getId());
+    resultado.setClienteId(guardado.getCliente().getId());
+    resultado.setNombreCliente(guardado.getCliente().getNombreCompleto());
+    resultado.setDetalles(
+        guardado.getDetalles().stream().map(det -> {
+            DetalleCarritoDto d = new DetalleCarritoDto();
+            d.setId(det.getId());
+            d.setProductoId(det.getProducto().getId());
+            d.setNombreProducto(det.getProducto().getNombre());
+            d.setPrecioUnitario(det.getProducto().getPrecio());
+            d.setCantidad(det.getCantidad());
+            d.setSubtotal(det.getSubTotal());
+            return d;
+        }).collect(Collectors.toList())
+    );
+
+    resultado.setTotal(
+        resultado.getDetalles().stream().mapToDouble(DetalleCarritoDto::getSubtotal).sum()
+    );
+
+    return resultado;
+}
 
     // ➕ Crear carrito (con detalles)
     public CarritoDTO crearCarrito(carrito carrito) {

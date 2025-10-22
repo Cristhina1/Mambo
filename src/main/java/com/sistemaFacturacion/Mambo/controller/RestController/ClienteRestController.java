@@ -39,11 +39,7 @@ public class ClienteRestController {
         return clienteService.buscarPorEmail(email);
     }
 
-    // Buscar cliente por número de documento
-    @GetMapping("/buscar/documento/{numero}")
-    public Optional<ClienteDTO> buscarPorDocumento(@PathVariable String numero) {
-        return clienteService.buscarPorNumeroDocumento(numero);
-    } 
+
 
     // Actualizar cliente
     @PutMapping("/actualizar/{id}")

@@ -131,4 +131,40 @@ public class DetalleCarritoService {
                 .map(this::convertirADTO)
                 .collect(Collectors.toList());
     }
+private CarritoDTO convertirADTO(carrito entidad) {
+    CarritoDTO dto = new CarritoDTO();
+    dto.setId(entidad.getId());
+    dto.setClienteId(entidad.getCliente().getId());
+    dto.setTotal(entidad.getDetalles().stream()
+            .mapToDouble(det -> det.getProducto().getPrecio() * det.getCantidad())
+            .sum());
+
+    // Convertir los detalles
+    List<DetalleCarritoDto> detallesDTO = entidad.getDetalles().stream()
+            .map(this::convertirADTO) // reutiliza tu método existente
+            .collect(Collectors.toList());
+    dto.setDetalles(detallesDTO);
+
+    return dto;
+}
+
+
+    @Transactional
+public CarritoDTO guardarCarrito(CarritoDTO dto, cliente cliente) {
+    // 1️⃣ Crear la entidad carrito
+    carrito carritoEntidad = convertirAEntidad(dto, cliente);
+
+    // 2️⃣ Guardar carrito + detalles (cascade ALL se encarga de los detalles)
+    carrito guardado = carritoRepository.save(carritoEntidad);
+
+    // 3️⃣ Calcular y actualizar subtotal total
+    guardado.getDetalles().forEach(det -> {
+        det.setSubTotal(det.getProducto().getPrecio() * det.getCantidad());
+    });
+    carritoRepository.save(guardado);
+
+    // 4️⃣ Convertir a DTO y devolver
+    return convertirADTO(guardado);
+}
+
 }
