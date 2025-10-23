@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.sistemaFacturacion.Mambo.Service.CarritoService;
 
 @Controller
-@RequestMapping("/Cliente")
+@RequestMapping("/cliente")
 public class HistorialCompraController {
 
     private final CarritoService historialCompraService;
