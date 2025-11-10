@@ -1,4 +1,4 @@
-package com.sistemaFacturacion.Mambo.Service;
+package com.sistemaFacturacion.Mambo.auth.service;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -70,6 +70,11 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+
         <!-- Tests generales -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
