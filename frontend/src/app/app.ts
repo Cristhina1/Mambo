@@ -10,5 +10,5 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './app.scss'
 })
 export class AppComponent {
-  
-} 
+
+}
