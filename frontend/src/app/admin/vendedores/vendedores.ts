@@ -54,3 +54,4 @@ export class VendedoresComponent {
     modal.hide();
   }
 }
+
