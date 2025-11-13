@@ -38,6 +38,10 @@ public class Usuario implements UserDetails {
     private String nombreCompleto;
 
     @ManyToOne
+    @JoinColumn(name = "tipo_documento_id")
+    private tipoDocumento tipoDocumento;
+    
+    @ManyToOne
     @JoinColumn(name = "rol_id")
     private rol rol; // ✅ Cambia a mayúscula si tu clase es "Rol"
 

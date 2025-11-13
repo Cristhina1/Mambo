@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sistemaFacturacion.Mambo.auth.dto.LoginRequest;
+import com.sistemaFacturacion.Mambo.auth.dto.RegisterRequest;
+import com.sistemaFacturacion.Mambo.auth.response.AuthResponse;
 import com.sistemaFacturacion.Mambo.auth.service.AuthService;
-import com.sistemaFacturacion.Mambo.dto.AuthResponse;
-import com.sistemaFacturacion.Mambo.dto.LoginRequest;
-import com.sistemaFacturacion.Mambo.dto.RegisterRequest;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService; // Aquí se maneja la lógica de login y registro

@@ -16,10 +16,10 @@ public class pago {
     private Double precio;   // Total del carrito o monto pagado
     private String metodo;   // Ejemplo: "Efectivo", "Yape", "Tarjeta"
     private String estado;   // Ejemplo: "PENDIENTE", "COMPLETADO", "CANCELADO"
+    @Column(name = "fecha_pago")
     private LocalDateTime fechaPago = LocalDateTime.now();
 
     // Relación bidireccional con carrito
-    @OneToOne
-    @JoinColumn(name = "carrito_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "pago")
     private carrito carrito;
 }
