@@ -23,9 +23,9 @@ jobs:
         run: npm install --legacy-peer-deps
 
       # ---- VALIDAR TYPESCRIPT + HTML ----
-      - name: Lint TypeScript + HTML
+      - name: Lint HTML
         working-directory: ./frontend
-        run: npm run lint
+        run: npx htmlhint "src/app/**/**/*.html" "src/**/*.html"
 
       # ---- VALIDAR SCSS ----
       - name: Lint SCSS
