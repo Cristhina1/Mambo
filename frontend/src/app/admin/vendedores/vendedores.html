@@ -55,33 +55,35 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title"><i class="bi bi-person-plus me-2"></i>{{ vendedorActual.id ? 'Editar' : 'Nuevo' }} Vendedor</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar">
+            <span class="visually-hidden">Cerrar</span>
+          </button>
         </div>
         <form (ngSubmit)="guardarVendedor()" #formVendedor="ngForm">
           <div class="modal-body">
             <div class="row mb-3">
               <div class="col-md-6">
-                <label class="form-label">Nombre *</label>
+                <label class="form-label" for="">Nombre *</label>
                 <input type="text" class="form-control" [(ngModel)]="vendedorActual.nombreCompleto" name="nombreCompleto" required />
               </div>
               <div class="col-md-6">
-                <label class="form-label">Número de Documento *</label>
+                <label class="form-label" for="">Número de Documento *</label>
                 <input type="text" class="form-control" [(ngModel)]="vendedorActual.numeroDocumento" name="numeroDocumento" required />
               </div>
             </div>
             <div class="row mb-3">
               <div class="col-md-6">
-                <label class="form-label">Email</label>
+                <label class="form-label" for="">Email</label>
                 <input type="email" class="form-control" [(ngModel)]="vendedorActual.email" name="email" />
               </div>
               <div class="col-md-6">
-                <label class="form-label">Teléfono</label>
+                <label class="form-label" for="">Teléfono</label>
                 <input type="text" class="form-control" [(ngModel)]="vendedorActual.telefono" name="telefono" />
               </div>
             </div>
             <div class="row mb-3">
               <div class="col-md-6">
-                <label class="form-label">Contraseña</label>
+                <label class="form-label" for="">Contraseña</label>
                 <input type="password" class="form-control" [(ngModel)]="vendedorActual.contra" name="contra" />
                 <small class="text-muted">Si dejas vacío se generará una contraseña por defecto.</small>
               </div>

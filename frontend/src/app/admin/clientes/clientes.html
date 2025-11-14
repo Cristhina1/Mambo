@@ -5,7 +5,7 @@
       <p class="text-muted mb-0">Administra y gestiona la información de tus clientes</p>
     </div>
     <div class="d-flex gap-2">
-      <button class="btn btn-outline-secondary" (click)="limpiarFormulario()">
+      <button class="btn btn-outline-secondary" (click)="limpiarFormulario()" aria-label="Limpiar formulario">
         <i class="bi bi-arrow-clockwise"></i>
       </button>
       <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCliente" (click)="limpiarFormulario()">
@@ -19,12 +19,13 @@
     <div class="col-md-5">
       <div class="input-group">
         <span class="input-group-text"><i class="bi bi-search"></i></span>
-        <input type="text" class="form-control" placeholder="Buscar por nombre o documento" [(ngModel)]="buscar" />
+        <input type="text" class="form-control" placeholder="Buscar por nombre o documento" [(ngModel)]="buscar" aria-label="Buscar clientes"/>
       </div>
     </div>
 
     <div class="col-md-4">
-      <select class="form-select" [(ngModel)]="filtroTipo">
+      <label for="filtroTipo" class="visually-hidden">Tipo de Documento</label>
+      <select id="filtroTipo" class="form-select" [(ngModel)]="filtroTipo">
         <option value="">Todos los tipos de documento</option>
         <option>DNI</option>
         <option>RUC</option>
@@ -33,7 +34,8 @@
     </div>
 
     <div class="col-md-3">
-      <select class="form-select" [(ngModel)]="filtroEstado">
+      <label for="filtroEstado" class="visually-hidden">Estado</label>
+      <select id="filtroEstado" class="form-select" [(ngModel)]="filtroEstado">
         <option value="">Todos los estados</option>
         <option>Activo</option>
         <option>Inactivo</option>
@@ -79,10 +81,10 @@
             </td>
             <td>
               <div class="btn-group btn-group-sm">
-                <button class="btn btn-outline-primary" (click)="editarCliente(c)">
+                <button class="btn btn-outline-primary" (click)="editarCliente(c)" aria-label="Editar cliente">
                   <i class="bi bi-pencil"></i>
                 </button>
-                <button class="btn btn-outline-danger" (click)="eliminarCliente(c.id)">
+                <button class="btn btn-outline-danger" (click)="eliminarCliente(c.id)" aria-label="Eliminar cliente">
                   <i class="bi bi-trash"></i>
                 </button>
               </div>
@@ -105,8 +107,8 @@
           <form (ngSubmit)="guardarCliente()" #clienteForm="ngForm" novalidate>
             <div class="row g-3">
               <div class="col-md-6">
-                <label class="form-label">Tipo de Documento *</label>
-                <select class="form-select" [(ngModel)]="clienteActual.tipoDocumento" name="tipoDoc" required>
+                <label for="tipoDoc" class="form-label">Tipo de Documento *</label>
+                <select id="tipoDoc" class="form-select" [(ngModel)]="clienteActual.tipoDocumento" name="tipoDoc" required>
                   <option value="">Selecciona un tipo de documento</option>
                   <option>DNI</option>
                   <option>RUC</option>
@@ -115,28 +117,28 @@
               </div>
 
               <div class="col-md-6">
-                <label class="form-label">Número de Documento *</label>
-                <input type="text" class="form-control" [(ngModel)]="clienteActual.numeroDocumento" name="numeroDocumento" required />
+                <label for="numeroDocumento" class="form-label">Número de Documento *</label>
+                <input id="numeroDocumento" type="text" class="form-control" [(ngModel)]="clienteActual.numeroDocumento" name="numeroDocumento" required />
               </div>
 
               <div class="col-md-12">
-                <label class="form-label">Nombre Completo/Razón Social *</label>
-                <input type="text" class="form-control" [(ngModel)]="clienteActual.nombreCompleto" name="nombre" required />
+                <label for="nombre" class="form-label">Nombre Completo/Razón Social *</label>
+                <input id="nombre" type="text" class="form-control" [(ngModel)]="clienteActual.nombreCompleto" name="nombre" required />
               </div>
 
               <div class="col-md-6">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" [(ngModel)]="clienteActual.email" name="email" />
+                <label for="email" class="form-label">Email</label>
+                <input id="email" type="email" class="form-control" [(ngModel)]="clienteActual.email" name="email" />
               </div>
 
               <div class="col-md-6">
-                <label class="form-label">Teléfono</label>
-                <input type="text" class="form-control" [(ngModel)]="clienteActual.telefono" name="telefono" />
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input id="telefono" type="text" class="form-control" [(ngModel)]="clienteActual.telefono" name="telefono" />
               </div>
 
               <div class="col-md-6">
-                <label class="form-label">Estado</label>
-                <select class="form-select" [(ngModel)]="clienteActual.estado" name="estado">
+                <label for="estado" class="form-label">Estado</label>
+                <select id="estado" class="form-select" [(ngModel)]="clienteActual.estado" name="estado">
                   <option>Activo</option>
                   <option>Inactivo</option>
                 </select>

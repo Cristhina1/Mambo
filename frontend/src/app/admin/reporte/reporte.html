@@ -24,17 +24,17 @@
     <div class="card-body">
       <div class="row">
         <div class="col-md-3">
-          <label class="form-label">Tipo de Reporte</label>
+          <label class="form-label" for="">Tipo de Reporte</label>
           <select class="form-select" [(ngModel)]="tipoReporte">
             <option value="ventas">Ventas</option>
-            <option value="productos">Productos</option>
+            <option value="productos" for="">Productos</option>
             <option value="clientes">Clientes</option>
             <option value="vendedores">Vendedores</option>
           </select>
         </div>
 
         <div class="col-md-3">
-          <label class="form-label">Período</label>
+          <label class="form-label" for="">Período</label>
           <select class="form-select" [(ngModel)]="periodo">
             <option value="hoy">Hoy</option>
             <option value="semana">Esta Semana</option>
@@ -45,12 +45,12 @@
         </div>
 
         <div class="col-md-3">
-          <label class="form-label">Fecha Inicio</label>
+          <label class="form-label" for="">Fecha Inicio</label>
           <input type="date" class="form-control" [(ngModel)]="fechaInicio" />
         </div>
 
         <div class="col-md-3">
-          <label class="form-label">Fecha Fin</label>
+          <label class="form-label" for="">Fecha Fin</label>
           <input type="date" class="form-control" [(ngModel)]="fechaFin" />
         </div>
       </div>
