@@ -1,4 +1,4 @@
-package com.sistemaFacturacion.Mambo.dto;
+package com.sistemaFacturacion.Mambo.auth.response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

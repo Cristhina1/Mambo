@@ -1,4 +1,4 @@
-package com.sistemaFacturacion.Mambo.dto;
+package com.sistemaFacturacion.Mambo.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,10 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class RegisterRequest {
-    String numeroDocumento;
-    String password;
+public class LoginRequest {
+String numeroDocumento;
+String password;
 }

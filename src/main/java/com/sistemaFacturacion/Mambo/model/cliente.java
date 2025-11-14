@@ -24,17 +24,18 @@ public class cliente implements UserDetails{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "nombre_completo")
     private String nombreCompleto;
 
     @ManyToOne
     @JoinColumn(name = "tipo_documento_id")
     private tipoDocumento tipoDocumento;
 
-    @Column(unique = true, nullable = false, length = 20)
+    @Column(name =  "numero_documento",unique = true, nullable = false, length = 20)
     private String numeroDocumento;
 
     @Email
-    @Column(unique = true, nullable = false, length = 100)
+    @Column(nullable = false, length = 100)
     private String email;
 
     @Column(nullable = false, length = 20)

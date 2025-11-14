@@ -1,4 +1,4 @@
-package com.sistemaFacturacion.Mambo.security;
+package com.sistemaFacturacion.Mambo.auth.service;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

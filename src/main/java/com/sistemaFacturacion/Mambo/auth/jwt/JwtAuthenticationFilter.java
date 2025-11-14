@@ -1,4 +1,4 @@
-package com.sistemaFacturacion.Mambo.security;
+package com.sistemaFacturacion.Mambo.auth.jwt;
 
 import java.io.IOException;
 import org.springframework.http.HttpHeaders;
@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import org.springframework.util.StringUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

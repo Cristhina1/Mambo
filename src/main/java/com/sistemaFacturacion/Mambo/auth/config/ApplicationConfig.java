@@ -1,4 +1,4 @@
-package com.sistemaFacturacion.Mambo.security;
+package com.sistemaFacturacion.Mambo.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

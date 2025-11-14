@@ -1,4 +1,4 @@
-package com.sistemaFacturacion.Mambo.Service;
+package com.sistemaFacturacion.Mambo.auth.service;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 import com.sistemaFacturacion.Mambo.Repository.ClienteRepository;
 import com.sistemaFacturacion.Mambo.Repository.RolRepository;
 import com.sistemaFacturacion.Mambo.Repository.UsuarioRepository;
-import com.sistemaFacturacion.Mambo.dto.AuthResponse;
-import com.sistemaFacturacion.Mambo.dto.LoginRequest;
-import com.sistemaFacturacion.Mambo.dto.RegisterRequest;
+import com.sistemaFacturacion.Mambo.auth.dto.LoginRequest;
+import com.sistemaFacturacion.Mambo.auth.dto.RegisterRequest;
+import com.sistemaFacturacion.Mambo.auth.jwt.JwtService;
+import com.sistemaFacturacion.Mambo.auth.response.AuthResponse;
 import com.sistemaFacturacion.Mambo.model.Usuario;
 import com.sistemaFacturacion.Mambo.model.cliente;
 import com.sistemaFacturacion.Mambo.model.rol; // 👈 asegúrate de usar Rol con mayúscula
-import com.sistemaFacturacion.Mambo.security.JwtService;
 
 import lombok.RequiredArgsConstructor;
 

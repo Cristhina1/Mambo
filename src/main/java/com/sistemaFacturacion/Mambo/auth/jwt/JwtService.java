@@ -1,4 +1,4 @@
-package com.sistemaFacturacion.Mambo.security;
+package com.sistemaFacturacion.Mambo.auth.jwt;
 
 import java.util.Date;
 import java.util.HashMap;
