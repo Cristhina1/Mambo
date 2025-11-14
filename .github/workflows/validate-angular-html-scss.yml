@@ -1,0 +1,28 @@
+name: Validación Angular HTML y SCSS
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["main"]
+    
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Obtener codigo
+      uses: actions/checkout@v4
+
+    - name: Instalar dependencias globales
+      run: |
+        npm install -g htmlhint sass-lint
+
+    - name: Validar HTML
+      run: |
+        htmlhint "frontend/src/**/*.html"
+        htmlhint "frontend/src/app/admin/**/*.html"
+
+    - name: Validar SCSS
+      run: |
+        sass-lint -v -q "frontend/src/**/*.scss"
+        sass-lint -v -q "frontend/src/app/admin/**/*.scss"
