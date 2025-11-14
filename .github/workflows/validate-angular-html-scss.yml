@@ -1,28 +1,34 @@
-name: Validación Angular HTML y SCSS
+name: Validación Angular Completa
+
 on:
   push:
     branches: ["**"]
   pull_request:
     branches: ["main"]
-    
+
 jobs:
   validate:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Obtener codigo
-      uses: actions/checkout@v4
+      - name: Obtener código
+        uses: actions/checkout@v4
 
-    - name: Instalar dependencias globales
-      run: |
-        npm install -g htmlhint sass-lint
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
 
-    - name: Validar HTML
-      run: |
-        htmlhint "frontend/src/**/*.html"
-        htmlhint "frontend/src/app/admin/**/*.html"
+      - name: Instalar dependencias del frontend
+        working-directory: ./frontend
+        run: npm install --legacy-peer-deps
 
-    - name: Validar SCSS
-      run: |
-        sass-lint -v -q "frontend/src/**/*.scss"
-        sass-lint -v -q "frontend/src/app/admin/**/*.scss"
+      # ---- VALIDAR TYPESCRIPT + HTML ----
+      - name: Lint TypeScript + HTML
+        working-directory: ./frontend
+        run: npm run lint
+
+      # ---- VALIDAR SCSS ----
+      - name: Lint SCSS
+        working-directory: ./frontend
+        run: npm run lint:scss
