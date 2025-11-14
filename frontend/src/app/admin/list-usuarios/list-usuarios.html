@@ -119,29 +119,31 @@
       <div class="modal-content">
         <div class="modal-header bg-dark text-white">
           <h5 class="modal-title"><i class="bi bi-person-plus me-2"></i>Nuevo Vendedor</h5>
-          <button class="btn-close" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar">
+            <span class="visually-hidden">Cerrar</span>
+          </button>
         </div>
         <div class="modal-body">
           <form>
             <div class="row g-3">
               <div class="col-md-6">
-                <label class="form-label">Nombre Completo</label>
+                <label class="form-label" for="nombres">Nombre Completo</label>
                 <input type="text" class="form-control" />
               </div>
               <div class="col-md-6">
-                <label class="form-label">DNI</label>
+                <label class="form-label" for="dni">DNI</label>
                 <input type="text" class="form-control" />
               </div>
               <div class="col-md-6">
-                <label class="form-label">Email</label>
+                <label class="form-label" for="email">Email</label>
                 <input type="email" class="form-control" />
               </div>
               <div class="col-md-6">
-                <label class="form-label">Teléfono</label>
+                <label class="form-label" for="telefono">Teléfono</label>
                 <input type="text" class="form-control" />
               </div>
               <div class="col-md-6">
-                <label class="form-label">Turno</label>
+                <label class="form-label" for="turno">Turno</label>
                 <select class="form-select">
                   <option>Mañana</option>
                   <option>Tarde</option>
@@ -149,11 +151,11 @@
                 </select>
               </div>
               <div class="col-md-6">
-                <label class="form-label">Fecha de ingreso</label>
+                <label class="form-label" for="fechaIngreso">Fecha de ingreso</label>
                 <input type="date" class="form-control" />
               </div>
               <div class="col-12">
-                <label class="form-label">Dirección</label>
+                <label class="form-label" for="direccion">Dirección</label>
                 <textarea class="form-control" rows="3"></textarea>
               </div>
             </div>

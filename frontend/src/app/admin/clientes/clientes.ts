@@ -13,6 +13,8 @@ interface Cliente {
   estado: 'Activo' | 'Inactivo';
 }
 
+
+
 @Component({
   selector: 'app-clientes',
   standalone: true,

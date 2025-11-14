@@ -23,7 +23,7 @@
     </div>
 
     <div class="d-flex align-items-center gap-2">
-      <label class="fw-semibold text-secondary mb-0">Filtrar por stock:</label>
+      <label class="fw-semibold text-secondary mb-0" for="">Filtrar por stock:</label>
       <select class="form-select form-select-sm w-auto" [(ngModel)]="filtroStock">
         <option value="todos">Todos</option>
         <option value="sin-stock">Sin stock</option>
@@ -107,28 +107,30 @@
       <form (ngSubmit)="agregarProducto()">
         <div class="modal-header">
           <h5 class="modal-title"><i class="bi bi-box me-2"></i> Nuevo Producto</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar">
+            <span class="visually-hidden">Cerrar</span>
+          </button>
         </div>
 
         <div class="modal-body">
           <div class="row g-3">
             <div class="col-md-6">
-              <label class="form-label">Nombre *</label>
+              <label class="form-label" for="nombre">Nombre *</label>
               <input type="text" class="form-control" [(ngModel)]="nuevoProducto.nombre" name="nombre" required />
             </div>
             <div class="col-md-6">
-              <label class="form-label">Categoría *</label>
+              <label class="form-label" for="categoria">Categoría *</label>
               <input type="text" class="form-control" [(ngModel)]="nuevoProducto.categoria" name="categoria" required />
             </div>
             <div class="col-md-6">
-              <label class="form-label">Precio *</label>
+              <label class="form-label" for="precio">Precio *</label>
               <div class="input-group">
                 <span class="input-group-text">S/</span>
                 <input type="number" class="form-control" [(ngModel)]="nuevoProducto.precio" name="precio" required />
               </div>
             </div>
             <div class="col-md-6">
-              <label class="form-label">Stock *</label>
+              <label class="form-label" for="stock">Stock *</label>
               <input type="number" class="form-control" [(ngModel)]="nuevoProducto.stock" name="stock" required />
             </div>
           </div>

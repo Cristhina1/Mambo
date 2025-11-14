@@ -31,7 +31,7 @@
                 <h6 class="text-primary border-bottom pb-2">Información del Cliente</h6>
               </div>
               <div class="col-md-4">
-                <label class="form-label">Tipo Documento</label>
+                <label class="form-label" for="tipoDoc">Tipo Documento</label>
                 <select class="form-select" [(ngModel)]="boleta.tipoDocumento" name="tipoDoc">
                   <option value="dni">DNI</option>
                   <option value="ruc">RUC</option>
@@ -39,11 +39,11 @@
                 </select>
               </div>
               <div class="col-md-4">
-                <label class="form-label">Número Documento</label>
+                <label class="form-label" for="numDocumento">Número Documento</label>
                 <input type="text" class="form-control" [(ngModel)]="boleta.numDocumento" placeholder="Ingrese número">
               </div>
               <div class="col-md-4">
-                <label class="form-label">Nombre/Razón Social</label>
+                <label class="form-label" for="razonSocial">Nombre/Razón Social</label>
                 <input type="text" class="form-control" [(ngModel)]="boleta.nombreCliente" placeholder="Nombre del cliente">
               </div>
             </div>
@@ -54,19 +54,19 @@
                 <h6 class="text-primary border-bottom pb-2">Productos</h6>
               </div>
               <div class="col-md-4">
-                <label class="form-label">Código / Nombre</label>
+                <label id="CodigoNombre" for="" class="form-label">Código / Nombre</label>
                 <input class="form-control" [(ngModel)]="producto.codigo" placeholder="Código o nombre">
               </div>
               <div class="col-md-3">
-                <label class="form-label">Cantidad</label>
+                <label class="form-label" for="cantidad">Cantidad</label>
                 <input type="number" class="form-control" [(ngModel)]="producto.cantidad" min="1">
               </div>
               <div class="col-md-3">
-                <label class="form-label">Precio Unit.</label>
+                <label class="form-label" for="precioUnitario">Precio Unit.</label>
                 <input type="number" class="form-control" [(ngModel)]="producto.precio" step="0.01">
               </div>
               <div class="col-md-2">
-                <label class="form-label">&nbsp;</label>
+                <label class="form-label" for="">&nbsp;</label>
                 <button class="btn btn-primary w-100" (click)="agregarProducto()">
                   Agregar <i class="bi bi-plus"></i>
                 </button>
@@ -139,7 +139,7 @@
             </div>
 
             <div class="mb-3">
-              <label class="form-label">Método de Pago</label>
+              <label class="form-label" for="metodoPago">Método de Pago</label>
               <select class="form-select" [(ngModel)]="boleta.metodoPago">
                 <option value="efectivo">Efectivo</option>
                 <option value="tarjeta">Tarjeta</option>
@@ -149,17 +149,17 @@
             </div>
 
             <div class="mb-3" *ngIf="boleta.metodoPago === 'efectivo'">
-              <label class="form-label">Monto Recibido</label>
+              <label class="form-label" for="monto">Monto Recibido</label>
               <input type="number" class="form-control" [(ngModel)]="boleta.montoRecibido" step="0.01">
             </div>
 
             <div class="mb-3" *ngIf="vuelto > 0">
-              <label class="form-label">Vuelto</label>
+              <label class="form-label" for="vuelto">Vuelto</label>
               <div class="form-control bg-light">S/ {{ vuelto | number:'1.2-2' }}</div>
             </div>
 
             <div class="mb-3">
-              <label class="form-label">Observaciones</label>
+              <label class="form-label" for="observaciones">Observaciones</label>
               <textarea class="form-control" [(ngModel)]="boleta.observaciones" rows="3"></textarea>
             </div>
           </div>
@@ -178,6 +178,8 @@
               *ngFor="let p of disponibles"
               [hidden]="buscarRapido && !p.nombre.toLowerCase().includes(buscarRapido.toLowerCase())"
               (click)="seleccionarProducto(p.codigo, p.nombre, p.precio)"
+              role="button"
+              tabindex="0"
             >
               <div>
                 <small class="fw-bold">{{ p.codigo }} - {{ p.nombre }}</small><br>
