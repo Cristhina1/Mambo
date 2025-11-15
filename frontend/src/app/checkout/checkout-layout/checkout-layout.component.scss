@@ -1,0 +1,197 @@
+/* --- Estilos Globales de la Vista (Escritorio) --- */
+
+.checkout-container {
+  display: flex;
+  gap: 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px 0;
+}
+
+/* ---------------------- */
+/* LEFT (formularios)     */
+/* ---------------------- */
+.checkout-left {
+  flex: 1;
+}
+
+// Botón "Seguir comprando" (Alineado con el contenido)
+.volver-btn {
+  display: block;
+  margin-bottom: 20px;
+  padding: 8px 14px;
+  background: var(--glass);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: var(--white);
+  backdrop-filter: blur(10px);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  width: fit-content;
+}
+
+.volver-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+.checkout-panel {
+    padding: 20px 0;
+}
+
+
+/* ---------------------- */
+/* RIGHT (resumen)        */
+/* ---------------------- */
+.checkout-right {
+  width: 330px;
+  background: var(--glass);
+  padding: 30px 25px;
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(12px);
+
+  h4 {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+}
+
+.summary-item {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 20px;
+
+  .info {
+    flex-grow: 1;
+    p { margin: 0; font-weight: 700; }
+    small { display: block; color: rgba(255, 255, 255, 0.6); }
+  }
+
+  strong { text-align: right; white-space: nowrap; }
+}
+
+.summary-item img {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.summary-total {
+  margin-top: 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  p { margin: 0; font-size: 1.1rem; color: rgba(255, 255, 255, 0.7); }
+  h3 { margin: 0; font-size: 1.8rem; font-weight: 900; color: var(--accent); }
+}
+
+.finish-btn {
+  width: 100%;
+  margin-top: 20px;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.finish-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.finish-btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+/* ---------------------- */
+/* --- Media Queries (MÓVIL Y TABLET) --- */
+/* ---------------------- */
+
+@media (max-width: 992px) {
+  .checkout-container {
+      gap: 20px;
+      padding: 20px 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* --- RESPONSIVE GENERAL --- */
+  .checkout-container {
+      flex-direction: column;
+      padding: 15px;
+      max-width: 100%;
+      gap: 20px;
+  }
+
+  .checkout-right {
+      width: 100%;
+      order: -1;
+      padding: 20px;
+      margin-bottom: 0;
+  }
+
+  .checkout-left {
+      width: 100%;
+      flex: none;
+  }
+
+  .volver-btn {
+      width: 100%;
+      margin-bottom: 20px;
+      transform: none;
+      text-align: center;
+  }
+
+  .summary-item img {
+      width: 60px;
+      height: 60px;
+  }
+
+  /* --- RESPONSIVE DE PASOS (app-paso-header) --- */
+
+  // Contenedor principal de los pasos (asumiendo que está dentro de app-paso-header)
+  app-paso-header > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+  }
+
+  // Cada paso individual (usando selectores genéricos)
+  app-paso-header [class*="paso-"] {
+    display: flex;
+    flex-direction: column; /* CLAVE: Apila número (arriba) y texto (abajo) */
+    align-items: center;
+    justify-content: center;
+    width: calc(33.33% - 5px);
+    text-align: center;
+    padding: 10px 5px;
+  }
+
+  // Estilo del texto descriptivo (letras)
+  app-paso-header span {
+    font-size: 0.75rem; /* CLAVE: Letras más chicas */
+    line-height: 1.1;
+    margin-top: 5px;
+    display: block;
+    word-break: break-word;
+  }
+
+  // Estilo del número (para que se mantenga visible)
+  app-paso-header span:first-child {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+}

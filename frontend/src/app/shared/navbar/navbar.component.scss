@@ -1,0 +1,114 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+/* ================================
+   NAVBAR STYLES
+================================ */
+
+.navbar {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.02));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  min-height: 65px;
+  padding: 0.3rem 0;
+  width: 100%;
+
+  /* Congela tipografía */
+  font-family: 'Alexandria', sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.navbar * {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* LOGO */
+.navbar-brand {
+  color: var(--accent);
+  font-weight: 900;
+  letter-spacing: 1px;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+}
+
+.navbar-brand:hover {
+  color: var(--white);
+}
+
+/* LINKS */
+.nav-link {
+  color: var(--muted) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  margin: 0 0.5rem;
+  transition: color 0.2s ease-in-out;
+
+  /* Evita saltos de texto */
+  display: flex;
+  align-items: center;
+}
+
+.nav-link:hover {
+  color: var(--accent) !important;
+}
+
+/* LINK ACTIVO */
+.navbar-nav .nav-link.active {
+  color: var(--accent) !important;
+  font-weight: 600 !important;
+}
+
+/* BOTONES */
+.btn-dark {
+  border: 1px solid rgba(245, 197, 24, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-dark:hover {
+  background-color: rgba(245, 197, 24, 0.1);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* DROPDOWN */
+.dropdown-menu {
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item {
+  color: var(--muted);
+}
+
+.dropdown-item:hover {
+  color: var(--accent);
+  background: transparent;
+}
+
+/* BADGE (carrito) */
+.badge {
+  font-size: 0.75rem !important;
+  font-weight: 900;
+  padding: 0.25rem 0.35rem;
+  background-color: var(--accent) !important;
+  color: #000 !important;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.2rem;
+  height: 1.2rem;
+  line-height: 1.2rem;
+}
+/* MOBILE FIX */
+@media (max-width: 768px) {
+  .navbar {
+    font-size: 0.8rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+}
