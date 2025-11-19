@@ -1,12 +1,11 @@
-name: Deploy Angular App to GitHub Pages
+name: Deploy Angular from Subfolder
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,15 +15,15 @@ jobs:
       - name: Configurar Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: "22"
 
-      - name: Instalar dependencias
+      - name: Instalar dependencias del frontend
         working-directory: ./frontend
         run: npm install --legacy-peer-deps
 
-      - name: Build Angular
+      - name: Compilar Angular
         working-directory: ./frontend
-        run: npm run build -- --configuration production
+        run: npm run build -- --base-href "/Mambo/"
 
       - name: Deploy a GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
