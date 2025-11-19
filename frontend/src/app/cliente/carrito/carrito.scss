@@ -9,18 +9,17 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-// *** MODIFICACIÓN CLAVE: Cuerpo del offcanvas para gestión vertical ***
+
+/* cuerpo del offcanvas */
 .offcanvas-body {
   display: flex;
   flex-direction: column;
-  // Opcional: Asegura que el cuerpo ocupe toda la altura disponible
-  // height: 100%;
 }
+
 
 .cart-item {
   display: flex;
   gap: .75rem;
-  // *** MODIFICACIÓN CLAVE: Alinea todo al inicio (arriba) ***
   align-items: flex-start;
   padding: .85rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
@@ -33,6 +32,7 @@
   border-radius: 8px;
 }
 
+
 .cart-info h6 {
   margin: 0;
   font-weight: 800;
@@ -44,6 +44,7 @@
   color: var(--muted);
   font-size: .9rem;
 }
+
 
 .qty-control {
   display: flex;
@@ -60,10 +61,12 @@
   border-radius: 6px;
 }
 
+
 .subtotal {
   font-weight: 900;
   color: var(--white);
 }
+
 
 .remove-btn {
   background: #ff3b3b;

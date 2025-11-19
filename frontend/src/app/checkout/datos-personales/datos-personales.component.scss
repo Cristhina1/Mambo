@@ -3,7 +3,9 @@
   width: 100%;
 }
 
-/* Contenedor del formulario */
+/* ================================
+   CONTENEDOR DEL FORMULARIO
+================================ */
 .checkout-form {
   background: var(--glass);
   padding: 1.8rem;
@@ -12,7 +14,9 @@
   backdrop-filter: blur(12px);
 }
 
-/* Título */
+/* ================================
+   TÍTULO
+================================ */
 .titulo-paso {
   font-size: 1.4rem;
   font-weight: 700;
@@ -20,21 +24,24 @@
   color: var(--white);
 }
 
-/* Campo */
+/* ================================
+   CAMPOS
+================================ */
 .campo {
   margin-bottom: 1.3rem;
   display: flex;
   flex-direction: column;
 }
 
-/* Label */
 label {
   font-size: 0.95rem;
   margin-bottom: 0.4rem;
   color: var(--muted);
 }
 
-/* Inputs */
+/* ================================
+   INPUTS
+================================ */
 .form-control {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -52,14 +59,18 @@ label {
   }
 }
 
-/* Errores */
+/* ================================
+   ERRORES
+================================ */
 .error {
   color: #ff6b6b;
   margin-top: 0.3rem;
   font-size: 0.8rem;
 }
 
-/* Botón continuar */
+/* ================================
+   BOTÓN FINALIZAR
+================================ */
 .btn-finalizar {
   width: 100%;
   margin-top: 1.6rem;

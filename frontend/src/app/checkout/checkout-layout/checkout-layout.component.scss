@@ -9,13 +9,14 @@
 }
 
 /* ---------------------- */
-/* LEFT (formularios)     */
+/* LEFT (formularios)     */
 /* ---------------------- */
+
 .checkout-left {
   flex: 1;
 }
 
-// Botón "Seguir comprando" (Alineado con el contenido)
+/* Botón "Seguir comprando" (Alineado con el contenido) */
 .volver-btn {
   display: block;
   margin-bottom: 20px;
@@ -37,13 +38,13 @@
 }
 
 .checkout-panel {
-    padding: 20px 0;
+  padding: 20px 0;
 }
 
+/* ---------------------- */
+/* RIGHT (resumen)        */
+/* ---------------------- */
 
-/* ---------------------- */
-/* RIGHT (resumen)        */
-/* ---------------------- */
 .checkout-right {
   width: 330px;
   background: var(--glass);
@@ -51,13 +52,13 @@
   border-radius: 16px;
   box-shadow: var(--card-shadow);
   backdrop-filter: blur(12px);
+}
 
-  h4 {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    padding-bottom: 15px;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-  }
+.checkout-right h4 {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
 }
 
 .summary-item {
@@ -65,14 +66,25 @@
   gap: 15px;
   align-items: center;
   margin-bottom: 20px;
+}
 
-  .info {
-    flex-grow: 1;
-    p { margin: 0; font-weight: 700; }
-    small { display: block; color: rgba(255, 255, 255, 0.6); }
-  }
+.summary-item .info {
+  flex-grow: 1;
+}
 
-  strong { text-align: right; white-space: nowrap; }
+.summary-item .info p {
+  margin: 0;
+  font-weight: 700;
+}
+
+.summary-item .info small {
+  display: block;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.summary-item strong {
+  text-align: right;
+  white-space: nowrap;
 }
 
 .summary-item img {
@@ -89,9 +101,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
 
-  p { margin: 0; font-size: 1.1rem; color: rgba(255, 255, 255, 0.7); }
-  h3 { margin: 0; font-size: 1.8rem; font-weight: 900; color: var(--accent); }
+.summary-total p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.summary-total h3 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--accent);
 }
 
 .finish-btn {
@@ -112,7 +134,7 @@
 }
 
 .finish-btn:disabled {
-  opacity: .5;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
@@ -122,57 +144,54 @@
 
 @media (max-width: 992px) {
   .checkout-container {
-      gap: 20px;
-      padding: 20px 15px;
+    gap: 20px;
+    padding: 20px 15px;
   }
 }
 
 @media (max-width: 768px) {
-  /* --- RESPONSIVE GENERAL --- */
   .checkout-container {
-      flex-direction: column;
-      padding: 15px;
-      max-width: 100%;
-      gap: 20px;
+    flex-direction: column;
+    padding: 15px;
+    max-width: 100%;
+    gap: 20px;
   }
 
   .checkout-right {
-      width: 100%;
-      order: -1;
-      padding: 20px;
-      margin-bottom: 0;
+    width: 100%;
+    order: -1;
+    padding: 20px;
+    margin-bottom: 0;
   }
 
   .checkout-left {
-      width: 100%;
-      flex: none;
+    width: 100%;
+    flex: none;
   }
 
   .volver-btn {
-      width: 100%;
-      margin-bottom: 20px;
-      transform: none;
-      text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+    transform: none;
+    text-align: center;
   }
 
   .summary-item img {
-      width: 60px;
-      height: 60px;
+    width: 60px;
+    height: 60px;
   }
 
-  /* --- RESPONSIVE DE PASOS (app-paso-header) --- */
+  /* PASOS (app-paso-header) */
 
-  // Contenedor principal de los pasos (asumiendo que está dentro de app-paso-header)
   app-paso-header > div {
     display: flex;
     justify-content: space-between;
     gap: 5px;
   }
 
-  // Cada paso individual (usando selectores genéricos)
   app-paso-header [class*="paso-"] {
     display: flex;
-    flex-direction: column; /* CLAVE: Apila número (arriba) y texto (abajo) */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: calc(33.33% - 5px);
@@ -180,16 +199,14 @@
     padding: 10px 5px;
   }
 
-  // Estilo del texto descriptivo (letras)
   app-paso-header span {
-    font-size: 0.75rem; /* CLAVE: Letras más chicas */
+    font-size: 0.75rem;
     line-height: 1.1;
     margin-top: 5px;
     display: block;
     word-break: break-word;
   }
 
-  // Estilo del número (para que se mantenga visible)
   app-paso-header span:first-child {
     font-size: 1.1rem;
     font-weight: bold;

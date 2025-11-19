@@ -3,7 +3,9 @@
   width: 100%;
 }
 
-/* Título */
+/* ================================
+   TÍTULO
+================================ */
 .titulo-paso {
   font-size: 1.4rem;
   font-weight: 700;
@@ -11,7 +13,9 @@
   color: var(--white);
 }
 
-/* Contenedor del form */
+/* ================================
+   CONTENEDOR DEL FORM
+================================ */
 form {
   background: var(--glass);
   padding: 1.8rem;
@@ -20,7 +24,9 @@ form {
   backdrop-filter: blur(12px);
 }
 
-/* Opciones principales */
+/* ================================
+   OPCIONES DE MÉTODO DE PAGO
+================================ */
 .opciones {
   display: flex;
   flex-direction: column;
@@ -28,7 +34,7 @@ form {
   margin-bottom: 1.4rem;
 }
 
-/* Cada tarjeta de método de pago */
+/* Tarjeta de opción */
 .opcion-card {
   display: flex;
   align-items: center;
@@ -65,7 +71,7 @@ form {
   background: var(--accent);
 }
 
-/* Texto dentro de la tarjeta */
+/* Texto interno */
 .contenido h3 {
   font-size: 1.1rem;
   margin: 0;
@@ -73,7 +79,9 @@ form {
   color: var(--white);
 }
 
-/* FORM TARJETA */
+/* ================================
+   FORMULARIO TARJETA
+================================ */
 .tarjeta-form {
   margin-top: 1.6rem;
   padding: 1.4rem 1.4rem 0.3rem;
@@ -83,7 +91,9 @@ form {
   box-shadow: var(--card-shadow);
 }
 
-/* Campos */
+/* ================================
+   CAMPOS
+================================ */
 .campo {
   margin-bottom: 1.2rem;
   display: flex;
@@ -112,7 +122,9 @@ input.form-control:focus {
   outline: none;
 }
 
-/* Botón finalizar */
+/* ================================
+   BOTÓN FINALIZAR
+================================ */
 .btn-finalizar {
   width: 100%;
   margin-top: 1.6rem;

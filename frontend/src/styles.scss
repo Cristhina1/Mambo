@@ -1,20 +1,21 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 
+
 /*
 ========================================
 VARIABLES Y ESTILOS GLOBALES
 ========================================
 */
 :root {
-  --bg: #000000;
-  --panel: #000000;
+  --bg: #000;
+  --panel: #000;
   --muted: #9aa0a6;
   --accent: #f5c518;
-  --white: #ffffff;
-  --glass: rgba(255, 255, 255, 0.03);
-  --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-  --dark-card: rgba(245, 197, 24, 0.04);
+  --white: #fff;
+  --glass: rgb(255 255 255 / 3%);
+  --card-shadow: 0 8px 30px rgb(0 0 0 / 60%);
+  --dark-card: rgb(245 197 24 / 4%);
 }
 
 html,
@@ -28,14 +29,12 @@ body {
 body {
   background: linear-gradient(180deg, #050506 0%, #0b0b0d 100%);
   color: var(--white);
-  font-family: 'Alexandria', sans-serif;
+  font-family: Alexandria, sans-serif;
   overflow-x: hidden;
 }
-
 
 .site-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
 }
-
