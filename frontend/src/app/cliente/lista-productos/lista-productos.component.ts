@@ -8,8 +8,8 @@ import { CarritoService } from '../../services/carrito.service';
   selector: 'app-lista-productos',
   standalone: true,
   imports: [CommonModule, FormsModule, CarritoComponent],
-  templateUrl: './index.html',
-  styleUrls: ['./index.scss']
+  templateUrl: './lista-productos.html',
+  styleUrls: ['./lista-productos.scss']
 })
 export class ListaProductosComponent {
 
