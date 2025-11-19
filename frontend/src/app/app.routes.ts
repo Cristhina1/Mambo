@@ -1,3 +1,5 @@
+
+import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { InicioComponent } from './cliente/inicio/inicio.component';
 import { ListaProductosComponent } from './cliente/lista-productos/lista-productos.component';
@@ -17,32 +19,51 @@ import { ListUsuariosComponent } from './admin/list-usuarios/list-usuarios';
 import { ProductosComponent } from './admin/productos/productos';
 import { ReporteComponent } from './admin/reporte/reporte';
 import { VendedoresComponent } from './admin/vendedores/vendedores';
+import { ClienteLayout } from './layout/layout-cliente/layout-cliente';
+import { AdminLayoutComponent } from './admin/layout/layout-admin/layout-admin.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'admin/home', pathMatch: 'full' },
-  { path: 'admin/home', component: HomeComponent },
-  { path: 'admin/boleta', component: BoletaComponent },
-  { path: 'admin/clientes', component: ClientesComponent },
-  { path: 'admin/factura', component: FacturaComponent },
-  { path: 'admin/list-usuarios', component: ListUsuariosComponent },
-  { path: 'admin/productos', component: ProductosComponent },
-  { path: 'admin/reporte', component: ReporteComponent },
-  { path: 'admin/vendedores', component: VendedoresComponent },
-
-  { path: '', redirectTo: '/productos', pathMatch: 'full' },
-  { path: 'inicio', component: InicioComponent },
-  { path: 'productos', component: ListaProductosComponent },
-  { path: 'historial', component: HistorialCompraComponent },
-  {path: 'contactanos', component: ContactanosComponent},
+  // RUTAS DE ADMIN
   {
-    path: 'checkout',
-    component: CheckoutLayoutComponent,
+    path: 'admin',
+    component: AdminLayoutComponent,
     children: [
-      { path: '', redirectTo: 'datos', pathMatch: 'full' },
-      { path: 'datos', component: DatosPersonalesComponent },
-      { path: 'despacho', component: TipoDespachoComponent },
-      { path: 'pago', component: MetodoPagoComponent }
+      { path: 'home', component: HomeComponent },
+      { path: 'boleta', component: BoletaComponent },
+      { path: 'clientes', component: ClientesComponent },
+      { path: 'factura', component: FacturaComponent },
+      { path: 'list-usuarios', component: ListUsuariosComponent },
+      { path: 'productos', component: ProductosComponent },
+      { path: 'reporte', component: ReporteComponent },
+      { path: 'vendedores', component: VendedoresComponent },
     ]
   },
+
+   // RUTAS DE CLIENTE (PÚBLICAS)
+  {
+    path: '',
+    component: ClienteLayout,
+    children: [
+      { path: '', redirectTo: 'productos', pathMatch: 'full' },
+      { path: 'inicio', component: InicioComponent },
+      { path: 'productos', component: ListaProductosComponent },
+      { path: 'historial', component: HistorialCompraComponent },
+      { path: 'contactanos', component: ContactanosComponent },
+
+      // CHECKOUT también usa layout cliente
+      {
+        path: 'checkout',
+        component: CheckoutLayoutComponent,
+        children: [
+          { path: '', redirectTo: 'datos', pathMatch: 'full' },
+          { path: 'datos', component: DatosPersonalesComponent },
+          { path: 'despacho', component: TipoDespachoComponent },
+          { path: 'pago', component: MetodoPagoComponent }
+        ]
+      }
+    ]
+  },
+
+
   { path: '**', redirectTo: '/productos' },
 ];

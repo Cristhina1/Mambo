@@ -24,7 +24,7 @@
   <!-- FORMULARIO DIRECCIÓN -->
   <div class="direccion" *ngIf="model.tipo === 'envio'">
     <div class="campo">
-      <label>Dirección</label>
+      <label for="direccion">Dirección</label>
       <input
         type="text"
         [(ngModel)]="model.direccion"
@@ -35,12 +35,12 @@
     </div>
 
     <div class="campo">
-      <label>Ciudad</label>
+      <label for="ciudad">Ciudad</label>
       <input type="text" [(ngModel)]="model.ciudad" name="ciudad" class="form-control" required />
     </div>
 
     <div class="campo">
-      <label>Referencia</label>
+      <label for="referencia">Referencia</label>
       <input type="text" [(ngModel)]="model.referencia" name="referencia" class="form-control" />
     </div>
   </div>
