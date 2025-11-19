@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { ViewEncapsulation } from '@angular/core';
 import { CarritoComponent } from '../carrito/carrito';
+import { FormsModule } from "@angular/forms";
 
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [CommonModule, RouterLink, CarritoComponent],
+  imports: [CommonModule, RouterLink, CarritoComponent, FormsModule],
   templateUrl: './inicio.component.html',
   styleUrls: ['./inicio.component.scss'],
   encapsulation: ViewEncapsulation.None

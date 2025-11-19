@@ -40,11 +40,12 @@ label {
 }
 
 /* ================================
-   INPUTS
+   INPUTS (CORREGIDO)
 ================================ */
 .form-control {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  /* rgba → rgb + alpha en % */
+  background: rgb(255 255 255 / 4%);
+  border: 1px solid rgb(255 255 255 / 8%);
   padding: 0.7rem 0.9rem;
   border-radius: 10px;
   color: var(--white);
@@ -54,8 +55,9 @@ label {
   &:focus {
     outline: none;
     border-color: var(--accent);
-    background: rgba(255, 255, 255, 0.07);
-    box-shadow: 0 0 0 2px rgba(245, 197, 24, 0.25);
+    background: rgb(255 255 255 / 7%);
+    /* rgba(245,197,24,0.25) → rgb + % */
+    box-shadow: 0 0 0 2px rgb(245 197 24 / 25%);
   }
 }
 
@@ -69,7 +71,7 @@ label {
 }
 
 /* ================================
-   BOTÓN FINALIZAR
+   BOTÓN FINALIZAR (CORREGIDO)
 ================================ */
 .btn-finalizar {
   width: 100%;
@@ -87,14 +89,15 @@ label {
   justify-content: center;
   gap: 8px;
   transition: background 0.2s ease, transform 0.15s ease;
+}
 
-  &:hover:not(:disabled) {
-    background: #ffdb4d;
-    transform: translateY(-2px);
-  }
+/* mover antes del hover para NO-DESCENDING-SPECIFICITY */
+.btn-finalizar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+.btn-finalizar:hover:not(:disabled) {
+  background: #ffdb4d;
+  transform: translateY(-2px);
 }

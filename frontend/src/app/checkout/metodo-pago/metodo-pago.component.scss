@@ -39,8 +39,8 @@ form {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgb(255 255 255 / 5%);
+  border: 1px solid rgb(255 255 255 / 8%);
   padding: 1rem 1.2rem;
   border-radius: 12px;
   cursor: pointer;
@@ -52,7 +52,7 @@ form {
 
 .opcion-card:hover {
   border-color: var(--accent);
-  background: rgba(255, 255, 255, 0.12);
+  background: rgb(255 255 255 / 12%);
 }
 
 /* Ocultar radio */
@@ -85,8 +85,8 @@ form {
 .tarjeta-form {
   margin-top: 1.6rem;
   padding: 1.4rem 1.4rem 0.3rem;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgb(255 255 255 / 6%);
+  border: 1px solid rgb(255 255 255 / 12%);
   border-radius: 14px;
   box-shadow: var(--card-shadow);
 }
@@ -107,18 +107,18 @@ label {
 }
 
 input.form-control {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgb(255 255 255 / 4%);
   color: var(--white);
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgb(255 255 255 / 10%);
   padding: 0.75rem 1rem;
   transition: all 0.25s ease;
 }
 
 input.form-control:focus {
   border-color: var(--accent);
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 0 2px rgba(245, 197, 24, 0.25);
+  background: rgb(255 255 255 / 8%);
+  box-shadow: 0 0 0 2px rgb(245 197 24 / 25%);
   outline: none;
 }
 

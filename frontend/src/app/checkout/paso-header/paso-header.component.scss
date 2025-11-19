@@ -5,7 +5,7 @@
   background: var(--glass);
   padding: 15px 20px;
   border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.05);
+  border: 1px solid rgb(255 255 255 / 5%);
 }
 
 .paso {
@@ -25,7 +25,7 @@
     padding: 4px 9px;
     border-radius: 8px;
     margin-right: 5px;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgb(255 255 255 / 10%);
   }
 
   &:hover {
@@ -39,7 +39,7 @@
     font-weight: 700;
 
     .num {
-      background: rgba(0,0,0,0.15);
+      background: rgb(0 0 0 / 15%);
       color: #000;
     }
   }

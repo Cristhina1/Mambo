@@ -7,7 +7,7 @@
     <aside class="sidebar d-none d-md-block" aria-label="Filtros">
       <h5>Filtrar</h5>
 
-      <label class="muted">Categorías</label>
+      <label class="muted" for="categorias">Categorías</label>
       <button class="category-btn" (click)="filterCategory('Poleras')">Poleras</button>
       <button class="category-btn" (click)="filterCategory('Chaquetas')">Chaquetas</button>
       <button class="category-btn" (click)="filterCategory('Pantalones')">Pantalones</button>
@@ -17,7 +17,7 @@
 
       <hr />
 
-      <label class="muted">Precio (S/)</label>
+      <label class="muted" for="precio">Precio (S/)</label>
       <div class="price-range">
         <input type="number" [(ngModel)]="minPrice" placeholder="Mín" min="0" />
         <input type="number" [(ngModel)]="maxPrice" placeholder="Máx" min="0" />
