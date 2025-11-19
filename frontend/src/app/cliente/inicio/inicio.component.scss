@@ -123,7 +123,6 @@
   }
 }
 
-// Responsive HERO
 @media (width <= 992px) {
   .hero-background-model {
     width: 100%;
@@ -185,7 +184,6 @@
     font-size: 1.2rem;
   }
 }
-
 
 // ABOUT SECTION
 .about-section {
@@ -264,11 +262,7 @@
   gap: 1.5rem;
 }
 
-
-
-
 @media (width <= 768px) {
-
   .heading {
     font-size: 2.5rem;
   }
@@ -289,11 +283,18 @@
     padding: 3rem 0;
   }
 }
-.footer h6{
+
+.footer h6 {
   color: var(--white);
-    font-weight: 900;
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.footer p {
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.6;
 }
 
 // FOOTER
@@ -303,12 +304,6 @@ footer {
   border-top: 1px solid rgb(255 255 255 / 3%);
   color: var(--muted);
   background: #050506;
-
-  p {
-    font-size: 0.95rem;
-    color: var(--muted);
-    line-height: 1.6;
-  }
 
   a {
     color: var(--muted);
