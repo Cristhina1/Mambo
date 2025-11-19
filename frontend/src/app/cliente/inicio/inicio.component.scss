@@ -166,25 +166,28 @@
   .hero-title {
     font-size: 3rem;
   }
+
   .hero-subtitle {
     font-size: 1.5rem;
   }
+
   .hero-cta-button {
     padding: 1rem 2rem;
     font-size: 1rem;
   }
+
   .nav-link {
     font-size: 0.8rem;
     margin: 0 0.4rem;
   }
+
   .navbar-brand {
     font-size: 1.2rem;
   }
 }
 
-// ========================================
+
 // ABOUT SECTION
-// ========================================
 .about-section {
   padding: 5rem 0;
   background: linear-gradient(180deg, #0b0b0d 0%, #151518 100%);
@@ -265,39 +268,41 @@
 
 
 @media (width <= 768px) {
+
   .heading {
     font-size: 2.5rem;
   }
+
   .values-grid {
     grid-template-columns: 1fr;
   }
+
   .mv-card h3 {
     font-size: 1.5rem;
   }
+
   .mv-card i {
     font-size: 2.2rem;
   }
+
   .about-section {
     padding: 3rem 0;
   }
 }
+.footer h6{
+  color: var(--white);
+    font-weight: 900;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
 
-// ========================================
 // FOOTER
-// ========================================
 footer {
   margin-top: 2.25rem;
   padding: 3rem 0;
   border-top: 1px solid rgb(255 255 255 / 3%);
   color: var(--muted);
   background: #050506;
-
-  h6 {
-    color: var(--white);
-    font-weight: 900;
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-  }
 
   p {
     font-size: 0.95rem;

@@ -8,9 +8,9 @@
   padding: 30px 0;
 }
 
-/* ---------------------- */
+
 /* LEFT (formularios)     */
-/* ---------------------- */
+
 
 .checkout-left {
   flex: 1;
@@ -41,9 +41,9 @@
   padding: 20px 0;
 }
 
-/* ---------------------- */
+
 /* RIGHT (resumen)        */
-/* ---------------------- */
+
 
 .checkout-right {
   width: 330px;
@@ -72,10 +72,7 @@
   flex-grow: 1;
 }
 
-.summary-item .info p {
-  margin: 0;
-  font-weight: 700;
-}
+
 
 .summary-item .info small {
   display: block;
@@ -139,9 +136,8 @@
   transform: translateY(-2px);
 }
 
-/* ---------------------- */
+
 /* --- Media Queries (MÓVIL Y TABLET) --- */
-/* ---------------------- */
 
 @media (width <= 992px) {
   .checkout-container {

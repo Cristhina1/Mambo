@@ -56,6 +56,7 @@ label {
     outline: none;
     border-color: var(--accent);
     background: rgb(255 255 255 / 7%);
+    
     /* rgba(245,197,24,0.25) → rgb + % */
     box-shadow: 0 0 0 2px rgb(245 197 24 / 25%);
   }
@@ -70,9 +71,7 @@ label {
   font-size: 0.8rem;
 }
 
-/* ================================
-   BOTÓN FINALIZAR (CORREGIDO)
-================================ */
+/* BOTÓN FINALIZAR (CORREGIDO)*/
 .btn-finalizar {
   width: 100%;
   margin-top: 1.6rem;
