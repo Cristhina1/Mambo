@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.sistemaFacturacion.Mambo.entity.model.Compra;
 import com.sistemaFacturacion.Mambo.entity.model.Destinatario;
 import com.sistemaFacturacion.Mambo.entity.model.Envio;
-import com.sistemaFacturacion.Mambo.entity.model.TipoEnvio;
 import com.sistemaFacturacion.Mambo.entity.model.pago;
 import com.sistemaFacturacion.Mambo.mape.dto.CompraDTO;
 import com.sistemaFacturacion.Mambo.mape.dto.DestinatarioDTO;

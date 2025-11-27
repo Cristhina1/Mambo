@@ -3,28 +3,18 @@ package com.sistemaFacturacion.Mambo.Service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.sistemaFacturacion.Mambo.entity.Repository.RolRepository;
 import com.sistemaFacturacion.Mambo.entity.Repository.UsuarioRepository;
 import com.sistemaFacturacion.Mambo.entity.model.Usuario;
-import com.sistemaFacturacion.Mambo.entity.model.rol;
 import com.sistemaFacturacion.Mambo.mape.dto.VendedorDTO;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class VendedorService {
 
     private final UsuarioRepository usuarioRepository;
-    private final RolRepository rolRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public VendedorService(UsuarioRepository usuarioRepository, RolRepository rolRepository,
-                           PasswordEncoder passwordEncoder) {
+    public VendedorService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
-        this.rolRepository = rolRepository;
-        this.passwordEncoder = passwordEncoder;
     }
     
     public List<Usuario> obtenerVendedores() {
@@ -35,41 +25,6 @@ public class VendedorService {
         return usuarioRepository.findByRolNombre("VENDEDOR").stream()
                 .map(this::convertirADTO)
                 .toList();
-    }
-
-    @Transactional
-    public VendedorDTO guardar(VendedorDTO dto) {
-        Usuario u;
-        boolean esEdicion = false;
-
-        if (dto.getId() != null) {
-            u = usuarioRepository.findById(dto.getId()).orElseThrow(() ->
-                    new RuntimeException("Vendedor no encontrado"));
-            esEdicion = true;
-        } else {
-            u = new Usuario();
-        }
-
-        u.setNombreCompleto(dto.getNombreCompleto());
-        u.setNumeroDocumento(dto.getNumeroDocumento());
-        u.setEmail(dto.getEmail());
-        u.setTelefono(dto.getTelefono());
-
-        if (dto.getContra() == null || dto.getContra().isEmpty()) {
-            if (!esEdicion) {
-                u.setContra(passwordEncoder.encode("123456"));
-            }
-        } else {
-            u.setContra(passwordEncoder.encode(dto.getContra()));
-        }
-
-        rol rolVendedor = rolRepository.findByNombre("VENDEDOR")
-                .orElseThrow(() -> new RuntimeException("Rol VENDEDOR no existe"));
-        u.setRol(rolVendedor);
-
-        Usuario guardado = usuarioRepository.save(u);
-
-        return convertirADTO(guardado);
     }
 
     public VendedorDTO buscarDTO(Long id) {

@@ -1,7 +1,7 @@
-package com.sistemaFacturacion.Mambo.controller.RestController;
+package com.sistemaFacturacion.Mambo.controller;
 
 import com.sistemaFacturacion.Mambo.Service.ClienteService;
-import com.sistemaFacturacion.Mambo.dto.ClienteDTO;
+import com.sistemaFacturacion.Mambo.mape.dto.ClienteDTO;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +31,6 @@ public class ClienteRestController {
     @GetMapping("/buscar/{id}")
     public Optional<ClienteDTO> obtener(@PathVariable Long id) {
         return clienteService.obtenerPorId(id);
-    }
-
-    // Buscar cliente por email
-    @GetMapping("/buscar/email/{email}")
-    public Optional<ClienteDTO> buscarPorEmail(@PathVariable String email) {
-        return clienteService.buscarPorEmail(email);
     }
 
 

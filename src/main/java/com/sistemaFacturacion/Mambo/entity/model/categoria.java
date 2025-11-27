@@ -1,7 +1,5 @@
 package com.sistemaFacturacion.Mambo.entity.model;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
