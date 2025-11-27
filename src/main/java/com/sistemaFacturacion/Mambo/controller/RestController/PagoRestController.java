@@ -15,8 +15,8 @@ public class PagoRestController {
     private PagoService pagoService;
 
     @PostMapping("/procesar")
-    public ResponseEntity<PagoResponseDTO> procesarPago(@RequestBody PagoRequestDTO request) {
-        PagoResponseDTO response = pagoService.procesarPago(request);
+    public ResponseEntity<PagoDTO> procesarPago(@RequestBody PagoRequestDTO request) {
+        PagoDTO response = pagoService.procesarPago(request);
         return ResponseEntity.ok(response);
     }
 }

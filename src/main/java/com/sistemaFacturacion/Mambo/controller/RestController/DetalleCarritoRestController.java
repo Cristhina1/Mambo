@@ -1,7 +1,7 @@
 package com.sistemaFacturacion.Mambo.controller.RestController;
 
 
-import com.sistemaFacturacion.Mambo.Service.DetalleCarritoService;
+import com.sistemaFacturacion.Mambo.Service.DetalleCompraService;
 import com.sistemaFacturacion.Mambo.dto.DetalleCarritoDto;
 import com.sistemaFacturacion.Mambo.model.detalleCarrito;
 
@@ -16,23 +16,23 @@ import java.util.Optional;
 @CrossOrigin(origins = "*")
 public class DetalleCarritoRestController {
 
-    private final DetalleCarritoService detalleCarritoService;
+    private final DetalleCompraService detalleCarritoService;
 
-    public DetalleCarritoRestController(DetalleCarritoService detalleCarritoService) {
+    public DetalleCarritoRestController(DetalleCompraService detalleCarritoService) {
         this.detalleCarritoService = detalleCarritoService;
     }
 
     // ➕ Crear un detalle
     @PostMapping
-    public ResponseEntity<DetalleCarritoDto> crearDetalle(@RequestBody detalleCarrito detalle) {
-        DetalleCarritoDto nuevoDetalle = detalleCarritoService.crearDetalle(detalle);
+    public ResponseEntity<DetalleCompraDto> crearDetalle(@RequestBody detalleCarrito detalle) {
+        DetalleCompraDto nuevoDetalle = detalleCarritoService.crearDetalle(detalle);
         return ResponseEntity.ok(nuevoDetalle);
     }
 
     // ✏️ Actualizar un detalle existente
     @PutMapping("/{id}")
-    public ResponseEntity<DetalleCarritoDto> actualizarDetalle(@PathVariable Long id, @RequestBody detalleCarrito detalle) {
-        DetalleCarritoDto actualizado = detalleCarritoService.actualizarDetalle(id, detalle);
+    public ResponseEntity<DetalleCompraDto> actualizarDetalle(@PathVariable Long id, @RequestBody detalleCarrito detalle) {
+        DetalleCompraDto actualizado = detalleCarritoService.actualizarDetalle(id, detalle);
         return ResponseEntity.ok(actualizado);
     }
 
@@ -45,26 +45,26 @@ public class DetalleCarritoRestController {
 
     // 🔎 Obtener un detalle por ID
     @GetMapping("/{id}")
-    public ResponseEntity<DetalleCarritoDto> obtenerPorId(@PathVariable Long id) {
-        Optional<DetalleCarritoDto> detalle = detalleCarritoService.obtenerPorId(id);
+    public ResponseEntity<DetalleCompraDto> obtenerPorId(@PathVariable Long id) {
+        Optional<DetalleCompraDto> detalle = detalleCarritoService.obtenerPorId(id);
         return detalle.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     // 📋 Listar todos los detalles
     @GetMapping
-    public ResponseEntity<List<DetalleCarritoDto>> listarDetalles() {
+    public ResponseEntity<List<DetalleCompraDto>> listarDetalles() {
         return ResponseEntity.ok(detalleCarritoService.listarDetalles());
     }
 
     // 🔍 Listar detalles por carrito
     @GetMapping("/carrito/{carritoId}")
-    public ResponseEntity<List<DetalleCarritoDto>> listarPorCarrito(@PathVariable Long carritoId) {
+    public ResponseEntity<List<DetalleCompraDto>> listarPorCarrito(@PathVariable Long carritoId) {
         return ResponseEntity.ok(detalleCarritoService.listarPorCarrito(carritoId));
     }
 
     // 🔍 Listar detalles por producto
     @GetMapping("/producto/{productoId}")
-    public ResponseEntity<List<DetalleCarritoDto>> listarPorProducto(@PathVariable Long productoId) {
+    public ResponseEntity<List<DetalleCompraDto>> listarPorProducto(@PathVariable Long productoId) {
         return ResponseEntity.ok(detalleCarritoService.listarPorProducto(productoId));
     }
 }

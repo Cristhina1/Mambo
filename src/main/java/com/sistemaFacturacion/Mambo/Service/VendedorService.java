@@ -4,28 +4,27 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.sistemaFacturacion.Mambo.entity.Repository.RolRepository;
+import com.sistemaFacturacion.Mambo.entity.Repository.UsuarioRepository;
+import com.sistemaFacturacion.Mambo.entity.model.Usuario;
+import com.sistemaFacturacion.Mambo.entity.model.rol;
+import com.sistemaFacturacion.Mambo.mape.dto.VendedorDTO;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.sistemaFacturacion.Mambo.Repository.UsuarioRepository;
-import com.sistemaFacturacion.Mambo.Repository.RolRepository;
-import com.sistemaFacturacion.Mambo.Repository.TipoDocumentoRepository;
-import com.sistemaFacturacion.Mambo.dto.VendedorDTO;
-import com.sistemaFacturacion.Mambo.model.Usuario;
-import com.sistemaFacturacion.Mambo.model.rol;
 
 @Service
 public class VendedorService {
 
     private final UsuarioRepository usuarioRepository;
-    private final TipoDocumentoRepository tipoDocumentoRepository;
     private final RolRepository rolRepository;
     private final PasswordEncoder passwordEncoder;
 
     public VendedorService(UsuarioRepository usuarioRepository, RolRepository rolRepository,
-                           PasswordEncoder passwordEncoder, TipoDocumentoRepository tipoDocumentoRepository) {
+                           PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.rolRepository = rolRepository;
         this.passwordEncoder = passwordEncoder;
-        this.tipoDocumentoRepository = tipoDocumentoRepository;
     }
     
     public List<Usuario> obtenerVendedores() {
