@@ -14,7 +14,7 @@ INSERT INTO usuarios (
     '00000001',
     'admin@mambo.com',
     '987654321',
-    '$2a$10$m2HDYoWlQf9osjBe.XEgM.NnOi31u4Qbo4d7g8XkNQKU.wf9I1jtK'
+    '$2a$10$m2HDYoWlQf9osjBe.XEgM.NnOi31u4Qbo4d7g8XkNQKU.wf9I1jtK' /* admin*/
 ),
 (
     'Vendedor Principal',
@@ -23,5 +23,5 @@ INSERT INTO usuarios (
     '00000002',
     'vendedor@mambo.com',
     '912345678',
-    '$2a$10$.kHYA8hdeEPriuPt2rE9teGmy85BQrTgOhE367aWvSJyrthDFhW66'
+    '$2a$10$dxb2fRyWeqA3POOdRlm4OOJpPTalHG/TIGnyLXTDjSp9nOXsbWZUS' /* vendedor*/
 );
