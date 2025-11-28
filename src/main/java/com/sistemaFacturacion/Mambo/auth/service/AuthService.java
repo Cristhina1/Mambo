@@ -6,16 +6,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.sistemaFacturacion.Mambo.Repository.ClienteRepository;
-import com.sistemaFacturacion.Mambo.Repository.RolRepository;
-import com.sistemaFacturacion.Mambo.Repository.UsuarioRepository;
+
 import com.sistemaFacturacion.Mambo.auth.dto.LoginRequest;
 import com.sistemaFacturacion.Mambo.auth.dto.RegisterRequest;
 import com.sistemaFacturacion.Mambo.auth.jwt.JwtService;
 import com.sistemaFacturacion.Mambo.auth.response.AuthResponse;
-import com.sistemaFacturacion.Mambo.model.Usuario;
-import com.sistemaFacturacion.Mambo.model.cliente;
-import com.sistemaFacturacion.Mambo.model.rol; // 👈 asegúrate de usar Rol con mayúscula
+import com.sistemaFacturacion.Mambo.entity.Repository.ClienteRepository;
+import com.sistemaFacturacion.Mambo.entity.Repository.RolRepository;
+import com.sistemaFacturacion.Mambo.entity.Repository.UsuarioRepository;
+import com.sistemaFacturacion.Mambo.entity.model.Usuario;
+import com.sistemaFacturacion.Mambo.entity.model.cliente;
+import com.sistemaFacturacion.Mambo.entity.model.rol;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthService {
          private final UsuarioRepository userRepository;
-    private final ClienteRepository clienteRepository; // 👈 añadir
+    private final ClienteRepository clienteRepository;
     private final RolRepository roleRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;

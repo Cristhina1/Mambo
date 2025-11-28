@@ -1,16 +1,17 @@
 package com.sistemaFacturacion.Mambo.auth.jwt;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
 import org.springframework.stereotype.Service;
 
-import com.sistemaFacturacion.Mambo.model.Usuario;
-import com.sistemaFacturacion.Mambo.model.cliente;
+import com.sistemaFacturacion.Mambo.entity.model.Usuario;
+import com.sistemaFacturacion.Mambo.entity.model.cliente;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -23,50 +24,67 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class JwtService {
     private static final String SECRET_KEY = "586E3272357538782F413F4428472B4B6250655368566B597033733676397924";
 
-        private SecretKey getSignKey() {
+    private SecretKey getSignKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
     public String getToken(Usuario user) {
-        UserDetails userDetails = buildUserDetails(user);
-        return generateToken(new HashMap<>(), userDetails);
+        return generateToken(buildUserDetails(user));
     }
+
+    public String getTokenCliente(cliente cliente) {
+        return generateToken(buildClienteUserDetails(cliente));
+    }
+
 
     private UserDetails buildUserDetails(Usuario user) {
         return new User(
-            user.getNumeroDocumento(), // username
-            user.getContra(),           // password
-            user.isEnabled(),           // enabled
-            true, true, true,           // account flags
-            java.util.List.of(new SimpleGrantedAuthority(user.getRol().getNombre())) // rol
+            user.getNumeroDocumento(),
+            user.getContra(),
+            user.isEnabled(),
+            true, true, true,
+            List.of(new SimpleGrantedAuthority("ROLE_" + user.getRol().getNombre()))
         );
     }
 
-    private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    private UserDetails buildClienteUserDetails(cliente cliente) {
+        return new User(
+            cliente.getNumeroDocumento(),
+            cliente.getContra(),
+            cliente.isEnabled(),
+            true, true, true,
+            List.of(new SimpleGrantedAuthority("ROLE_" + cliente.getRol().getNombre()))
+        );
+    }
+
+
+    private String generateToken(UserDetails userDetails) {
         return Jwts.builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(userDetails.getUsername()) 
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hora
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
+    public String getUsernameFromToken(String token) {
+        return getClaim(token, Claims::getSubject);
+    }
+
+
      // Verifica si el token pertenece a un usuario válido
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
-    public String getUsernameFromToken(String token) {
-        return getClaim(token, claims -> claims.getSubject());
+
+    private <T> T getClaim(String token, Function<Claims, T> resolver) {
+        final Claims claims = getAllClaims(token);
+        return resolver.apply(claims);
     }
 
-    private <T> T getClaim(String token, java.util.function.Function<io.jsonwebtoken.Claims, T> claimsResolver) {
-        final io.jsonwebtoken.Claims claims = getAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
-    private io.jsonwebtoken.Claims getAllClaims(String token) {
+    private Claims getAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSignKey())
                 .build()
@@ -74,27 +92,12 @@ public class JwtService {
                 .getBody();
     }
 
+     private Date getExpiration(String token) {
+        return getClaim(token, Claims::getExpiration);
+    }
+
     private boolean isTokenExpired(String token) {
         return getExpiration(token).before(new Date());
     }
-
-    private Date getExpiration(String token) {
-        return getClaim(token, io.jsonwebtoken.Claims::getExpiration);
-    }
-
-    public String getTokenCliente(cliente cliente) {
-    UserDetails userDetails = buildClienteUserDetails(cliente);
-    return generateToken(new HashMap<>(), userDetails);
-}
-
-private UserDetails buildClienteUserDetails(cliente cliente) {
-    return new User(
-        cliente.getNumeroDocumento(),  // username
-        cliente.getContra(),            // password
-        cliente.isEnabled(),            // enabled
-        true, true, true,               // account flags
-        java.util.List.of(new SimpleGrantedAuthority(cliente.getRol().getNombre())) // rol
-    );
-}
 
 }

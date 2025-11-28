@@ -1,52 +1,50 @@
 package com.sistemaFacturacion.Mambo.Service;
 
-import com.sistemaFacturacion.Mambo.Repository.UsuarioRepository;
-import com.sistemaFacturacion.Mambo.model.Usuario;
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.sistemaFacturacion.Mambo.entity.Repository.RolRepository;
+import com.sistemaFacturacion.Mambo.entity.Repository.UsuarioRepository;
+import com.sistemaFacturacion.Mambo.entity.model.TipoDocumento;
+import com.sistemaFacturacion.Mambo.entity.model.Usuario;
+import com.sistemaFacturacion.Mambo.entity.model.rol;
+import com.sistemaFacturacion.Mambo.mape.dto.VendedorDTO;
+import com.sistemaFacturacion.Mambo.mape.mapeo.UsuarioMape;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UsuarioService {
-
     private final UsuarioRepository usuarioRepository;
+    private final RolRepository rolRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UsuarioMape usuarioMape;
 
-    // 📌 Inyección de dependencias por constructor
-    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
-        this.usuarioRepository = usuarioRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    public Usuario register(VendedorDTO dto) {
+        rol rolUsuario = rolRepository.findByNombre(dto.getRol())
+                .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
 
-    // 📌 Listar todos los usuarios
-    public List<Usuario> listarTodos() {
-        return usuarioRepository.findAll();
-    }
+        Usuario usuario = Usuario.builder()
+                .nombreCompleto(dto.getNombreCompleto())
+                .tipoDocumento(TipoDocumento.valueOf(dto.getTipoDocumento()))
+                .rol(rolUsuario)
+                .numeroDocumento(dto.getNumeroDocumento())
+                .email(dto.getEmail())
+                .telefono(dto.getTelefono())
+                .contra(passwordEncoder.encode(dto.getContra()))
+                .enabled(true)
+                .build();
 
-    // 📌 Buscar usuario por ID
-    public Optional<Usuario> buscarPorId(Long id) {
-        return usuarioRepository.findById(id);
-    }
-
-    // 📌 Guardar o actualizar usuario
-    public Usuario guardar(Usuario usuario) {
-        // Encriptar solo si es nueva o si la contraseña cambió
-        if (usuario.getContra() != null) {
-            usuario.setContra(passwordEncoder.encode(usuario.getContra()));
-        }
         return usuarioRepository.save(usuario);
     }
 
-    // 📌 Eliminar usuario por ID
-    public void eliminar(Long id) {
-        usuarioRepository.deleteById(id);
+    public List<VendedorDTO> listar(){
+        return usuarioRepository.findAll()
+            .stream()
+            .map(usuarioMape::toDto)
+            .toList();
     }
-
-    // 📌 Buscar por email (para login)
-    public Optional<Usuario> buscarPorEmail(String email) {
-        return usuarioRepository.findByEmail(email);
-    }
-
 }
