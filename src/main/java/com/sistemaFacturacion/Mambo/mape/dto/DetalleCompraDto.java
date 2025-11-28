@@ -15,5 +15,5 @@ public class DetalleCompraDto {
     private String nombreProducto;
     private Double precioUnitario;
     private int cantidad;
-    private Double subtotal;
+    private Double subtotal;    
 }

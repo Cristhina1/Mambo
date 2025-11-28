@@ -1,6 +1,7 @@
 package com.sistemaFacturacion.Mambo.mape.mapeo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.sistemaFacturacion.Mambo.entity.model.Compra;
 import com.sistemaFacturacion.Mambo.entity.model.Destinatario;
@@ -11,6 +12,7 @@ import com.sistemaFacturacion.Mambo.mape.dto.DestinatarioDTO;
 import com.sistemaFacturacion.Mambo.mape.dto.EnvioDTO;
 import com.sistemaFacturacion.Mambo.mape.dto.PagoDTO;
 
+@Component
 public class CompraMape {
     @Autowired
     EnvioMape envioMape;
@@ -24,6 +26,7 @@ public class CompraMape {
     @Autowired
     DetalleCompraMape detalleCompraMape;
 
+
      public Envio toEnvioEntity(EnvioDTO dto) {
         return envioMape.toEntity(dto);
     }
@@ -34,6 +37,7 @@ public class CompraMape {
     public pago toPagoEntity(PagoDTO dto) {
         return pagoMape.toEntity(dto);
     }
+
 
     public CompraDTO toDto(Compra compra){
         

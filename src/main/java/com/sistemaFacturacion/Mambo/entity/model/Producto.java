@@ -28,6 +28,7 @@ public class Producto {
     @Column(columnDefinition = "TEXT")
     private String descripcion; // ✅ agregado
     
+    @Column(name = "imagen_url")
     private String imagenUrl; // ✅ Una sola imagen
 
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,6 +32,7 @@ public class Compra {
     @JoinColumn(name = "cliente_id")
     private cliente cliente;
 
+    @Column(name = "tipo_comprobante")
     @Enumerated(EnumType.STRING)
     TipoComprobante tipoComprobante;
 
@@ -47,6 +49,7 @@ public class Compra {
     @JoinColumn(name = "pago_id", nullable = false)
     private pago pago;
 
+    @Column(name = "estado_entrega")
     @Enumerated(EnumType.STRING)
     private TipoEstado estadoPago;
 

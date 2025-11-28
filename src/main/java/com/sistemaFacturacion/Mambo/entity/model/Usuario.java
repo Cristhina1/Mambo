@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,16 +35,18 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100, name = "nombre_completo")
     private String nombreCompleto;
 
+    @Column(name = "tipo_documento")
+    @Enumerated(EnumType.STRING)
     private TipoDocumento tipoDocumento;
     
     @ManyToOne
     @JoinColumn(name = "rol_id")
     private rol rol; // ✅ Cambia a mayúscula si tu clase es "Rol"
 
-    @Column(unique = true, nullable = false, length = 20)
+    @Column(name = "numero_documento" ,unique = true, nullable = false, length = 20)
     private String numeroDocumento;
 
     @Email

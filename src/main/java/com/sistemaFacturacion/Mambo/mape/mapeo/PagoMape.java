@@ -1,10 +1,14 @@
 package com.sistemaFacturacion.Mambo.mape.mapeo;
 
 import java.time.LocalDateTime;
+
+import org.springframework.stereotype.Component;
+
 import com.sistemaFacturacion.Mambo.entity.model.TipoPago;
 import com.sistemaFacturacion.Mambo.entity.model.pago;
 import com.sistemaFacturacion.Mambo.mape.dto.PagoDTO;
 
+@Component
 public class PagoMape {
     public pago toEntity(PagoDTO dto){
         pago pago = new pago();

@@ -1,9 +1,12 @@
 package com.sistemaFacturacion.Mambo.mape.mapeo;
 
+import org.springframework.stereotype.Component;
+
 import com.sistemaFacturacion.Mambo.entity.model.Envio;
 import com.sistemaFacturacion.Mambo.entity.model.TipoEnvio;
 import com.sistemaFacturacion.Mambo.mape.dto.EnvioDTO;
 
+@Component
 public class EnvioMape {
 
     public Envio toEntity(EnvioDTO dto) {

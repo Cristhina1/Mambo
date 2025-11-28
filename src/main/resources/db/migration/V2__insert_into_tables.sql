@@ -3,13 +3,9 @@ INSERT INTO rol (nombre) VALUES
 ('VENDEDOR'),
 ('CLIENTE');
 
-INSERT INTO tipo_documento (nombre) VALUES
-('DNI'),
-('CE');
 
-INSERT INTO categoria (nombre) VALUES
-('polo'),
-('pantalon'),
-('gorra'),
-('short'),
-('casaca');
+INSERT INTO categoria (nombre, img_categoria)
+VALUES 
+('Polo', ''),
+('Chompa', ''),
+('Buso', '');

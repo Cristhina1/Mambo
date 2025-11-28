@@ -50,18 +50,20 @@ public class ApplicationConfig {
                 return userRepository.findByNumeroDocumento(username)
                     .map(user -> org.springframework.security.core.userdetails.User.builder()
                         .username(user.getNumeroDocumento())
-                        .password(user.getPassword()) // la contraseña debe estar en BCrypt
+                        .password(user.getContra()) // la contraseña debe estar en BCrypt
                         .roles("ADMIN") // rol fijo para usuarios
                         .build()
                     ).orElseGet(() ->
                         clienteRepository.findByNumeroDocumento(username)
                             .map(cliente -> org.springframework.security.core.userdetails.User.builder()
                                 .username(cliente.getNumeroDocumento())
-                                .password(cliente.getPassword()) // la contraseña debe estar en BCrypt
+                                .password(cliente.getContra()) // la contraseña debe estar en BCrypt
                                 .roles("CLIENTE") // rol fijo para clientes
                                 .build()
                             ).orElseThrow(() -> new UsernameNotFoundException("Usuario o Cliente no encontrado"))
                     );
+                    
             };
+            
         }
 }

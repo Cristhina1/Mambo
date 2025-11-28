@@ -1,8 +1,11 @@
 package com.sistemaFacturacion.Mambo.mape.mapeo;
 
+import org.springframework.stereotype.Component;
+
 import com.sistemaFacturacion.Mambo.entity.model.cliente;
 import com.sistemaFacturacion.Mambo.mape.dto.ClienteDTO;
 
+@Component
 public class ClienteMape {
     public ClienteDTO toDto(cliente cliente){
         ClienteDTO dto = new ClienteDTO();

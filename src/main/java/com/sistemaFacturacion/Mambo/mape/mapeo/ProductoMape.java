@@ -1,8 +1,11 @@
 package com.sistemaFacturacion.Mambo.mape.mapeo;
 
+import org.springframework.stereotype.Component;
+
 import com.sistemaFacturacion.Mambo.entity.model.Producto;
 import com.sistemaFacturacion.Mambo.mape.dto.ProductoDTO;
 
+@Component
 public class ProductoMape {
     public ProductoDTO toDto(Producto producto){
         ProductoDTO dto = new ProductoDTO();

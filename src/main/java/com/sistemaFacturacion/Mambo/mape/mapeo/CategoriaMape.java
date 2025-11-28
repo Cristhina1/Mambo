@@ -1,8 +1,11 @@
 package com.sistemaFacturacion.Mambo.mape.mapeo;
 
+import org.springframework.stereotype.Component;
+
 import com.sistemaFacturacion.Mambo.entity.model.categoria;
 import com.sistemaFacturacion.Mambo.mape.dto.CategoriaDTO;
 
+@Component
 public class CategoriaMape {
     public categoria toEntity(CategoriaDTO dto){
         categoria categoria = new categoria();

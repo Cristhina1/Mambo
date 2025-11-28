@@ -21,7 +21,7 @@ public class CompraController {
     private final CompraService compraService;
 
     @PostMapping("/carrito")
-    public ResponseEntity<CompraDTO> guardarCompra(@RequestBody CompraRequestDTO dto, @RequestHeader("Authorizacion") String token){
+    public ResponseEntity<CompraDTO> guardarCompra(@RequestBody CompraRequestDTO dto, @RequestHeader("Authorization") String token){
         String tokenRecibido = token.replace("Bearer ", "");
 
         CompraDTO compraCreada = compraService.guardarCarrito(dto, tokenRecibido);

@@ -1,7 +1,9 @@
 package com.sistemaFacturacion.Mambo.controller;
 
 import com.sistemaFacturacion.Mambo.Service.ClienteService;
+import com.sistemaFacturacion.Mambo.entity.model.cliente;
 import com.sistemaFacturacion.Mambo.mape.dto.ClienteDTO;
+import com.sistemaFacturacion.Mambo.mape.mapeo.ClienteMape;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +15,11 @@ import java.util.Optional;
 public class ClienteRestController {
     
     private final ClienteService clienteService;
+    private final ClienteMape clienteMape;
 
-    public ClienteRestController(ClienteService clienteService) {
+    public ClienteRestController(ClienteService clienteService,ClienteMape clienteMape) {
         this.clienteService = clienteService;
+        this.clienteMape = clienteMape;
     }
 
     // Crear cliente
@@ -47,5 +51,11 @@ public class ClienteRestController {
         clienteService.eliminarCliente(id);
         return "Cliente eliminado con ID: " + id;
     }
+
+    @PostMapping
+public ClienteDTO crear(@RequestBody ClienteDTO clienteDTO) {
+    cliente c = clienteService.crearCliente(clienteDTO);
+    return clienteMape.toDto(c);
+}
 }
 

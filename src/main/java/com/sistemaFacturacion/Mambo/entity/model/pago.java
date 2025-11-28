@@ -15,6 +15,7 @@ public class pago {
 
     private Double precio; 
      
+    @Column(name = "tipo_pago")
     @Enumerated(EnumType.STRING)
     private TipoPago tipoPago; 
 

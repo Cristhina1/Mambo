@@ -27,6 +27,7 @@ public class cliente implements UserDetails{
     @Column(name = "nombre_completo")
     private String nombreCompleto;
 
+    @Column(name = "tipo_documento")
     @Enumerated(EnumType.STRING)
     private TipoDocumento tipoDocumento;
 
@@ -51,11 +52,8 @@ public class cliente implements UserDetails{
     @JoinColumn(name = "rol_id")
     private rol rol;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "activo")
     private boolean enabled;
-
-    @Column(nullable = false)
-    private Boolean activo = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

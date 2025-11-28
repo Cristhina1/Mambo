@@ -17,5 +17,6 @@ public class categoria {
     @Column(nullable = false, length = 50)
     private String nombre;
 
+    @Column(name = "img_categoria")
     private String imgCategoira;
 }

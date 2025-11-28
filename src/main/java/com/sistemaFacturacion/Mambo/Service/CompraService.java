@@ -74,8 +74,9 @@ public class CompraService {
         envio = envioRepository.save(envio);
 
         // 3️⃣ Guardar DESTINATARIO
-        Destinatario destinatario = destinatarioRepository.save(
-                compraMape.toDestinatarioEntity(dto.getDestinatario()));
+        Destinatario destinatario = compraMape.toDestinatarioEntity(dto.getDestinatario());
+        destinatario.setCliente(cliente);
+        destinatario = destinatarioRepository.save(destinatario);
 
         // 4️⃣ Guardar PAGO
         pago pago = pagoRepository.save(
@@ -89,7 +90,7 @@ public class CompraService {
         compra.setEstadoPago(TipoEstado.PENDIENTE);
         compra.setTipoComprobante(TipoComprobante.valueOf(dto.getTipoComprobante()));
         compra.setFechaCreacion(LocalDateTime.now());
-        
+
         double total = dto.getDetalles()
                 .stream()
                 .mapToDouble(det -> det.getPrecioUnitario() * det.getCantidad())
@@ -98,7 +99,6 @@ public class CompraService {
         compra.setTotal(total + envio.getPrecio());
 
         Compra compraGuardada = compraRepository.save(compra);
-
 
         List<DetalleCompra> detallesGuardados = dto.getDetalles().stream()
                 .map(det -> {
